@@ -64,6 +64,7 @@
 
     <Button
         android:id="@+id/sign"
+        android:onClick="sign"
         android:layout_width="312dp"
         android:layout_height="51dp"
         android:text="비회원로그인"

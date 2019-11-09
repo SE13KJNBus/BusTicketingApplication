@@ -64,6 +64,7 @@
         android:layout_width="312dp"
         android:layout_height="51dp"
         android:text="로그인"
+        android:onClick="sign"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

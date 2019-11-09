@@ -9,8 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginAndSignup.SignUpActivity"/>
-        <activity android:name=".LoginAndSignup.LoginMemberActivity" android:exported="true"/>
+        <activity android:name=".Payment.Paying_success"/>
+        <activity android:name=".Payment.Paying"/>
+        <activity android:name=".Payment.PaymentWaiting"/>
+        <activity android:name=".Payment.PaymentWaiting_Cart"/>
+        <activity android:name=".Home.Home_Page" />
+        <activity
+            android:name=".LoginAndSignup.LoginMemberActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginAndSignup.SignUpActivity" />
         <activity android:name=".LoginAndSignup.LoginUserActivity" />
     </application>
 
