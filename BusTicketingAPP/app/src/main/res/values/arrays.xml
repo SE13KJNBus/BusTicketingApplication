@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="PhoneCompany">
+        <item>SKT</item>
+        <item>KT</item>
+        <item>U+</item>
+    </string-array>
+
+    <string-array name="cardCompany">
+        <item>삼성카드</item>
+        <item>현대카드</item>
+        <item>BC카드</item>
+    </string-array>
+</resources>

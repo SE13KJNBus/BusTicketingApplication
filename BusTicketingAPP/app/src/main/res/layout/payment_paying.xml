@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Payment.Paying">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:id="@+id/paymentBtn"
+        android:layout_marginTop="30dp"
+        >
+        <Button
+            android:text="신용카드 결제"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/btn_creditCardPayment"
+            />
+
+        <Button
+            android:text="휴대폰 결제"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/btn_phonePayment"
+            />
+    </LinearLayout>
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/frame"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/paymentBtn"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent">
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          tools:context=".Payment.PhonePayment"
+          android:id="@+id/paying_phone">
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true" >
+
+              <TextView
+                  android:text="통신사: "
+                  android:layout_width="130dp"
+                  android:layout_height="40dp"
+                  android:gravity="center"
+                  android:id="@+id/PhoneCompany"
+                  />
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:id="@+id/List_PhoneCompany"
+                  android:layout_toRightOf="@+id/PhoneCompany"
+                  android:orientation="horizontal" >
+
+                  <Spinner
+                  android:id="@+id/sel_PhoneCompany"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1" />
+
+              </LinearLayout>
+
+
+              <TextView
+                  android:text="휴대폰 번호: "
+                  android:layout_width="130dp"
+                  android:layout_height="40dp"
+                  android:gravity="center"
+                  android:id="@+id/PhoneNum"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/PhoneCompany"/>
+              <EditText
+                  android:layout_width="180dp"
+                  android:layout_height="40dp"
+                  android:id="@+id/edit_PhoneNum"
+                  android:layout_marginTop="15dp"
+                  android:hint="010-0000-0000"
+                  android:layout_below="@+id/List_PhoneCompany"
+                  android:layout_toRightOf="@+id/PhoneNum"/>
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="45dp"
+                  android:text="인증번호 요청"
+                  android:textSize="10sp"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/List_PhoneCompany"
+                  android:layout_toRightOf="@+id/edit_PhoneNum"/>
+
+              <TextView
+                  android:text="인증번호: "
+                  android:layout_width="130dp"
+                  android:layout_height="40dp"
+                  android:gravity="center"
+                  android:id="@+id/CertificationNum"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/PhoneNum"/>
+              <EditText
+                  android:layout_width="180dp"
+                  android:layout_height="40dp"
+                  android:id="@+id/edit_CertificationNum"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/edit_PhoneNum"
+                  android:layout_toRightOf="@+id/CertificationNum"/>
+
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="45dp"
+                  android:text="인증"
+                  android:layout_marginTop="15dp"
+                  android:textSize="10sp"
+                  android:layout_below="@+id/edit_PhoneNum"
+                  android:layout_toRightOf="@+id/edit_CertificationNum"/>
+
+          </RelativeLayout>
+
+          <RelativeLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentBottom="true"
+              android:layout_centerHorizontal="true">
+              <Button
+                  android:onClick="payment"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="30dp"
+                  android:id="@+id/real_Phonepayment"
+                  android:text="결제"/>
+              <Button
+                  android:onClick="cancel"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="30dp"
+                  android:id="@+id/cancel_Phonepayment"
+                  android:layout_toRightOf="@+id/real_Phonepayment"
+                  android:layout_marginLeft="20dp"
+                  android:text="결제취소"/>
+          </RelativeLayout>
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          tools:context=".Payment.CreditCardPayment"
+          android:id="@+id/paying_creditCard">
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true" >
+              <TextView
+                  android:text="신용카드 회사: "
+                  android:layout_width="130dp"
+                  android:layout_height="40dp"
+                  android:gravity="center"
+                  android:id="@+id/cardCompany"
+                  />
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:id="@+id/List_cardCompany"
+                  android:layout_toRightOf="@+id/cardCompany"
+                  android:orientation="horizontal" >
+
+                  <Spinner
+                  android:id="@+id/sel_cardCompany"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1" />
+
+              </LinearLayout>
+
+              <TextView
+                  android:text="신용카드 번호: "
+                  android:layout_width="130dp"
+                  android:layout_height="40dp"
+                  android:gravity="center"
+                  android:id="@+id/cardNum"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/cardCompany"/>
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:hint="0000-0000-0000-0000"
+                  android:id="@+id/edit_cardNum"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/List_cardCompany"
+                  android:layout_toRightOf="@+id/cardNum"/>
+
+              <TextView
+                  android:text="신용카드 유효기간: "
+                  android:layout_width="130dp"
+                  android:layout_height="40dp"
+                  android:gravity="center"
+                  android:id="@+id/cardValidity"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/cardNum"/>
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:id="@+id/edit_cardValidity"
+                  android:hint="YY/DD"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/edit_cardNum"
+                  android:layout_toRightOf="@+id/cardValidity"/>
+
+              <TextView
+                  android:text="신용카드 비밀번호: "
+                  android:layout_width="130dp"
+                  android:layout_height="40dp"
+                  android:gravity="center"
+                  android:layout_marginTop="15dp"
+                  android:id="@+id/cardPassword"
+                  android:layout_below="@+id/cardValidity"/>
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:id="@+id/edit_cardPassword"
+                  android:hint="카드 비밀번호 앞 두자리"
+                  android:layout_marginTop="15dp"
+                  android:layout_below="@+id/edit_cardValidity"
+                  android:inputType="textPassword"
+                  android:layout_toRightOf="@+id/cardPassword"/>
+          </RelativeLayout>
+
+
+          <RelativeLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentBottom="true"
+              android:layout_centerHorizontal="true">
+              <Button
+                  android:onClick="payment"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="30dp"
+                  android:id="@+id/real_cardpayment"
+                  android:text="결제"
+                  tools:ignore="DuplicateIds" />
+              <Button
+                  android:onClick="cancel"
+                  android:layout_width="150dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="30dp"
+                  android:id="@+id/cancel_cardpayment"
+                  android:layout_toRightOf="@+id/real_cardpayment"
+                  android:layout_marginLeft="20dp"
+                  android:text="결제취소"/>
+          </RelativeLayout>
+      </RelativeLayout>
+
+  </FrameLayout>
+</RelativeLayout>
