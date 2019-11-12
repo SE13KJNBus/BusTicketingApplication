@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/list_item"
+    tools:context=".Cart.Cart_Item">
+
+    <TextView
+        android:id="@+id/startPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="출발지"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+
+    <TextView
+        android:id="@+id/startPlaceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/arrivePlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:text="도착지"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/arrivePlaceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="220dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/startTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="출발시간"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/startTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/arriveTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="도착시간"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="20dp"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/arriveTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/movingTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="소요시간"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/movingTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="40dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/busCompanyValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="40dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+    <TextView
+        android:id="@+id/seatNumberValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="20dp"
+        android:text="45"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="330dp"
+        android:layout_marginTop="18dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="false" />
+</RelativeLayout>
