@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.busticketingapp.Cart.cart;
 import com.example.busticketingapp.Payment.PaymentWaiting;
 import com.example.busticketingapp.R;
 
@@ -24,6 +25,8 @@ public class LoginUserActivity extends AppCompatActivity {
     }
 
     public void signUp(View view) {
-        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-        startActivity(intent);    }
+        // 주헌 : 장바구니 테스트
+        Intent intent = new Intent(getApplicationContext(), cart.class);
+        startActivity(intent);
+    }
 }
