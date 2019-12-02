@@ -6,7 +6,7 @@ public class Bus {
     String departureDate;
     String departureTime;
     String busCompany;
-    String busGrade;
+    //String busGrade;
     int remainSeat;
 
     public String getDepartureTerminal() {
@@ -45,13 +45,6 @@ public class Bus {
 
     public void setBusCompany(String busCompany) {
         this.busCompany = busCompany;
-    }
-    public String getBusGrade() {
-        return busGrade;
-    }
-
-    public void setBusGrade(String busGrade) {
-        this.busGrade = busGrade;
     }
     public int getRemainSeat() {
         return remainSeat;

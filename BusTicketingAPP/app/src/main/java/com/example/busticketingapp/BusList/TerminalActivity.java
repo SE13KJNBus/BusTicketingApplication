@@ -57,12 +57,7 @@ public class TerminalActivity extends AppCompatActivity {
             public void onItemClick(View v, int pos) {
                 Bus returnBus = mArrayList.get(pos);
 
-                if(returnBus.getBusGrade().equals("General")){
-                    gotoSelectSeat = new Intent(TerminalActivity.this, SelectSeatActivity_General.class);
-                }else{
-                    gotoSelectSeat = new Intent(TerminalActivity.this, SelectSeatActivity_First.class);
-                }
-
+                gotoSelectSeat = new Intent(TerminalActivity.this, SelectSeatActivity_General.class);
                 gotoSelectSeat.putExtra("Departure",returnBus.getDepartureTerminal());
                 gotoSelectSeat.putExtra("Destination",returnBus.getDestinationTerminal());
                 gotoSelectSeat.putExtra("Date",returnBus.getDepartureDate());
@@ -97,7 +92,6 @@ public class TerminalActivity extends AppCompatActivity {
         tempBus.setDepartureDate(departureDateString);
         tempBus.setBusCompany("금호고속");
         tempBus.setDepartureTime("22:30");
-        tempBus.setBusGrade("General");
         tempBus.setRemainSeat(25);
 
         Bus tempBus2 = new Bus();
@@ -106,7 +100,6 @@ public class TerminalActivity extends AppCompatActivity {
         tempBus2.setDepartureDate(departureDateString);
         tempBus2.setBusCompany("전북고속");
         tempBus2.setDepartureTime("23:30");
-        tempBus2.setBusGrade("First");
         tempBus2.setRemainSeat(20);
         mArrayList.add(tempBus);
         mArrayList.add(tempBus2);

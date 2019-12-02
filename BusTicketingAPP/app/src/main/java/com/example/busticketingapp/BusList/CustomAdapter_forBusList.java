@@ -29,14 +29,12 @@ public class CustomAdapter_forBusList extends RecyclerView.Adapter<CustomAdapter
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView departureTime;
         protected TextView busCompany;
-        protected TextView busGrade;
         protected TextView remainSeat;
 
         public CustomViewHolder(View view) {
             super(view);
             this.departureTime = view.findViewById(R.id.BusTime);
             this.busCompany = view.findViewById(R.id.BusCompany);
-            this.busGrade = view.findViewById(R.id.BusGrade);
             this.remainSeat = view.findViewById(R.id.remainSeatNum);
 
             view.setOnClickListener(new View.OnClickListener(){
@@ -78,10 +76,6 @@ public class CustomAdapter_forBusList extends RecyclerView.Adapter<CustomAdapter
         viewholder.busCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         viewholder.busCompany.setGravity(Gravity.CENTER);
         viewholder.busCompany.setText(mList.get(position).getBusCompany());
-
-        viewholder.busGrade.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        viewholder.busGrade.setGravity(Gravity.CENTER);
-        viewholder.busGrade.setText(mList.get(position).getBusGrade());
 
         viewholder.remainSeat.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         viewholder.remainSeat.setGravity(Gravity.CENTER);
