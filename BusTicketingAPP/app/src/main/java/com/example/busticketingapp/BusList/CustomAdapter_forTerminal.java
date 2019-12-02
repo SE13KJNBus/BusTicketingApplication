@@ -13,7 +13,6 @@ import com.example.busticketingapp.R;
 
 import java.util.ArrayList;
 
-
 public class CustomAdapter_forTerminal extends RecyclerView.Adapter<CustomAdapter_forTerminal.CustomViewHolder> {
 
     private ArrayList<String> mList;
@@ -58,7 +57,6 @@ public class CustomAdapter_forTerminal extends RecyclerView.Adapter<CustomAdapte
 
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.buslist_select_location_item, viewGroup, false);
-
         CustomViewHolder viewHolder = new CustomViewHolder(view);
 
         return viewHolder;
@@ -75,6 +73,4 @@ public class CustomAdapter_forTerminal extends RecyclerView.Adapter<CustomAdapte
     public int getItemCount() {
         return (null != mList ? mList.size() : 0);
     }
-
-
 }
