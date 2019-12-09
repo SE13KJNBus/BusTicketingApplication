@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:background="@drawable/black_square"
     android:layout_height="80dp">
 
     <LinearLayout
@@ -33,12 +34,13 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_transfer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="표 양도"
         android:layout_weight="22"
-        android:id="@+id/btn_transfer"
-        />
+        android:background="@drawable/ver2"
+        android:text="표 양도" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="match_parent"

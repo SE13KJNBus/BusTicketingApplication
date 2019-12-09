@@ -26,24 +26,40 @@
 
     <TextView
         android:id="@+id/total"
-        android:layout_width="match_parent"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_above="@+id/paymentBtn"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
-        android:text="총액 : 넣을거임뽀숑"
+        android:text="총액 : "
         android:textSize="25sp"
         />
+
+    <TextView
+        android:id="@+id/totalValue"
+        android:layout_width="271dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/paymentBtn"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="right"
+        android:textSize="25sp" />
+
     <Button
         android:onClick="payment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:id="@+id/paymentBtn"
         android:layout_marginBottom="30dp"
+        android:background="@drawable/button_background"
         android:text="결제하기"
         />
 
