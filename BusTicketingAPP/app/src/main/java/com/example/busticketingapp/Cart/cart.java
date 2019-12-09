@@ -31,6 +31,23 @@ public class cart extends AppCompatActivity {
 
         cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
         cart_itemArrayList.add(cartData);
+        cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);
+        cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);
+        cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);
+        cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);
+        cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);
+        cartData = new CartData("청주", "대전", "12 : 00", "13 : 00", "서울고속", 28, false);
+        cart_itemArrayList.add(cartData);
+
+
+
 
         cartData = new CartData("창원", "동해", "15 : 00", "18 : 50", "창원고속", 3, true);
         cart_itemArrayList.add(cartData);

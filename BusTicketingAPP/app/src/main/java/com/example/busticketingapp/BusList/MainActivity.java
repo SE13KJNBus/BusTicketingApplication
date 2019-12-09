@@ -33,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("@@@@@@@@@@@@@@@@@@@","@@@@@@@@@@@@@@@@@@@@@@@@@@");
         setContentView(R.layout.buslist_select_bus_info);
         Log.v("Subin","main");
         setDeparture = findViewById(R.id.goto_selectDeparture);
+        Toast.makeText(this, "너는 또 왜....?", Toast.LENGTH_SHORT);
         setDeparture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

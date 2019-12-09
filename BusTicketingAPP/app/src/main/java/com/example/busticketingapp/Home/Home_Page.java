@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.busticketingapp.BusList.MainActivity;
+import com.example.busticketingapp.Cart.cart;
 import com.example.busticketingapp.Payment.PaymentWaiting;
 import com.example.busticketingapp.R;
+
+import org.w3c.dom.Text;
 
 public class Home_Page extends AppCompatActivity {
 
@@ -22,16 +27,29 @@ public class Home_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-
-        Button home = (Button)findViewById(R.id.home);
-        home.setOnClickListener(new View.OnClickListener(){
+        // 추후 수정해야함
+        runOnUiThread(new Runnable() {
+        TextView userName = (TextView) findViewById(R.id.userName);
             @Override
-            public void onClick(View v) {
-                //결제 테스트중
-                Intent intent = new Intent(getApplicationContext(), PaymentWaiting.class);
-                startActivity(intent);
+            public void run() {
+                userName.setText("곽주헌");
             }
         });
+    }
+
+    public void DoReserve(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void identifyList(View view){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void goCart(View view){
+        Intent intent = new Intent(getApplicationContext(), cart.class);
+        startActivity(intent);
     }
 
     @Override

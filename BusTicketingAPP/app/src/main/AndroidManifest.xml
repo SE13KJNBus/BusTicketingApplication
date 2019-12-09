@@ -28,6 +28,11 @@
         </activity>
         <activity android:name=".LoginAndSignup.SignUpActivity" />
         <activity android:name=".LoginAndSignup.LoginUserActivity" />
+        <activity android:name=".BusList.MainActivity" />
+        <activity android:name=".BusList.SelectDepartureActivity"/>
+        <activity android:name=".BusList.SelectDestinationActivity"/>
+        <activity android:name=".BusList.SelectSeatActivity_General"/>
+        <activity android:name=".BusList.TerminalActivity"/>
     </application>
 
 </manifest>

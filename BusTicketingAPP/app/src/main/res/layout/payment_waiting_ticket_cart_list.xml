@@ -42,12 +42,13 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_change"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="좌석변경"
         android:layout_weight="22"
-        android:id="@+id/btn_change"
-        />
+        android:background="@drawable/button_background"
+        android:text="좌석변경" />
+
     <View
         android:layout_width="0dp"
         android:layout_height="match_parent"
