@@ -18,12 +18,17 @@ public class Cart extends AppCompatActivity {
     ListView listView;
     CartAdapter adapter;
     ArrayList<CartData> cart_itemArrayList = new ArrayList<>();
+    String getId;
+    String getName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cart_cart);
         listView = (ListView) findViewById(R.id.listview1);
+
+        getId = getIntent().getStringExtra("Id");
+        getName = getIntent().getStringExtra("UserName");
 
         CartData cartData = null;
         cartData = new CartData("대전", "동서울", "09 : 00", "12 : 00", "대전고속", 33, true);

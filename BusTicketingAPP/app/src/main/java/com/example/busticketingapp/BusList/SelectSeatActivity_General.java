@@ -18,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.busticketingapp.Home.Home_Page;
 import com.example.busticketingapp.LoginAndSignup.LoginMemberActivity;
 import com.example.busticketingapp.Payment.PaymentWaiting;
+import com.example.busticketingapp.Payment.PaymentWaiting_Cart;
 import com.example.busticketingapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +41,9 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     Button seat41, seat42, seat43, seat44, seat45;
 
     TextView printSeat;
+    String getId;
+    boolean getMember;
+    String getName;
 
     String departure;
     String destination;
@@ -49,12 +54,13 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
 
     ArrayList<String> availableList = new ArrayList<String>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference().child("Bus");
+    DatabaseReference myRef = database.getReference();
 
     ArrayList<Button> seatList;
     ArrayList<String> selectedSeat;
     Button submit;
     Button peopleNum;
+    Button btnReservation;
     TextView totalMoney;
     int userSeatNum=0;
     TextView remainNum;
@@ -80,7 +86,16 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
                 show();
             }
         });
+        btnReservation = findViewById(R.id.reservation);
+        btnReservation.setOnClickListener(btnReserv);
 
+
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
+        getName = getIntent().getStringExtra("UserName");
+        if(!getMember){
+            btnReservation.setVisibility(View.INVISIBLE);
+        }
         departure = getIntent().getStringExtra("Departure");
         destination = getIntent().getStringExtra("Destination");
         date = getIntent().getStringExtra("Date");
@@ -189,7 +204,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         Log.v("SubinTest", "시간 : "+ time);
 
 
-        myRef.child(departure).child(destination).child(date).child(company).child(time).addValueEventListener(valueEventListener);
+        myRef.child("Bus").child(departure).child(destination).child(date).child(company).child(time).addValueEventListener(valueEventListener);
     }
 
     View.OnClickListener btnListener = new View.OnClickListener() {
@@ -239,6 +254,34 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         @Override
         public void onClick(View v) {
             Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
+            String getSeatList = "";
+            for(int i=0;i<selectedSeat.size();i++){
+                getSeatList += selectedSeat.get(i)+":";
+            }
+            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting_Cart.class);
+            gotoPayment.putExtra("Departure",departure);
+            gotoPayment.putExtra("Destination",destination);
+            gotoPayment.putExtra("SeatNum",getSeatList);
+            gotoPayment.putExtra("BusCompany", company);
+            gotoPayment.putExtra("DepartureTime", time);
+            gotoPayment.putExtra("Id", getId);
+            gotoPayment.putExtra("Member", getMember);
+            startActivity(gotoPayment);
+        }
+    };
+    View.OnClickListener btnReserv = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            for (int i =0;i<selectedSeat.size();i++){
+                myRef.child("Member").child(getId).child("Cart").child(departure).child(destination).child(date).child(company).child(time).child(selectedSeat.get(i)+"").setValue("true");
+            }
+            Log.v("SubinTest2", "Success Reservation");
+            Intent gotoHome = new Intent(SelectSeatActivity_General.this, Home_Page.class);
+
+            gotoHome.putExtra("Id", getId);
+            gotoHome.putExtra("Member", getMember);
+            gotoHome.putExtra("UserName", getName);
+            startActivity(gotoHome);
         }
     };
 
