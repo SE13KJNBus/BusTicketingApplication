@@ -26,14 +26,16 @@ public class Home_Page extends AppCompatActivity {
     private TextView userName;
     private Button btn_cart;
     private Button btn_mailBox;
+    String getId;
+    boolean getMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
-        String getId = getIntent().getStringExtra("Id");
-        boolean getMember = getIntent().getBooleanExtra("Member", false);
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
 
         btn_cart = (Button)findViewById(R.id.cart);
         btn_mailBox = (Button)findViewById(R.id.mailBox);
@@ -56,16 +58,22 @@ public class Home_Page extends AppCompatActivity {
 
     public void DoReserve(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("Id",getId);
+        intent.putExtra("Member",(boolean)getMember);
         startActivity(intent);
     }
 
     public void identifyList(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("Id",getId);
+        intent.putExtra("Member",(boolean)getMember);
         startActivity(intent);
     }
 
     public void goCart(View view) {
         Intent intent = new Intent(getApplicationContext(), cart.class);
+        intent.putExtra("Id",getId);
+//        intent.putExtra("Member",(boolean)getMember);
         startActivity(intent);
     }
 
