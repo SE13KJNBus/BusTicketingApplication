@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,9 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.busticketingapp.LoginAndSignup.LoginMemberActivity;
+import com.example.busticketingapp.Payment.PaymentWaiting;
 import com.example.busticketingapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -242,7 +245,6 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
-
     }
     public void show(){
         final Dialog dialog = new Dialog(SelectSeatActivity_General.this);

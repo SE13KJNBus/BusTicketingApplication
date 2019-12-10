@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.busticketingapp">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,13 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Cart.Cart"/>
-        <activity android:name=".Cart.Cart_Item"/>
-        <activity android:name=".Payment.Paying_success"/>
-        <activity android:name=".Payment.Paying"/>
-        <activity android:name=".Payment.PaymentWaiting"/>
-        <activity android:name=".Payment.PaymentWaiting_Cart"/>
-        <activity android:name=".Home.Home_Page" />
         <activity android:name=".Home.TicketData"></activity>
         <activity android:name=".Home.TicketListAdapter" />
         <activity android:name=".Home.TicketList" />
@@ -26,6 +20,7 @@
         <activity android:name=".Payment.Paying" />
         <activity android:name=".Payment.PaymentWaiting" />
         <activity android:name=".Payment.PaymentWaiting_Cart" />
+        <activity android:name=".Home.Home_Page" />
         <activity
             android:name=".LoginAndSignup.LoginMemberActivity"
             android:exported="true">
@@ -38,10 +33,10 @@
         <activity android:name=".LoginAndSignup.SignUpActivity" />
         <activity android:name=".LoginAndSignup.LoginUserActivity" />
         <activity android:name=".BusList.MainActivity" />
-        <activity android:name=".BusList.SelectDepartureActivity"/>
-        <activity android:name=".BusList.SelectDestinationActivity"/>
-        <activity android:name=".BusList.SelectSeatActivity_General"/>
-        <activity android:name=".BusList.TerminalActivity"/>
+        <activity android:name=".BusList.SelectDepartureActivity" />
+        <activity android:name=".BusList.SelectDestinationActivity" />
+        <activity android:name=".BusList.SelectSeatActivity_General" />
+        <activity android:name=".BusList.TerminalActivity" />
     </application>
 
 </manifest>

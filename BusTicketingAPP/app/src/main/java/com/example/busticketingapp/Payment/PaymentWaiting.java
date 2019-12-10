@@ -21,6 +21,7 @@ public class PaymentWaiting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_waiting);
 
+
         int peopleNum = getIntent().getIntExtra("peopleNum",0);
         Log.i("결제 인원수: ",peopleNum+"");
 

@@ -48,6 +48,17 @@ public class LoginUserActivity extends AppCompatActivity {
                 myRef.child(Id).child("Information").child("PhoneNumber").setValue(phone);
                 myRef.child(Id).child("Information").child("Password").setValue(pwd);
 
+
+//                DatabaseReference myRef2= myRef.child(Id).child("Ticket").push();
+//                myRef2.child("출발지").setValue("서울");
+//                myRef2.child("도착지").setValue("대전");
+//                myRef2.child("날짜").setValue("20191210");
+//                myRef2.child("출발시간").setValue("12:00");
+//                myRef2.child("도착시간").setValue("15:00");
+//                myRef2.child("버스회사").setValue("금호고속");
+//                myRef2.child("소요시간").setValue("3:00");
+//                myRef2.child("좌석").setValue("1");
+
                 //로그인시 비회원홈화면으로 넘어가야한다.
                 Intent intent = new Intent(getApplicationContext(), Home_Page.class);
                 intent.putExtra("Id",Id);

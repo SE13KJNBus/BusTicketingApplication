@@ -39,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.buslist_select_bus_info);
+
+
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
+
+        Log.i("Main_ID",getId);
+        Log.i("mem?",getMember+"");
+
         Log.v("Subin","main");
 
         getId = getIntent().getStringExtra("Id");
