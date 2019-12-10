@@ -1,6 +1,7 @@
 package com.example.busticketingapp.LoginAndSignup;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busticketingapp.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -19,6 +22,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText personNumValue;
     EditText phoneNumValue;
     Button register;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference().child("Member").child(emailValue+"");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,18 @@ public class SignUpActivity extends AppCompatActivity {
 
         }
         else{
+            Log.v("Subin","Register Accept");
+
+            myRef.child("Friend").setValue("");
+            myRef.child("Notification").setValue("");
+            myRef.child("Ticket").setValue("");
+            myRef.child("Cart").setValue("");
+            myRef.child("Information").child("PhoneNumber").setValue(phoneNumValue+"");
+            myRef.child("Information").child("Name").setValue(nameValue+"");
+            myRef.child("Information").child("Password").setValue(passwordValue+"");
+            myRef.child("Information").child("Identification").setValue(personNumValue+"");
 
         }
     }
+
 }
