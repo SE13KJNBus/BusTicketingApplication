@@ -24,7 +24,7 @@ public class Home_Page extends AppCompatActivity {
     private Button btn_mailBox;
     String getId ;
     boolean getMember;
-
+    String getName;
 
 
     @Override
@@ -34,6 +34,7 @@ public class Home_Page extends AppCompatActivity {
 
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member", false);
+        getName = getIntent().getStringExtra("UserName");
 
         btn_cart = (Button)findViewById(R.id.cart);
         btn_mailBox = (Button)findViewById(R.id.mailBox);
@@ -46,11 +47,11 @@ public class Home_Page extends AppCompatActivity {
             btn_cart.setVisibility(View.VISIBLE);
             btn_mailBox.setVisibility(View.VISIBLE);
 //            userName.setText("곽주헌");
-            userName.setText(getIntent().getStringExtra("userName"));
+            userName.setText(getName);
         }else {
             btn_cart.setVisibility(View.INVISIBLE);
             btn_mailBox.setVisibility(View.INVISIBLE);
-            userName.setText("비회원");
+            userName.setText(getName);
         }
 
     }
@@ -59,6 +60,7 @@ public class Home_Page extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("Id",getId);
         intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
         startActivity(intent);
     }
 
@@ -66,6 +68,7 @@ public class Home_Page extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), TicketList.class);
         intent.putExtra("Id",getId);
         intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
         startActivity(intent);
     }
 
@@ -73,6 +76,7 @@ public class Home_Page extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Cart.class);
         intent.putExtra("Id",getId);
 //        intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
         startActivity(intent);
     }
 

@@ -6,7 +6,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/selected_seat"
@@ -67,7 +68,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,7 +91,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="2" />
+                        android:text="2"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat3"
@@ -97,6 +100,7 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
+                        android:layout_marginLeft="20dp"
                         android:text="3" />
 
                     <Button
@@ -128,7 +132,9 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="6" />
+                        android:text="6"
+                        android:layout_marginRight="20dp"
+                        />
 
                     <Button
                         android:id="@+id/seat7"
@@ -136,7 +142,9 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="7" />
+                        android:text="7"
+                        android:layout_marginLeft="20dp"
+                        />
 
                     <Button
                         android:id="@+id/seat8"
@@ -167,7 +175,9 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="10" />
+                        android:text="10"
+                        android:layout_marginRight="20dp"
+                        />
 
                     <Button
                         android:id="@+id/seat11"
@@ -175,7 +185,9 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="11" />
+                        android:text="11"
+                        android:layout_marginLeft="20dp"
+                        />
 
                     <Button
                         android:id="@+id/seat12"
@@ -206,7 +218,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="14" />
+                        android:text="14"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat15"
@@ -214,7 +227,9 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="15" />
+                        android:text="15"
+                        android:layout_marginLeft="20dp"
+                        />
 
                     <Button
                         android:id="@+id/seat16"
@@ -222,7 +237,9 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="16" />
+                        android:text="16"
+
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -245,7 +262,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="18" />
+                        android:text="18"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat19"
@@ -253,7 +271,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="19" />
+                        android:text="19"
+                        android:layout_marginLeft="20dp"/>
 
                     <Button
                         android:id="@+id/seat20"
@@ -284,7 +303,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="22" />
+                        android:text="22"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat23"
@@ -292,7 +312,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="23" />
+                        android:text="23"
+                        android:layout_marginLeft="20dp"/>
 
                     <Button
                         android:id="@+id/seat24"
@@ -323,7 +344,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="26" />
+                        android:text="26"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat27"
@@ -331,7 +353,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="27" />
+                        android:text="27"
+                        android:layout_marginLeft="20dp"/>
 
                     <Button
                         android:id="@+id/seat28"
@@ -362,7 +385,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="30" />
+                        android:text="30"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat31"
@@ -370,7 +394,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="31" />
+                        android:text="31"
+                        android:layout_marginLeft="20dp"/>
 
                     <Button
                         android:id="@+id/seat32"
@@ -400,7 +425,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="34" />
+                        android:text="34"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat35"
@@ -408,7 +434,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="35" />
+                        android:text="35"
+                        android:layout_marginLeft="20dp"/>
 
                     <Button
                         android:id="@+id/seat36"
@@ -438,7 +465,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="38" />
+                        android:text="38"
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/seat39"
@@ -446,7 +474,8 @@
                         android:layout_height="42dp"
                         android:layout_weight="1"
                         android:background="@drawable/bus_seat_ok"
-                        android:text="39" />
+                        android:text="39"
+                        android:layout_marginLeft="20dp"/>
 
                     <Button
                         android:id="@+id/seat40"
@@ -514,7 +543,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -523,10 +552,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="인원 수" />
+                    android:layout_gravity="center"
+                    android:text="인원 수"
+                    android:textSize="20dp"/>
 
                 <Button
                     android:id="@+id/seat_number"
+                    android:layout_margin="10dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -539,31 +571,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
 
                 <TextView
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="총 결제 금액" />
+                    android:text="총 결제 금액"
+                    android:layout_gravity="center"
+                    android:textSize="20dp"/>
 
                 <TextView
                     android:id="@+id/total_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="0원" />
+                    android:text="0원"
+                    android:layout_gravity="center"
+                    android:textSize="20dp"/>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/submit"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_background"
-                android:text="선택 완료" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="예매하기" />
+                <Button
+                    android:id="@+id/reservation"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="예약하기" />
+            </LinearLayout>
+
+            </LinearLayout>
 
     </LinearLayout>
 

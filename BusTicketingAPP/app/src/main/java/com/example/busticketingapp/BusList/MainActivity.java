@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     String getId;
     boolean getMember;
+    String getName;
 
 
     @Override
@@ -43,17 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member", false);
+        getName = getIntent().getStringExtra("UserName");
 
         Log.i("Main_ID",getId);
         Log.i("mem?",getMember+"");
 
-        Log.v("Subin","main");
-
-        getId = getIntent().getStringExtra("Id");
-        getMember = getIntent().getBooleanExtra("Member", false);
-
-        Log.i("Main_ID",getId);
-        Log.i("mem?",getMember+"");
 
         setDeparture = findViewById(R.id.goto_selectDeparture);
         setDeparture.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
                     gotoTerminal.putExtra("Departure",departureTerminalName);
                     gotoTerminal.putExtra("Destination",destinationTerminalName);
                     gotoTerminal.putExtra("Date",setDate.getText());
+
+                    gotoTerminal.putExtra("Id",getId);
+                    gotoTerminal.putExtra("Member",getMember);
+                    gotoTerminal.putExtra("UserName",getName);
                     startActivity(gotoTerminal);
                 }
                 else if(setDeparture.getText().equals("출발지 선택")){

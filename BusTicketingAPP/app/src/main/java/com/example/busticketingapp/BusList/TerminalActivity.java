@@ -25,6 +25,9 @@ import java.util.HashMap;
 
 public class TerminalActivity extends AppCompatActivity {
     Intent gotoSelectSeat;
+    String getId;
+    boolean getMember;
+    String getName;
 
     String departureTerminal;
     String destinationTerminal;
@@ -54,6 +57,9 @@ public class TerminalActivity extends AppCompatActivity {
         departureTerminal = getIntent().getStringExtra("Departure");
         destinationTerminal = getIntent().getStringExtra("Destination");
         departureDateString = getIntent().getStringExtra("Date").replaceAll("/", "");
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
+        getName = getIntent().getStringExtra("UserName");
         Log.v("Subin", "Date check : " + departureDateString);
 
         departureTerminalName.setText(departureTerminal.split(":")[1]);
@@ -82,6 +88,9 @@ public class TerminalActivity extends AppCompatActivity {
                 gotoSelectSeat.putExtra("Company", returnBus.getBusCompany());
                 gotoSelectSeat.putExtra("SeatNum", returnBus.getRemainSeat());
 
+                gotoSelectSeat.putExtra("Id",getId);
+                gotoSelectSeat.putExtra("Member",getMember);
+                gotoSelectSeat.putExtra("UserName", getName);
                 startActivity(gotoSelectSeat);
 
             }
