@@ -8,9 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.busticketingapp.Cart.cart;
+import com.example.busticketingapp.Cart.Cart;
 import com.example.busticketingapp.Home.Home_Page;
-import com.example.busticketingapp.Payment.PaymentWaiting;
 import com.example.busticketingapp.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -49,6 +48,17 @@ public class LoginUserActivity extends AppCompatActivity {
                 myRef.child(Id).child("Information").child("PhoneNumber").setValue(phone);
                 myRef.child(Id).child("Information").child("Password").setValue(pwd);
 
+
+//                DatabaseReference myRef2= myRef.child(Id).child("Ticket").push();
+//                myRef2.child("출발지").setValue("서울");
+//                myRef2.child("도착지").setValue("대전");
+//                myRef2.child("날짜").setValue("20191210");
+//                myRef2.child("출발시간").setValue("12:00");
+//                myRef2.child("도착시간").setValue("15:00");
+//                myRef2.child("버스회사").setValue("금호고속");
+//                myRef2.child("소요시간").setValue("3:00");
+//                myRef2.child("좌석").setValue("1");
+
                 //로그인시 비회원홈화면으로 넘어가야한다.
                 Intent intent = new Intent(getApplicationContext(), Home_Page.class);
                 intent.putExtra("Id",Id);
@@ -61,7 +71,7 @@ public class LoginUserActivity extends AppCompatActivity {
 
     public void signUp(View view) {
         // 주헌 : 장바구니 테스트
-        Intent intent = new Intent(getApplicationContext(), cart.class);
+        Intent intent = new Intent(getApplicationContext(), Cart.class);
         startActivity(intent);
     }
 }

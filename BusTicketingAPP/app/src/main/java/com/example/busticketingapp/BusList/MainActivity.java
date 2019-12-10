@@ -29,12 +29,22 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_1 = 1111;
     public static final int REQUEST_2 = 2222;
 
+    String getId;
+    boolean getMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v("@@@@@@@@@@@@@@@@@@@","@@@@@@@@@@@@@@@@@@@@@@@@@@");
         setContentView(R.layout.buslist_select_bus_info);
+
+
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
+
+        Log.i("Main_ID",getId);
+        Log.i("mem?",getMember+"");
+
         Log.v("Subin","main");
         setDeparture = findViewById(R.id.goto_selectDeparture);
         Toast.makeText(this, "너는 또 왜....?", Toast.LENGTH_SHORT);
