@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,19 +23,35 @@ public class Home_Page extends AppCompatActivity {
     private long backKeyPressedTime = 0;
     // 첫 번째 뒤로가기 버튼을 누를때 표시
     private Toast toast;
+    private TextView userName;
+    private Button btn_cart;
+    private Button btn_mailBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-        // 추후 수정해야함
-        runOnUiThread(new Runnable() {
-        TextView userName = (TextView) findViewById(R.id.userName);
-            @Override
-            public void run() {
-                userName.setText("곽주헌");
-            }
-        });
+
+        String getId = getIntent().getStringExtra("Id");
+        boolean getMember = getIntent().getBooleanExtra("Member", false);
+
+        btn_cart = (Button)findViewById(R.id.cart);
+        btn_mailBox = (Button)findViewById(R.id.mailBox);
+
+//        Log.i("Id",getId);
+
+        userName = (TextView) findViewById(R.id.userName);
+
+        if (getMember) {
+            btn_cart.setVisibility(View.VISIBLE);
+            btn_mailBox.setVisibility(View.VISIBLE);
+            userName.setText("곽주헌");
+        }else {
+            btn_cart.setVisibility(View.INVISIBLE);
+            btn_mailBox.setVisibility(View.INVISIBLE);
+            userName.setText("비회원");
+        }
+
     }
 
     public void DoReserve(View view) {
@@ -42,12 +59,12 @@ public class Home_Page extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void identifyList(View view){
+    public void identifyList(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 
-    public void goCart(View view){
+    public void goCart(View view) {
         Intent intent = new Intent(getApplicationContext(), cart.class);
         startActivity(intent);
     }
