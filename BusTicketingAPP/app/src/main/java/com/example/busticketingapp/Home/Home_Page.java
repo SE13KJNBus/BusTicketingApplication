@@ -4,18 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.busticketingapp.BusList.MainActivity;
-import com.example.busticketingapp.Cart.cart;
-import com.example.busticketingapp.Payment.PaymentWaiting;
+import com.example.busticketingapp.Cart.Cart;
 import com.example.busticketingapp.R;
-
-import org.w3c.dom.Text;
 
 public class Home_Page extends AppCompatActivity {
 
@@ -26,8 +22,10 @@ public class Home_Page extends AppCompatActivity {
     private TextView userName;
     private Button btn_cart;
     private Button btn_mailBox;
-    String getId;
+    String getId ;
     boolean getMember;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,8 @@ public class Home_Page extends AppCompatActivity {
         if (getMember) {
             btn_cart.setVisibility(View.VISIBLE);
             btn_mailBox.setVisibility(View.VISIBLE);
-            userName.setText("곽주헌");
+//            userName.setText("곽주헌");
+            userName.setText(getIntent().getStringExtra("userName"));
         }else {
             btn_cart.setVisibility(View.INVISIBLE);
             btn_mailBox.setVisibility(View.INVISIBLE);
@@ -64,14 +63,14 @@ public class Home_Page extends AppCompatActivity {
     }
 
     public void identifyList(View view) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TicketList.class);
         intent.putExtra("Id",getId);
         intent.putExtra("Member",(boolean)getMember);
         startActivity(intent);
     }
 
     public void goCart(View view) {
-        Intent intent = new Intent(getApplicationContext(), cart.class);
+        Intent intent = new Intent(getApplicationContext(), Cart.class);
         intent.putExtra("Id",getId);
 //        intent.putExtra("Member",(boolean)getMember);
         startActivity(intent);

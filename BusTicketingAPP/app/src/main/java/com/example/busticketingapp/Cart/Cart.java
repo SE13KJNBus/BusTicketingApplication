@@ -13,7 +13,7 @@ import com.example.busticketingapp.R;
 
 import java.util.ArrayList;
 
-public class cart extends AppCompatActivity {
+public class Cart extends AppCompatActivity {
 
     ListView listView;
     CartAdapter adapter;

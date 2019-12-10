@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter_forBusList extends RecyclerView.Adapter<CustomAdapter_forBusList.CustomViewHolder> {
 
-    private ArrayList<Bus> mList;
+    public ArrayList<Bus> mList;
 
     private OnItemClickListener mListener = null;
 
@@ -57,6 +57,8 @@ public class CustomAdapter_forBusList extends RecyclerView.Adapter<CustomAdapter
     public void addItem(Bus individualBus){
         mList.add(individualBus);
     }
+
+
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 

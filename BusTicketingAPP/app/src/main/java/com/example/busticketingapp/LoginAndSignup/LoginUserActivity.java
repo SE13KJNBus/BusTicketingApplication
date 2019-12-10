@@ -8,9 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.busticketingapp.Cart.cart;
+import com.example.busticketingapp.Cart.Cart;
 import com.example.busticketingapp.Home.Home_Page;
-import com.example.busticketingapp.Payment.PaymentWaiting;
 import com.example.busticketingapp.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -61,7 +60,7 @@ public class LoginUserActivity extends AppCompatActivity {
 
     public void signUp(View view) {
         // 주헌 : 장바구니 테스트
-        Intent intent = new Intent(getApplicationContext(), cart.class);
+        Intent intent = new Intent(getApplicationContext(), Cart.class);
         startActivity(intent);
     }
 }

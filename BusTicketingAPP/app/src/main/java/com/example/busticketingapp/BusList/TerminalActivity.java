@@ -1,5 +1,6 @@
 package com.example.busticketingapp.BusList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,23 +8,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.busticketingapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class TerminalActivity extends AppCompatActivity {
     Intent gotoSelectSeat;
 
+    String departureTerminal;
+    String destinationTerminal;
+    String departureDateString;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference().child("Bus");
+    ArrayList<Bus> busArrayList = new ArrayList<Bus>();
+
     TextView departureTerminalName;
     TextView destinationTerminalName;
     TextView departureDate;
 
-    private ArrayList<Bus> mArrayList;
     private CustomAdapter_forBusList mAdapter;
+    RecyclerView mRecyclerView;
+    LinearLayoutManager mLinearLayoutManager;
     private int count = -1;
 
     @Override
@@ -34,38 +51,39 @@ public class TerminalActivity extends AppCompatActivity {
         destinationTerminalName = findViewById(R.id.DestinationTermianal);
         departureDate = findViewById(R.id.Date);
 
-        String departureTerminal = getIntent().getStringExtra("Departure");
-        String destinationTerminal = getIntent().getStringExtra("Destination");
-        String departureDateString = getIntent().getStringExtra("Date");
+        departureTerminal = getIntent().getStringExtra("Departure");
+        destinationTerminal = getIntent().getStringExtra("Destination");
+        departureDateString = getIntent().getStringExtra("Date").replaceAll("/", "");
+        Log.v("Subin", "Date check : " + departureDateString);
 
-        departureTerminalName.setText(departureTerminal);
-        destinationTerminalName.setText(destinationTerminal);
+        departureTerminalName.setText(departureTerminal.split(":")[1]);
+        destinationTerminalName.setText(destinationTerminal.split(":")[1]);
         departureDate.setText(departureDateString);
 
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_bus_list);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_bus_list);
+        mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
 
-        mArrayList = new ArrayList<>();
-        mAdapter = new CustomAdapter_forBusList(mArrayList);
+        mAdapter = new CustomAdapter_forBusList(busArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new CustomAdapter_forBusList.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
-                Bus returnBus = mArrayList.get(pos);
+                Bus returnBus = busArrayList.get(pos);
 
                 gotoSelectSeat = new Intent(TerminalActivity.this, SelectSeatActivity_General.class);
-                gotoSelectSeat.putExtra("Departure",returnBus.getDepartureTerminal());
-                gotoSelectSeat.putExtra("Destination",returnBus.getDestinationTerminal());
-                gotoSelectSeat.putExtra("Date",returnBus.getDepartureDate());
-                gotoSelectSeat.putExtra("Time",returnBus.getDepartureDate());
-                gotoSelectSeat.putExtra("Company",returnBus.getDepartureDate());
-                gotoSelectSeat.putExtra("SeatNum",returnBus.getRemainSeat());
+                gotoSelectSeat.putExtra("Departure", returnBus.getDepartureTerminal());
+                gotoSelectSeat.putExtra("Destination", returnBus.getDestinationTerminal());
+                gotoSelectSeat.putExtra("Date", returnBus.getDepartureDate());
+                gotoSelectSeat.putExtra("Time", returnBus.getDepartureTime());
+                gotoSelectSeat.putExtra("Company", returnBus.getBusCompany());
+                gotoSelectSeat.putExtra("SeatNum", returnBus.getRemainSeat());
 
                 startActivity(gotoSelectSeat);
+
             }
         });
 
@@ -73,39 +91,49 @@ public class TerminalActivity extends AppCompatActivity {
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        /*
-        * API로 버스 리스트 받아와 mArrayList<Bus>에 삽입
-        *
-        String departureTerminal = getIntent().getStringExtra("Departure");
-        String destinationTerminal = getIntent().getStringExtra("Destination");
-        String departureDateString = getIntent().getStringExtra("Date");
-        에 맞는 것만 가져오기
-        *
-        *
-        *  mAdapter.notifyDataSetChanged();
-
-        * */
-
-        Bus tempBus = new Bus();
-        tempBus.setDepartureTerminal(departureTerminal);
-        tempBus.setDestinationTerminal(destinationTerminal);
-        tempBus.setDepartureDate(departureDateString);
-        tempBus.setBusCompany("금호고속");
-        tempBus.setDepartureTime("22:30");
-        tempBus.setRemainSeat(25);
-
-        Bus tempBus2 = new Bus();
-        tempBus2.setDepartureTerminal(departureTerminal);
-        tempBus2.setDestinationTerminal(destinationTerminal);
-        tempBus2.setDepartureDate(departureDateString);
-        tempBus2.setBusCompany("전북고속");
-        tempBus2.setDepartureTime("23:30");
-        tempBus2.setRemainSeat(20);
-        mArrayList.add(tempBus);
-        mArrayList.add(tempBus2);
-        mAdapter.notifyDataSetChanged();
+        myRef.child(departureTerminal).child(destinationTerminal).child(departureDateString).addValueEventListener(valueEventListener);
 
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            busArrayList.clear();
+            Log.v("Subin", "dataSnapshot getKey : " + dataSnapshot.getKey());
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Log.v("Subin", snapshot.getKey());
+
+                String busCompany = snapshot.getKey();
+                for (DataSnapshot snapshotchild : snapshot.getChildren()) {
+                    String time = snapshotchild.getKey();
+                    int seatNum = 0;
+                    for (DataSnapshot snapshotSeatNum : snapshotchild.getChildren()) {
+                        if (snapshotSeatNum.getValue().equals(false)) seatNum++;
+                    }
+                    Bus bus = new Bus();
+                    bus.setDepartureTerminal(departureTerminal);
+                    bus.setDestinationTerminal(destinationTerminal);
+                    bus.setDepartureDate(departureDateString);
+                    bus.setBusCompany(busCompany);
+                    bus.setDepartureTime(time);
+                    bus.setRemainSeat(seatNum);
+
+                    busArrayList.add(bus);
+                    Log.v("Subin", "busArrayList Size : " + busArrayList.size());
+                }
+            }
+            Log.v("Subin", "busArrayList Size : " + busArrayList.size());
+
+            mAdapter.notifyDataSetChanged();
+            Log.v("Subin", "mAdapter Item Count : " + mAdapter.getItemCount());
+        }
+
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
 
 }

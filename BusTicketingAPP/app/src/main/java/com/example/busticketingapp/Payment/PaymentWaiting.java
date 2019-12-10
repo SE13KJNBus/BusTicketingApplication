@@ -2,6 +2,7 @@ package com.example.busticketingapp.Payment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -19,6 +20,19 @@ public class PaymentWaiting extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_waiting);
+
+        int peopleNum = getIntent().getIntExtra("peopleNum",0);
+        Log.i("결제 인원수: ",peopleNum+"");
+
+        String[] seatList = getIntent().getStringArrayExtra("seatNum");
+
+        String seatNum="";
+
+        for(int i=0;i < seatList.length;i++){
+            seatNum = seatNum+seatList[i]+", ";
+        }
+
+        Log.i("좌석",seatNum);
 
         String[] strArea = {"대전복합 -> 서울", "남서울 -> 부산", "공주 -> 청주", "유성 -> 공주"};
         String[] strDate = {"2017-01-03 09:30 ~ 10:30", "2017-01-03 18:30 ~ 19:35", "2017-01-04 19:30 ~ 20:30", "2017-02-03 19:45 ~ 20:45"};

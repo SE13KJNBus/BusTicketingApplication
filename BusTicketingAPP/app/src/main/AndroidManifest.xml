@@ -10,13 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Cart.cart"/>
+        <activity android:name=".Cart.Cart"/>
         <activity android:name=".Cart.Cart_Item"/>
         <activity android:name=".Payment.Paying_success"/>
         <activity android:name=".Payment.Paying"/>
         <activity android:name=".Payment.PaymentWaiting"/>
         <activity android:name=".Payment.PaymentWaiting_Cart"/>
         <activity android:name=".Home.Home_Page" />
+        <activity android:name=".Home.TicketData"></activity>
+        <activity android:name=".Home.TicketListAdapter" />
+        <activity android:name=".Home.TicketList" />
+        <activity android:name=".Cart.Cart" />
+        <activity android:name=".Cart.Cart_Item" />
+        <activity android:name=".Payment.Paying_success" />
+        <activity android:name=".Payment.Paying" />
+        <activity android:name=".Payment.PaymentWaiting" />
+        <activity android:name=".Payment.PaymentWaiting_Cart" />
         <activity
             android:name=".LoginAndSignup.LoginMemberActivity"
             android:exported="true">
