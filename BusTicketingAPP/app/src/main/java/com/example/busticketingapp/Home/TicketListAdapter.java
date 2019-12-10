@@ -75,5 +75,3 @@ public class TicketListAdapter extends BaseAdapter {
         return convertView;
     }
 }
-
-

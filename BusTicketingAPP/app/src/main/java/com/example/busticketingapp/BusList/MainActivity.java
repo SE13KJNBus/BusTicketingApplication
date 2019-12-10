@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     Button setDestination;
     Button setDate;
     Button submit;
+    String departureTerminalName;
+    String destinationTerminalName;
     CalendarView calendarView;
     public static final int REQUEST_1 = 1111;
     public static final int REQUEST_2 = 2222;
@@ -32,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
     String getId;
     boolean getMember;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("@@@@@@@@@@@@@@@@@@@","@@@@@@@@@@@@@@@@@@@@@@@@@@");
         setContentView(R.layout.buslist_select_bus_info);
 
 
@@ -46,8 +48,14 @@ public class MainActivity extends AppCompatActivity {
         Log.i("mem?",getMember+"");
 
         Log.v("Subin","main");
+
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
+
+        Log.i("Main_ID",getId);
+        Log.i("mem?",getMember+"");
+
         setDeparture = findViewById(R.id.goto_selectDeparture);
-        Toast.makeText(this, "너는 또 왜....?", Toast.LENGTH_SHORT);
         setDeparture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,9 +69,15 @@ public class MainActivity extends AppCompatActivity {
         setDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("Subin","select destination button");
-                gotoDestinationActivity = new Intent(MainActivity.this, SelectDestinationActivity.class);
-                startActivityForResult(gotoDestinationActivity, REQUEST_2);
+                if(!setDeparture.getText().equals("출발지 선택")){
+                    Log.v("Subin","select destination button : "+departureTerminalName);
+                    gotoDestinationActivity = new Intent(MainActivity.this, SelectDestinationActivity.class);
+                    gotoDestinationActivity.putExtra("Departure", departureTerminalName);
+                    startActivityForResult(gotoDestinationActivity, REQUEST_2);
+                }else{
+                    Toast.makeText(MainActivity.this, "출발지를 선택하세요.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -100,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if(!setDeparture.getText().equals("출발지 선택") && !setDestination.getText().equals("도착지 선택") && !setDate.getText().equals("출발 날짜 선택")){
                     Intent gotoTerminal = new Intent(MainActivity.this, TerminalActivity.class);
-                    gotoTerminal.putExtra("Departure",setDeparture.getText());
-                    gotoTerminal.putExtra("Destination",setDestination.getText());
+                    gotoTerminal.putExtra("Departure",departureTerminalName);
+                    gotoTerminal.putExtra("Destination",destinationTerminalName);
                     gotoTerminal.putExtra("Date",setDate.getText());
                     startActivity(gotoTerminal);
                 }
@@ -117,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -125,12 +138,16 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == REQUEST_1){
             if(resultCode==RESULT_OK){
                 String departureName = data.getStringExtra("Departure");
-                setDeparture.setText(departureName==null?"출발지 선택":departureName);
+                departureTerminalName = departureName;
+                String[] splitString = departureName.split(":");
+                setDeparture.setText(departureName==null?"출발지 선택":splitString[1]);
             }
         }else if(requestCode == REQUEST_2){
             if(resultCode==RESULT_OK){
                 String destinationName = data.getStringExtra("Destination");
-                setDestination.setText(destinationName==null?"도착지 선택":destinationName);
+                destinationTerminalName = destinationName;
+                String[] splitString = destinationName.split(":");
+                setDestination.setText(destinationName==null?"도착지 선택":splitString[1]);
             }
         }
     }

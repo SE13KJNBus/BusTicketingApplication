@@ -22,8 +22,10 @@ public class Home_Page extends AppCompatActivity {
     private TextView userName;
     private Button btn_cart;
     private Button btn_mailBox;
-    String getId;
+    String getId ;
     boolean getMember;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,8 @@ public class Home_Page extends AppCompatActivity {
         if (getMember) {
             btn_cart.setVisibility(View.VISIBLE);
             btn_mailBox.setVisibility(View.VISIBLE);
-            userName.setText("곽주헌");
+//            userName.setText("곽주헌");
+            userName.setText(getIntent().getStringExtra("userName"));
         }else {
             btn_cart.setVisibility(View.INVISIBLE);
             btn_mailBox.setVisibility(View.INVISIBLE);

@@ -173,4 +173,3 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
     }
 
 }
-
