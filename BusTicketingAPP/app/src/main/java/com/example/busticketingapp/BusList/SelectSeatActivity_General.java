@@ -3,6 +3,7 @@ package com.example.busticketingapp.BusList;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.busticketingapp.Payment.PaymentWaiting;
 import com.example.busticketingapp.R;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     TextView totalMoney;
     int userSeatNum=0;
     TextView remainNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,7 +193,6 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
-
     }
     public void show(){
         final Dialog dialog = new Dialog(SelectSeatActivity_General.this);
