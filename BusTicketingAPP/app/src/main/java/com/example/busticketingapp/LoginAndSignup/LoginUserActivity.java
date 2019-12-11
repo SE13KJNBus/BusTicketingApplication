@@ -63,6 +63,7 @@ public class LoginUserActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Home_Page.class);
                 intent.putExtra("Id",Id);
                 intent.putExtra("Member",(boolean)false);
+                intent.putExtra("UserName","비회원");
                 startActivity(intent);
             }
 

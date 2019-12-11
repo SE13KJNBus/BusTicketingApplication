@@ -25,6 +25,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
     private ListView m_oListView = null;
     private String getId;
     private boolean getMember;
+    private String getName;
     private DatabaseReference mReference;
     private ChildEventListener mChild;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -38,7 +39,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member", false);
-
+        getName = getIntent().getStringExtra("UserName");
 
 //        myRef.child(getId).child("Ticket").child("20191210").setValue("12:00-16:00");
 

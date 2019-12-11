@@ -79,7 +79,7 @@ public class LoginMemberActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), Home_Page.class);
             intent.putExtra("Id",emailString);
             intent.putExtra("Member",true);
-            intent.putExtra("userName",user.userName);
+            intent.putExtra("UserName",user.userName);
             startActivity(intent);
         }else{
             Toast.makeText(LoginMemberActivity.this, "로그인 실패",Toast.LENGTH_SHORT).show();
