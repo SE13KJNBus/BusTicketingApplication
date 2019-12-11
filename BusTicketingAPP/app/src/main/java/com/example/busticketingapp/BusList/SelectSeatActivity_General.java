@@ -260,7 +260,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
             for(int i=0;i<selectedSeat.size();i++){
                 getSeatList += selectedSeat.get(i)+":";
             }
-            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting_Cart.class);
+            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting.class);
             gotoPayment.putExtra("Departure",departure);
             gotoPayment.putExtra("Destination",destination);
             gotoPayment.putExtra("SeatNum",getSeatList);
