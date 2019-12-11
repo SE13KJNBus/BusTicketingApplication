@@ -72,6 +72,7 @@ public class TicketListAdapter extends BaseAdapter {
         oTextTime.setText(m_oData.get(position).time);
         oTextDate.setText(m_oData.get(position).date);
         oTextSeat.setText(m_oData.get(position).seatNum);
+
         oBtnChange.setOnClickListener(m_oData.get(position).onClickListener);
         oBtnCancel.setOnClickListener(m_oData.get(position).onClickListener);
 

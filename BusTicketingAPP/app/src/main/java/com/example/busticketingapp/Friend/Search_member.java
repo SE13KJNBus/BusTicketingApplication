@@ -44,6 +44,7 @@ public class Search_member extends AppCompatActivity {
 
         getId = getIntent().getStringExtra("Id");
         getName = getIntent().getStringExtra("UserName");
+
     }
 
     public void addFriend(View view) {
@@ -52,6 +53,7 @@ public class Search_member extends AppCompatActivity {
         Date date = new Date(now);
         SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd@HH:mm:ss");
         String formatDate = sdfNow.format(date);
+
 
 
         searchEmail = memberEmail.getText().toString().replace('.', ':');

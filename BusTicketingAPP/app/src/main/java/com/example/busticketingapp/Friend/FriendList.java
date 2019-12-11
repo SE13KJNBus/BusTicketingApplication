@@ -32,7 +32,6 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_list);
-
         getId = getIntent().getStringExtra("Id");
         getName = getIntent().getStringExtra("UserName");
 
@@ -60,6 +59,7 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
                     oData.add(oItem);
                 }
                 m_oListView = (ListView)findViewById(R.id.friend_listset);
+
 
                 FriendListAdapter oAdapter = new FriendListAdapter(oData);
                 m_oListView.setAdapter(oAdapter);

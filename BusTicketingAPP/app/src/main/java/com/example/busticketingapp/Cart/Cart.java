@@ -76,9 +76,7 @@ public class Cart extends AppCompatActivity {
                         int revNum = Integer.parseInt(messageData.child("인원수").getValue().toString());
                         totalNum = totalNum + (revNum * 6900);
 
-
                         Random rnd = new Random();
-
 
                         for (int i = 0; i < revNum; i++) {
                             //임시로 10000으로 측정
@@ -147,15 +145,17 @@ public class Cart extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (update) {
-                            int num = Integer.parseInt(dataSnapshot.child("인원수").getValue().toString());
 
-                            if (count < num) {
-                                mReference.child("인원수").setValue(num - count);
-                            } else {
-                                mReference.child("인원수").removeValue();
-                            }
-                            update = false;
-                            count = 0;
+                                int num = Integer.parseInt(dataSnapshot.child("인원수").getValue().toString());
+
+                                if (count < num) {
+                                    mReference.child("인원수").setValue(num - count);
+                                } else {
+                                    mReference.child("인원수").removeValue();
+                                }
+                                update = false;
+                                count = 0;
+
                             }
                         }
 
@@ -192,7 +192,8 @@ public class Cart extends AppCompatActivity {
                 }
 
 
-                totalMoney.setText(totalNum + "원");
+
+                totalMoney.setText(totalNum+ "원");
             }
 
             if (exist) {

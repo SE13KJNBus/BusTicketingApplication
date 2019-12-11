@@ -24,6 +24,7 @@ public class Home_Page extends AppCompatActivity {
     private Button btn_cart;
     private Button btn_mailBox;
     private Button btn_friend;
+
     String getId ;
     boolean getMember;
     String getName;
@@ -42,6 +43,7 @@ public class Home_Page extends AppCompatActivity {
         btn_mailBox = (Button)findViewById(R.id.mailBox);
         btn_friend = (Button)findViewById(R.id.btn_friend);
 
+
 //        Log.i("Id",getId);
 
         userName = (TextView) findViewById(R.id.userName);
@@ -50,6 +52,7 @@ public class Home_Page extends AppCompatActivity {
             btn_cart.setVisibility(View.VISIBLE);
             btn_mailBox.setVisibility(View.VISIBLE);
             btn_friend.setVisibility(View.VISIBLE);
+
 //            userName.setText("곽주헌");
             userName.setText(getName);
         }else {
