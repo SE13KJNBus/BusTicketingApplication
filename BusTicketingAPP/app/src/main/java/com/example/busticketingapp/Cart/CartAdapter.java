@@ -58,6 +58,7 @@ public class CartAdapter extends BaseAdapter {
         int seatNum;
         TextView startPlaceVal = (TextView) convertView.findViewById(R.id.startPlaceValue);
         TextView arrivePlaceVal = (TextView) convertView.findViewById(R.id.arrivePlaceValue);
+        TextView date = (TextView)convertView.findViewById(R.id.date);
         TextView startTimeVal = (TextView) convertView.findViewById(R.id.startTimeValue);
         TextView arriveTimeVal = (TextView) convertView.findViewById(R.id.arriveTimeValue);
         TextView movingTimeVal = (TextView) convertView.findViewById(R.id.movingTimeValue);
@@ -67,6 +68,7 @@ public class CartAdapter extends BaseAdapter {
 
         startPlaceVal.setText(cart_itemArrayList.get(position).startPlace);
         arrivePlaceVal.setText(cart_itemArrayList.get(position).arrivePlace);
+        date.setText(cart_itemArrayList.get(position).date);
         startTimeVal.setText(cart_itemArrayList.get(position).startTime);
         arriveTimeVal.setText(cart_itemArrayList.get(position).arriveTime);
         movingTimeVal.setText(cart_itemArrayList.get(position).movingTime);

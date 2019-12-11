@@ -21,7 +21,7 @@
         android:id="@+id/startPlaceValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="75dp"
         android:text="TextView"
         tools:layout_editor_absoluteX="69dp"
         tools:layout_editor_absoluteY="74dp" />
@@ -29,7 +29,7 @@
         android:id="@+id/arrivePlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="160dp"
         android:text="도착지"
         tools:layout_editor_absoluteX="69dp"
         tools:layout_editor_absoluteY="74dp" />
@@ -41,11 +41,22 @@
         android:text="TextView"
         tools:layout_editor_absoluteX="69dp"
         tools:layout_editor_absoluteY="74dp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="20190101"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="74dp" />
+
     <TextView
         android:id="@+id/startTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="85dp"
         android:layout_marginTop="20dp"
         android:text="출발시간"
         tools:layout_editor_absoluteX="69dp"
@@ -54,9 +65,9 @@
         android:id="@+id/startTimeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="145dp"
         android:layout_marginTop="20dp"
-        android:text="TextView"
+        android:text="01:01"
         tools:layout_editor_absoluteX="69dp"
         tools:layout_editor_absoluteY="74dp" />
     <TextView
@@ -64,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="도착시간"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="195dp"
         android:layout_marginTop="20dp"
         tools:layout_editor_absoluteX="69dp"
         tools:layout_editor_absoluteY="74dp" />
@@ -72,9 +83,9 @@
         android:id="@+id/arriveTimeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="220dp"
+        android:layout_marginLeft="255dp"
         android:layout_marginTop="20dp"
-        android:text="TextView"
+        android:text="88:88"
         tools:layout_editor_absoluteX="69dp"
         tools:layout_editor_absoluteY="74dp" />
     <TextView
@@ -90,7 +101,7 @@
         android:id="@+id/movingTimeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="75dp"
         android:layout_marginTop="40dp"
         android:text="TextView"
         tools:layout_editor_absoluteX="69dp"
@@ -99,7 +110,7 @@
         android:id="@+id/busCompanyValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="160dp"
         android:layout_marginTop="40dp"
         android:text="TextView"
         tools:layout_editor_absoluteX="69dp"
