@@ -255,11 +255,12 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
                 Toast.makeText(SelectSeatActivity_General.this, "인원 수를 확인하세요.", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             String getSeatList = "";
             for(int i=0;i<selectedSeat.size();i++){
                 getSeatList += selectedSeat.get(i)+":";
             }
-            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting.class);
+            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting_Cart.class);
             gotoPayment.putExtra("Departure",departure);
             gotoPayment.putExtra("Destination",destination);
             gotoPayment.putExtra("SeatNum",getSeatList);
@@ -307,7 +308,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
 
                 }
             });
-            
+
 
             Log.v("SubinTest2", "Success Reservation");
             Intent gotoHome = new Intent(SelectSeatActivity_General.this, Home_Page.class);

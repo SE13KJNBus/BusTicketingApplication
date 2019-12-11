@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.busticketingapp.BusList.MainActivity;
 import com.example.busticketingapp.Cart.Cart;
+import com.example.busticketingapp.Friend.FriendList;
 import com.example.busticketingapp.R;
 
 public class Home_Page extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class Home_Page extends AppCompatActivity {
     private TextView userName;
     private Button btn_cart;
     private Button btn_mailBox;
+    private Button btn_friend;
     String getId ;
     boolean getMember;
     String getName;
@@ -38,6 +40,7 @@ public class Home_Page extends AppCompatActivity {
 
         btn_cart = (Button)findViewById(R.id.cart);
         btn_mailBox = (Button)findViewById(R.id.mailBox);
+        btn_friend = (Button)findViewById(R.id.btn_friend);
 
 //        Log.i("Id",getId);
 
@@ -46,11 +49,13 @@ public class Home_Page extends AppCompatActivity {
         if (getMember) {
             btn_cart.setVisibility(View.VISIBLE);
             btn_mailBox.setVisibility(View.VISIBLE);
+            btn_friend.setVisibility(View.VISIBLE);
 //            userName.setText("곽주헌");
             userName.setText(getName);
         }else {
             btn_cart.setVisibility(View.INVISIBLE);
             btn_mailBox.setVisibility(View.INVISIBLE);
+            btn_friend.setVisibility(View.INVISIBLE);
             userName.setText(getName);
         }
 
@@ -76,6 +81,14 @@ public class Home_Page extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Cart.class);
         intent.putExtra("Id",getId);
 //        intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
+        startActivity(intent);
+    }
+
+
+    public void friendList(View view){
+        Intent intent = new Intent(getApplicationContext(), FriendList.class);
+        intent.putExtra("Id",getId);
         intent.putExtra("UserName",getName);
         startActivity(intent);
     }

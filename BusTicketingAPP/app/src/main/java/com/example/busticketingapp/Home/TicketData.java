@@ -8,10 +8,16 @@ import android.view.View;
 import com.example.busticketingapp.R;
 
 public class TicketData {
-    public String Area;
-    public String Date;
-    public String SeatNum;
+    public String startPlace;
+    public String arrivePlace;
+    public String date;
+    public String startTime;
+    public String endTime;
+    public String company;
+    public String time;
+    public String seatNum;
     public View.OnClickListener onClickListener;
 
 }
+
 
