@@ -80,6 +80,29 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
                     for (DataSnapshot messageData : dataSnapshot.getChildren()) {
 //                    // child 내에 있는 데이터만큼 반복합니다.
+                        String getKey = messageData.getKey().toString();
+                        String[] splitData = getKey.split("@");
+                        TicketData oItem = new TicketData();
+                        oItem.startPlace = splitData[0];
+                        oItem.arrivePlace = splitData[1];
+
+                        oItem.startTime = splitData[3].split("-")[0];
+                        oItem.endTime = splitData[3].split("-")[1];
+
+                        oItem.company = splitData[4];
+
+                        int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
+                        int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+
+                        oItem.time = ((int)(end-start)/60)+":"+(end-start)%60;
+                        oItem.date = splitData[2];
+                        for(DataSnapshot snapshot : messageData.getChildren()){
+                            oItem.seatNum = snapshot.getKey();
+                        }
+
+                        oItem.onClickListener = (View.OnClickListener) TicketList.this;
+                        oData.add(oItem);
+                        /*
                         for (DataSnapshot startT : messageData.getChildren()) {//출발시간
                             for (DataSnapshot endT : startT.getChildren()) {//도착시간
                                 for (DataSnapshot startPl : endT.getChildren()) {//출발지역
@@ -107,7 +130,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                                     }
                                 }
                             }
-                        }
+                        }*/
                     }
 
                     m_oListView = (ListView) findViewById(R.id.ticket_list);
@@ -124,8 +147,6 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
             }
         });
-
-
     }
 
     @Override
