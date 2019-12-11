@@ -8,12 +8,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.busticketingapp.Home.Home_Page;
 import com.example.busticketingapp.Payment.PaymentWaiting;
 import com.example.busticketingapp.Payment.PaymentWaiting_Cart;
 import com.example.busticketingapp.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +31,7 @@ public class LoginMemberActivity extends AppCompatActivity {
     HashMap<String, User> emailList =new  HashMap<String, User>();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference().child("Member");
+    DatabaseReference myRef = database.getReference();
 
     EditText inputEmailEdit;
     EditText inputPasswordEdit;
@@ -51,8 +53,8 @@ public class LoginMemberActivity extends AppCompatActivity {
         //inputPasswordEdit = (EditText) findViewById(R.id.inputPassword);
 
         setContentView(R.layout.login_member);
-        myRef.addValueEventListener(valueEventListener);
-
+        //myRef.addValueEventListener(valueEventListener);
+        myRef.addChildEventListener(childEventListener);
 
         inputEmailEdit = (EditText) findViewById(R.id.inputEmail);
         inputPasswordEdit=(EditText) findViewById(R.id.inputPassword);
@@ -96,17 +98,34 @@ public class LoginMemberActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
-    ValueEventListener valueEventListener = new ValueEventListener() {
+    ChildEventListener childEventListener = new ChildEventListener() {
         @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                Log.v("Subin", snapshot.getKey());
-
-                Log.v("Subin", snapshot.child("Information").child("Password").getValue().toString());
-                String pw = snapshot.child("Information").child("Password").getValue().toString();
-                String name = snapshot.child("Information").child("Name").getValue().toString();
-                emailList.put(snapshot.getKey(),new User(snapshot.getKey(),pw,name));
+        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            if(dataSnapshot.getKey().toString().equals("Member")){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Log.v("Subin", snapshot.getKey());
+                    Log.v("Subin", snapshot.child("Information").child("Password").getValue()+"");
+                    String pw = snapshot.child("Information").child("Password").getValue().toString();
+                    String name = snapshot.child("Information").child("Name").getValue().toString();
+                    emailList.put(snapshot.getKey(),new User(snapshot.getKey(),pw,name));
+                }
             }
+
+        }
+
+        @Override
+        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
         }
 
         @Override
@@ -114,4 +133,5 @@ public class LoginMemberActivity extends AppCompatActivity {
 
         }
     };
+
 }

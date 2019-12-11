@@ -73,6 +73,7 @@ public class LoginUserActivity extends AppCompatActivity {
     public void signUp(View view) {
 //        data();
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+
         startActivity(intent);
     }
     public void data() {

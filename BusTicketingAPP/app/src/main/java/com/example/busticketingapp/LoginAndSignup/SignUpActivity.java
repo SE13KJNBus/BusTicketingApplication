@@ -39,13 +39,15 @@ public class SignUpActivity extends AppCompatActivity {
     Button register;
     ArrayList<String> emailList =new ArrayList<String>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference().child("Member");
+    DatabaseReference myRef = database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_sign_up);
-        myRef.addValueEventListener(valueEventListener);
+        //myRef.addValueEventListener(valueEventListener);
+        myRef.addChildEventListener(childEventListener);
+
 
     }
 
@@ -61,6 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         if (!passwordValue.getText().toString().equals(passwordValueSave.getText().toString())){
             Toast.makeText(this, "비밀번호가 일치하지 않습니다. 다시 입력하세요", Toast.LENGTH_LONG).show();
+            /*
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -68,6 +71,8 @@ public class SignUpActivity extends AppCompatActivity {
                     passwordValueSave.setText(null);
                 }
             });
+            */
+
         }
 
         else{
@@ -84,15 +89,18 @@ public class SignUpActivity extends AppCompatActivity {
 
             if(!emailList.contains(emailString)){
                 Log.v("Subin","Register Accept");
+                Log.v("Subin","Register pw : "+passwordString);
 
-                myRef.child(emailString).child("Friend").setValue("");
-                myRef.child(emailString).child("Notification").setValue("");
-                myRef.child(emailString).child("Ticket").setValue("");
-                myRef.child(emailString).child("Cart").setValue("");
-                myRef.child(emailString).child("Information").child("PhoneNumber").setValue(phoneNumString);
-                myRef.child(emailString).child("Information").child("Name").setValue(nameString);
-                myRef.child(emailString).child("Information").child("Password").setValue(passwordString);
-                myRef.child(emailString).child("Information").child("Identification").setValue(personNumString);
+                myRef.child("Member").child(emailString).child("Friend").setValue("");
+                myRef.child("Member").child(emailString).child("Notification").setValue("");
+                myRef.child("Member").child(emailString).child("Ticket").setValue("");
+                myRef.child("Member").child(emailString).child("Cart").setValue("");
+                myRef.child("Member").child(emailString).child("Information").child("PhoneNumber").setValue(phoneNumString);
+                myRef.child("Member").child(emailString).child("Information").child("Name").setValue(nameString);
+                myRef.child("Member").child(emailString).child("Information").child("Password").setValue(passwordString);
+                myRef.child("Member").child(emailString).child("Information").child("Identification").setValue(personNumString);
+                Log.v("Subin",System.currentTimeMillis()+" in SignUp");
+
                 Intent gotoLogin = new Intent(SignUpActivity.this, LoginMemberActivity.class);
                 startActivity(gotoLogin);
 
@@ -106,13 +114,31 @@ public class SignUpActivity extends AppCompatActivity {
 
         }
     }
-    ValueEventListener valueEventListener = new ValueEventListener() {
+    ChildEventListener childEventListener = new ChildEventListener() {
         @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                Log.v("Subin", snapshot.getKey());
-               emailList.add(snapshot.getKey());
+        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            Log.v("Subin","key : "+dataSnapshot.getKey());
+            if(dataSnapshot.getKey().toString().equals("Member")){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Log.v("Subin", snapshot.getKey()+" in childEventListener");
+                    if(!emailList.contains(snapshot.getKey())) emailList.add(snapshot.getKey());
+                }
             }
+        }
+
+        @Override
+        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
         }
 
         @Override
