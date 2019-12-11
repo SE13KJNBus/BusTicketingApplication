@@ -53,13 +53,30 @@
             android:text="TextView" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/Date"
-        android:layout_marginTop="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24dp"
-        android:text="TextView" />
+        android:layout_height="61dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_weight="1"
+            android:textSize="24dp" />
+
+        <Button
+            android:id="@+id/Sorting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="도착순 정렬"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="16dp" />
+
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

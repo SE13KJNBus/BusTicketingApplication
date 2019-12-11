@@ -71,8 +71,58 @@ public class LoginUserActivity extends AppCompatActivity {
     }
 
     public void signUp(View view) {
-        // 주헌 : 장바구니 테스트
-        Intent intent = new Intent(getApplicationContext(), Cart.class);
+//        data();
+        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
+    }
+    public void data() {
+        DatabaseReference myRefdata = database.getReference().child("Bus");
+        DatabaseReference myRef2;
+
+        /***/
+//
+//
+//        myRef2= myRefdata.child("서울:동서울").child("대전:대전복합").child("20191211").child("13:10-17:10").child("동양고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//        myRef2= myRefdata.child("서울:동서울").child("대전:대전복합").child("20191211").child("14:45-18:45").child("동양고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//        myRef2= myRefdata.child("서울:동서울").child("대전:대전복합").child("20191211").child("14:35-18:15").child("중앙고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//
+//        myRef2= myRefdata.child("대전:대전복합").child("서울:동서울").child("20191211").child("13:55-17:55").child("금호고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//
+//        myRef2= myRefdata.child("대전:대전복합").child("서울:동서울").child("20191211").child("09:55-13:55").child("금호고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//
+//        myRef2= myRefdata.child("대전:대전복합").child("충남:공주").child("20191211").child("13:55-14:55").child("금호고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//
+//        myRef2= myRefdata.child("대전:대전복합").child("충남:공주").child("20191211").child("21:05-22:05").child("금호고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//
+//        myRef2= myRefdata.child("충남:공주").child("대전:대전복합").child("20191211").child("16:45-17:45").child("대전고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
+//
+//        myRef2= myRefdata.child("충남:공주").child("대전:대전복합").child("20191211").child("09:55-10:55").child("금호고속");
+//        for(int i=1; i<=45;i++){
+//            myRef2.child(i+"").setValue("true");
+//        }
     }
 }

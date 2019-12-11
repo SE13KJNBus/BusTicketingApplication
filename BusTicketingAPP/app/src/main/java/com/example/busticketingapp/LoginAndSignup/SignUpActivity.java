@@ -58,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
         personNumValue = (EditText) findViewById(R.id.personNumValue);
         phoneNumValue = (EditText) findViewById(R.id.phoneNumValue);
         String passwordVal = passwordValue.getText().toString();
+
         if (!passwordValue.getText().toString().equals(passwordValueSave.getText().toString())){
             Toast.makeText(this, "비밀번호가 일치하지 않습니다. 다시 입력하세요", Toast.LENGTH_LONG).show();
             runOnUiThread(new Runnable() {
@@ -67,8 +68,8 @@ public class SignUpActivity extends AppCompatActivity {
                     passwordValueSave.setText(null);
                 }
             });
-
         }
+
         else{
 
             Log.v("Subin","Register Accept");
