@@ -2,6 +2,7 @@ package com.example.busticketingapp.Cart;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,13 +31,13 @@ public class Cart extends AppCompatActivity {
     String getName;
     DatabaseReference mReference;
 
-
     TextView totalMoney;
     ArrayList<String> cartArrayList;
 
     int totalNum = 0;
     boolean update = true;
     boolean refresh = true;
+    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class Cart extends AppCompatActivity {
         getId = getIntent().getStringExtra("Id");
         getName = getIntent().getStringExtra("UserName");
         cartArrayList = new ArrayList<>();
+
         cartData = null;
 
         mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart");// 변경값을 확인할 child 이름
@@ -104,6 +106,13 @@ public class Cart extends AppCompatActivity {
     public void cartRemove(View view) {
         this.cart_itemArrayList = adapter.getCart_itemArrayList();
         boolean exist = false;
+        String Dataname = "";
+        String stPl;
+        String enPl;
+        String date;
+        String stime;
+
+        count = 0;
         if (cart_itemArrayList.isEmpty()) {
             Toast.makeText(this, "삭제할 항목이 없습니다.", Toast.LENGTH_SHORT).show();
         } else {
@@ -111,24 +120,42 @@ public class Cart extends AppCompatActivity {
                 if (cart_itemArrayList.get(i).checkBoxVal) {
 
                     CartData reData = cart_itemArrayList.get(i);
-                    String Dataname = "";
-
                     Dataname = reData.startPlace + "@" + reData.arrivePlace + "@" + reData.date + "@" + reData.startTime + "-" + reData.arriveTime + "@" + reData.busCompany;
-                    update = true;
 
+                    update = true;
+                    Log.i("Wls", update + "");
+
+                    totalNum = totalNum - 6900;
+                    count++;
+                    stPl = reData.startPlace;
+                    enPl = reData.arrivePlace ;
+                    date = reData.date;
+                    stime =  reData.startTime ;
+                    cart_itemArrayList.remove(i);
+                    exist = true;
+                } else {
+                    stPl = cart_itemArrayList.get(i).startPlace;
+                    enPl = cart_itemArrayList.get(i).arrivePlace ;
+                    date = cart_itemArrayList.get(i).date;
+                    stime =  cart_itemArrayList.get(i).startTime ;
+                    i++;
+                }
+
+                if (i == cart_itemArrayList.size()) {
                     mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart").child(Dataname);// 변경값을 확인할 child 이름
                     mReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (update) {
-                                int num = Integer.parseInt(dataSnapshot.child("인원수").getValue().toString());
+                            int num = Integer.parseInt(dataSnapshot.child("인원수").getValue().toString());
 
-                                if (1 < num) {
-                                    mReference.child("인원수").setValue(num - 1);
-                                } else {
-                                    mReference.child("인원수").removeValue();
-                                }
-                                update = false;
+                            if (count < num) {
+                                mReference.child("인원수").setValue(num - count);
+                            } else {
+                                mReference.child("인원수").removeValue();
+                            }
+                            update = false;
+                            count = 0;
                             }
                         }
 
@@ -137,13 +164,35 @@ public class Cart extends AppCompatActivity {
 
                         }
                     });
-                    cart_itemArrayList.remove(i);
-                    totalNum=totalNum-6900;
-                    exist = true;
-                } else {
-                    i++;
+                } else if (!stPl.equals(cart_itemArrayList.get(i).startPlace) || !enPl.equals(cart_itemArrayList.get(i).arrivePlace)
+                        || !date.equals(cart_itemArrayList.get(i).date) || !stime.equals(cart_itemArrayList.get(i).startTime)) {
+
+                    mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart").child(Dataname);// 변경값을 확인할 child 이름
+                    mReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            if (update) {
+                            int num = Integer.parseInt(dataSnapshot.child("인원수").getValue().toString());
+
+                            if (count < num) {
+                                mReference.child("인원수").setValue(num - count);
+                            } else {
+                                mReference.child("인원수").removeValue();
+                            }
+                            update = false;
+                            count = 0;
+//                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
-                totalMoney.setText(totalNum+ "원");
+
+
+                totalMoney.setText(totalNum + "원");
             }
 
             if (exist) {
@@ -169,7 +218,6 @@ public class Cart extends AppCompatActivity {
         if (cart_itemArrayList.isEmpty()) {
             Toast.makeText(this, "결제할 항목이 없습니다.", Toast.LENGTH_SHORT).show();
         } else {
-
             for (int i=0;i<cart_itemArrayList.size();i++){
                 String departure = cart_itemArrayList.get(i).startPlace;
                 String destination = cart_itemArrayList.get(i).arrivePlace;
