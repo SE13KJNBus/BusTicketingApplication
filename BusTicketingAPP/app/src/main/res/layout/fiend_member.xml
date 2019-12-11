@@ -36,8 +36,9 @@
     <Button
         android:id="@+id/btn_transfer"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:layout_weight="22"
+        android:layout_marginTop="10dp"
         android:background="@drawable/ver2"
         android:text="표 양도" />
 

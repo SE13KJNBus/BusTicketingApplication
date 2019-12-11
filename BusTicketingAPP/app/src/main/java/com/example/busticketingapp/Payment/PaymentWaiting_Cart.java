@@ -24,7 +24,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
     boolean getMember;
     ArrayList<String> cartList;
     TextView modifySeatView;
-
+    TextView totalValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,7 +34,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         getMember = getIntent().getBooleanExtra("Member",false);
         getName= getIntent().getStringExtra("UserName");
         cartList = getIntent().getStringArrayListExtra("CartList");
-
+        totalValue = findViewById(R.id.totalValue);
         ArrayList<WaitingTicketData> oData = new ArrayList<>();
 
         for (int i=0; i<cartList.size(); ++i)
@@ -49,6 +49,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
             oItem.onClickListener = this;
             oData.add(oItem);
         }
+        totalValue.setText((cartList.size()*6900)+" 원");
 
 // ListView, Adapter 생성 및 연결 ------------------------
         m_oListView = (ListView)findViewById(R.id.ticket_list);
@@ -98,8 +99,13 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
     }
 
     public void payment(View view){
-        Intent intent = new Intent(getApplicationContext(), Paying.class);
-        startActivity(intent);
+
+        Intent gotoPayment = new Intent(getApplicationContext(), Paying.class);
+        gotoPayment.putExtra("TicketList", cartList);
+        gotoPayment.putExtra("Id", getId);
+        gotoPayment.putExtra("Member", getMember);
+        gotoPayment.putExtra("UserName", getName);
+        startActivity(gotoPayment);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
