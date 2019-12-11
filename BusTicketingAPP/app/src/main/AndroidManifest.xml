@@ -36,6 +36,7 @@
         <activity android:name=".BusList.SelectDepartureActivity" />
         <activity android:name=".BusList.SelectDestinationActivity" />
         <activity android:name=".BusList.SelectSeatActivity_General" />
+        <activity android:name=".BusList.modifySeatActivity" />
         <activity android:name=".BusList.TerminalActivity" />
     </application>
 

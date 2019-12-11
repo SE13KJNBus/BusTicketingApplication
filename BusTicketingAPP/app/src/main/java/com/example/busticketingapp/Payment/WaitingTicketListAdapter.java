@@ -60,10 +60,14 @@ public class WaitingTicketListAdapter extends BaseAdapter {
         TextView oTextArea = (TextView) convertView.findViewById(R.id.area);
         TextView oTextDate = (TextView) convertView.findViewById(R.id.date);
         TextView oTextSeat = (TextView) convertView.findViewById(R.id.seatNum);
+        TextView oTextCompany = (TextView) convertView.findViewById(R.id.company);
 
         oTextArea.setText(m_oData.get(position).Area);
         oTextDate.setText(m_oData.get(position).Date);
         oTextSeat.setText(m_oData.get(position).SeatNum);
+        oTextCompany.setText(m_oData.get(position).Company);
+
+
 
         convertView.setTag(""+position);
         return convertView;
