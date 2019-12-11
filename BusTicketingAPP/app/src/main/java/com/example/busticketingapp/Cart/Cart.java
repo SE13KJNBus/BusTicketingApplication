@@ -31,7 +31,6 @@ public class Cart extends AppCompatActivity {
     String getName;
     DatabaseReference mReference;
 
-
     TextView totalMoney;
     ArrayList<String> cartArrayList;
 
@@ -51,6 +50,7 @@ public class Cart extends AppCompatActivity {
         getId = getIntent().getStringExtra("Id");
         getName = getIntent().getStringExtra("UserName");
         cartArrayList = new ArrayList<>();
+
         cartData = null;
 
         mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart");// 변경값을 확인할 child 이름
@@ -145,6 +145,7 @@ public class Cart extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (update) {
+
                                 int num = Integer.parseInt(dataSnapshot.child("인원수").getValue().toString());
 
                                 if (count < num) {
@@ -154,6 +155,7 @@ public class Cart extends AppCompatActivity {
                                 }
                                 update = false;
                                 count = 0;
+
                             }
                         }
 
@@ -190,6 +192,7 @@ public class Cart extends AppCompatActivity {
                 }
 
 
+
                 totalMoney.setText(totalNum+ "원");
             }
 
@@ -216,7 +219,6 @@ public class Cart extends AppCompatActivity {
         if (cart_itemArrayList.isEmpty()) {
             Toast.makeText(this, "결제할 항목이 없습니다.", Toast.LENGTH_SHORT).show();
         } else {
-
             for (int i=0;i<cart_itemArrayList.size();i++){
                 String departure = cart_itemArrayList.get(i).startPlace;
                 String destination = cart_itemArrayList.get(i).arrivePlace;

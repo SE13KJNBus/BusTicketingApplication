@@ -3,6 +3,7 @@ package com.example.busticketingapp.Friend;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,7 @@ public class Search_member extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_search_member);
+
         memberEmail = (EditText) findViewById(R.id.memberEmail);
         addFriend = (Button) findViewById(R.id.addFriend);
         memberEmail.setEnabled(true);
@@ -45,11 +47,13 @@ public class Search_member extends AppCompatActivity {
 
     }
 
-    public void addFriend(View view){
+    public void addFriend(View view) {
+
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd@HH:mm:ss");
         String formatDate = sdfNow.format(date);
+
 
 
         searchEmail = memberEmail.getText().toString().replace('.', ':');
@@ -105,4 +109,5 @@ public class Search_member extends AppCompatActivity {
 
 
     }
+
 }
