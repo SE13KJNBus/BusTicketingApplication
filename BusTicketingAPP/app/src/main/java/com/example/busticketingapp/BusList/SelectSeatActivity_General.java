@@ -1,8 +1,14 @@
 package com.example.busticketingapp.BusList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,9 +17,20 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.example.busticketingapp.Home.Home_Page;
+import com.example.busticketingapp.LoginAndSignup.LoginMemberActivity;
+import com.example.busticketingapp.Payment.PaymentWaiting;
+import com.example.busticketingapp.Payment.PaymentWaiting_Cart;
 import com.example.busticketingapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelectSeatActivity_General extends AppCompatActivity implements NumberPicker.OnValueChangeListener {
 
@@ -22,18 +39,36 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     Button seat21, seat22, seat23, seat24, seat25, seat26, seat27, seat28, seat29, seat30;
     Button seat31, seat32, seat33, seat34, seat35, seat36, seat37, seat38, seat39, seat40;
     Button seat41, seat42, seat43, seat44, seat45;
+
     TextView printSeat;
+    String getId;
+    boolean getMember;
+    String getName;
+
+    String departure;
+    String destination;
+    String date;
+    String time;
+    String company;
+    int remainSeatNumberString;
+
+    ArrayList<String> availableList = new ArrayList<String>();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference();
 
     ArrayList<Button> seatList;
     ArrayList<String> selectedSeat;
     Button submit;
     Button peopleNum;
+    Button btnReservation;
     TextView totalMoney;
     int userSeatNum=0;
     TextView remainNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.buslist_select_seat_genaral);
 
@@ -44,18 +79,30 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         submit.setOnClickListener(btnSubmit);
         totalMoney = findViewById(R.id.total_money);
         remainNum = findViewById(R.id.remain_num);
-
-        int remainSeatNumberString =getIntent().getIntExtra("SeatNum",0);
-        remainNum.setText(remainSeatNumberString==0?remainNum.getText():remainSeatNumberString+" 석");
-
         peopleNum = findViewById(R.id.seat_number);
         peopleNum.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 show();
             }
         });
+        btnReservation = findViewById(R.id.reservation);
+        btnReservation.setOnClickListener(btnReserv);
+
+
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
+        getName = getIntent().getStringExtra("UserName");
+        if(!getMember){
+            btnReservation.setVisibility(View.INVISIBLE);
+        }
+        departure = getIntent().getStringExtra("Departure");
+        destination = getIntent().getStringExtra("Destination");
+        date = getIntent().getStringExtra("Date");
+        time = getIntent().getStringExtra("Time");
+        company = getIntent().getStringExtra("Company");
+        remainSeatNumberString =getIntent().getIntExtra("SeatNum",0);
+        remainNum.setText(remainSeatNumberString==0?remainNum.getText():remainSeatNumberString+" 석");
 
         seat1 = (Button) findViewById(R.id.seat1);
         seatList.add(seat1);
@@ -150,29 +197,52 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         for (int i = 0; i < 45; i++) {
             ((Button) seatList.get(i)).setOnClickListener(btnListener);
         }
+        Log.v("SubinTest", "출발지 : "+ departure);
+        Log.v("SubinTest", "도착지 : "+ destination);
+        Log.v("SubinTest", "날짜 : "+ date);
+        Log.v("SubinTest", "회사 : "+ company);
+        Log.v("SubinTest", "시간 : "+ time);
+
+
+        myRef.child("Bus").child(departure).child(destination).child(date).child(company).child(time).addValueEventListener(valueEventListener);
     }
 
     View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            /*
             if(userSeatNum==0 || userSeatNum <= selectedSeat.size()) {
                 Toast.makeText(SelectSeatActivity_General.this, "인원 수를 확인하세요.", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+             */
             Log.v("Subin",userSeatNum+"  "+selectedSeat.size());
             String seatString = (String) ((Button)v).getText();
+            Button seatButton = (seatList.get(Integer.parseInt(seatString)-1));
+
             if(!selectedSeat.contains((String)seatString)) {
+                if(userSeatNum==0 || userSeatNum <= selectedSeat.size()) {
+                    Toast.makeText(SelectSeatActivity_General.this, "인원 수를 확인하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 selectedSeat.add(seatString);
+                seatButton.setBackground(ContextCompat.getDrawable(SelectSeatActivity_General.this, R.drawable.bus_seat_choose));
+                seatButton.invalidate();
+
             }else{
                 selectedSeat.remove(seatString);
+                seatButton.setBackground(ContextCompat.getDrawable(SelectSeatActivity_General.this, R.drawable.bus_seat_ok));
+                seatButton.invalidate();
+
             }
+
 
             String printString = "";
             for (int i = 0; i < selectedSeat.size(); i++) {
                 if(i == selectedSeat.size()-1) printString = printString + selectedSeat.get(i);
                 else printString = printString + selectedSeat.get(i)+", ";
             }
-
             printString = printString + "번 좌석";
             printSeat.setText(printString);
 
@@ -184,13 +254,40 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         @Override
         public void onClick(View v) {
             Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
+            String getSeatList = "";
+            for(int i=0;i<selectedSeat.size();i++){
+                getSeatList += selectedSeat.get(i)+":";
+            }
+            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting_Cart.class);
+            gotoPayment.putExtra("Departure",departure);
+            gotoPayment.putExtra("Destination",destination);
+            gotoPayment.putExtra("SeatNum",getSeatList);
+            gotoPayment.putExtra("BusCompany", company);
+            gotoPayment.putExtra("DepartureTime", time);
+            gotoPayment.putExtra("Id", getId);
+            gotoPayment.putExtra("Member", getMember);
+            startActivity(gotoPayment);
+        }
+    };
+    View.OnClickListener btnReserv = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            for (int i =0;i<selectedSeat.size();i++){
+                myRef.child("Member").child(getId).child("Cart").child(departure).child(destination).child(date).child(company).child(time).child(selectedSeat.get(i)+"").setValue("true");
+            }
+            Log.v("SubinTest2", "Success Reservation");
+            Intent gotoHome = new Intent(SelectSeatActivity_General.this, Home_Page.class);
+
+            gotoHome.putExtra("Id", getId);
+            gotoHome.putExtra("Member", getMember);
+            gotoHome.putExtra("UserName", getName);
+            startActivity(gotoHome);
         }
     };
 
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
-
     }
     public void show(){
         final Dialog dialog = new Dialog(SelectSeatActivity_General.this);
@@ -226,4 +323,32 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         });
         dialog.show();
     }
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Log.v("SubinTest","snapshot " + dataSnapshot.getKey());
+
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                Log.v("SubinTest","Seat Value : "+snapshot.getValue());
+
+                if(snapshot.getValue().toString().equals("false")){
+                    availableList.add(snapshot.getKey());
+                    Button seat = (Button) seatList.get(Integer.parseInt(snapshot.getKey())-1);
+                    //seat.setForeground(Drawable.createFromPath("@drawable/bus_seat_no"));
+                    seat.setBackground(ContextCompat.getDrawable(SelectSeatActivity_General.this, R.drawable.bus_seat_no));
+                    seat.invalidate();
+                    Log.v("SubinTest","Seat Num : "+(snapshot.getKey()));
+                }else{
+                    Log.v("SubinTest","Value : "+snapshot.getValue().toString().equals("false"));
+                }
+            }
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+
+    };
+
+
 }

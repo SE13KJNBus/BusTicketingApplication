@@ -10,11 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.busticketingapp.BusList.MainActivity;
-import com.example.busticketingapp.Cart.cart;
-import com.example.busticketingapp.Payment.PaymentWaiting;
+import com.example.busticketingapp.Cart.Cart;
 import com.example.busticketingapp.R;
-
-import org.w3c.dom.Text;
 
 public class Home_Page extends AppCompatActivity {
 
@@ -22,33 +19,64 @@ public class Home_Page extends AppCompatActivity {
     private long backKeyPressedTime = 0;
     // 첫 번째 뒤로가기 버튼을 누를때 표시
     private Toast toast;
+    private TextView userName;
+    private Button btn_cart;
+    private Button btn_mailBox;
+    String getId ;
+    boolean getMember;
+    String getName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-        // 추후 수정해야함
-        runOnUiThread(new Runnable() {
-        TextView userName = (TextView) findViewById(R.id.userName);
-            @Override
-            public void run() {
-                userName.setText("곽주헌");
-            }
-        });
+
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member", false);
+        getName = getIntent().getStringExtra("UserName");
+
+        btn_cart = (Button)findViewById(R.id.cart);
+        btn_mailBox = (Button)findViewById(R.id.mailBox);
+
+//        Log.i("Id",getId);
+
+        userName = (TextView) findViewById(R.id.userName);
+
+        if (getMember) {
+            btn_cart.setVisibility(View.VISIBLE);
+            btn_mailBox.setVisibility(View.VISIBLE);
+//            userName.setText("곽주헌");
+            userName.setText(getName);
+        }else {
+            btn_cart.setVisibility(View.INVISIBLE);
+            btn_mailBox.setVisibility(View.INVISIBLE);
+            userName.setText(getName);
+        }
+
     }
 
     public void DoReserve(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("Id",getId);
+        intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
         startActivity(intent);
     }
 
-    public void identifyList(View view){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+    public void identifyList(View view) {
+        Intent intent = new Intent(getApplicationContext(), TicketList.class);
+        intent.putExtra("Id",getId);
+        intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
         startActivity(intent);
     }
 
-    public void goCart(View view){
-        Intent intent = new Intent(getApplicationContext(), cart.class);
+    public void goCart(View view) {
+        Intent intent = new Intent(getApplicationContext(), Cart.class);
+        intent.putExtra("Id",getId);
+//        intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
         startActivity(intent);
     }
 
