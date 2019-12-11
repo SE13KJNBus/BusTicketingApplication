@@ -52,8 +52,8 @@ public class PaymentWaiting extends AppCompatActivity {
 
             oItem.Area = Departure+" -> "+Destination;
             oItem.Date = Date.substring(0,4)+"-"+Date.substring(4,6)+"-"+Date.substring(6,8)+" "+Time;
-            String departureTime = Date.split("-")[0];
-            String arriveTime = Date.split("-")[1];
+            String departureTime = Time.split("-")[0];
+            String arriveTime = Time.split("-")[1];
 
             int intTime = Integer.parseInt(departureTime.split(":")[0])*60+Integer.parseInt(departureTime.split(":")[1]);
             int intTime2 = Integer.parseInt(arriveTime.split(":")[0])*60+Integer.parseInt(arriveTime.split(":")[1]);
