@@ -30,7 +30,9 @@ public class Cart extends AppCompatActivity {
     String getName;
     DatabaseReference mReference;
 
+
     TextView totalMoney;
+    ArrayList<String> cartArrayList;
 
     int totalNum = 0;
     boolean update = true;
@@ -46,7 +48,7 @@ public class Cart extends AppCompatActivity {
 
         getId = getIntent().getStringExtra("Id");
         getName = getIntent().getStringExtra("UserName");
-
+        cartArrayList = new ArrayList<>();
         cartData = null;
 
         mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart");// 변경값을 확인할 child 이름
@@ -167,7 +169,27 @@ public class Cart extends AppCompatActivity {
         if (cart_itemArrayList.isEmpty()) {
             Toast.makeText(this, "결제할 항목이 없습니다.", Toast.LENGTH_SHORT).show();
         } else {
+
+            for (int i=0;i<cart_itemArrayList.size();i++){
+                String departure = cart_itemArrayList.get(i).startPlace;
+                String destination = cart_itemArrayList.get(i).arrivePlace;
+                String date = cart_itemArrayList.get(i).date;
+                String time = cart_itemArrayList.get(i).startTime;
+                String movingTime = cart_itemArrayList.get(i).movingTime;
+                String arriveTime = cart_itemArrayList.get(i).arriveTime;
+                String company = cart_itemArrayList.get(i).busCompany;
+                int seatNum = cart_itemArrayList.get(i).seatNum;
+                if(cart_itemArrayList.get(i).checkBoxVal){
+                    String temp = departure+"@"+destination+"@"+date+"@"+time+"@"+movingTime+"@"+arriveTime+"@"+company+"@"+seatNum;
+                    cartArrayList.add(temp);
+                }
+            }
+
             Intent intent = new Intent(this, PaymentWaiting_Cart.class);
+            intent.putExtra("CartList",cartArrayList);
+            intent.putExtra("Id",getId);
+            intent.putExtra("Member",true);
+            intent.putExtra("Name",getName);
             startActivity(intent);
         }
     }

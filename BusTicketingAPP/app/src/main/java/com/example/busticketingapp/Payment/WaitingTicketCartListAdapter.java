@@ -62,11 +62,14 @@ public class WaitingTicketCartListAdapter extends BaseAdapter {
         TextView oTextDate = (TextView) convertView.findViewById(R.id.date);
         TextView oTextSeat = (TextView) convertView.findViewById(R.id.seatNum);
         Button oBtn = (Button)convertView.findViewById(R.id.btn_change);
+        TextView oTextCompany = (TextView) convertView.findViewById(R.id.company);
 
         oTextArea.setText(m_oData.get(position).Area);
         oTextDate.setText(m_oData.get(position).Date);
         oTextSeat.setText(m_oData.get(position).SeatNum);
+        oTextCompany.setText(m_oData.get(position).Company);
         oBtn.setOnClickListener(m_oData.get(position).onClickListener);
+
 
         convertView.setTag(""+position);
         return convertView;

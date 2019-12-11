@@ -216,7 +216,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
             Log.v("Subin",userSeatNum+"  "+selectedSeat.size());
             String seatString = (String) ((Button)v).getText();
             Button seatButton = (seatList.get(Integer.parseInt(seatString)-1));
-            if(!availableList.contains(Integer.parseInt(seatString)-1)) return;
+            if(!availableList.contains(seatString)) return;
 
             if(!selectedSeat.contains((String)seatString)) {
                 if(userSeatNum==0 || userSeatNum <= selectedSeat.size()) {
@@ -250,19 +250,25 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     View.OnClickListener btnSubmit = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
+
+            if(userSeatNum!=selectedSeat.size()) {
+                Toast.makeText(SelectSeatActivity_General.this, "인원 수를 확인하세요.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             String getSeatList = "";
             for(int i=0;i<selectedSeat.size();i++){
                 getSeatList += selectedSeat.get(i)+":";
             }
-            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting_Cart.class);
+            Intent gotoPayment = new Intent(SelectSeatActivity_General.this, PaymentWaiting.class);
             gotoPayment.putExtra("Departure",departure);
             gotoPayment.putExtra("Destination",destination);
             gotoPayment.putExtra("SeatNum",getSeatList);
             gotoPayment.putExtra("BusCompany", company);
+            gotoPayment.putExtra("DepartureDate",date);
             gotoPayment.putExtra("DepartureTime", time);
             gotoPayment.putExtra("Id", getId);
             gotoPayment.putExtra("Member", getMember);
+            gotoPayment.putExtra("UserName",getName);
             startActivity(gotoPayment);
         }
     };
@@ -360,14 +366,14 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
             for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                 Log.v("SubinTest","Seat Value : "+snapshot.getValue());
 
-                if(snapshot.getValue().toString().equals("true")){
-                    availableList.add(snapshot.getKey());
+                if(snapshot.getValue().toString().equals("false")){
                     Button seat = (Button) seatList.get(Integer.parseInt(snapshot.getKey())-1);
                     //seat.setForeground(Drawable.createFromPath("@drawable/bus_seat_no"));
                     seat.setBackground(ContextCompat.getDrawable(SelectSeatActivity_General.this, R.drawable.bus_seat_no));
                     seat.invalidate();
                     Log.v("SubinTest","Seat Num : "+(snapshot.getKey()));
                 }else{
+                    availableList.add(snapshot.getKey());
                     Log.v("SubinTest","Value : "+snapshot.getValue().toString().equals("false"));
                 }
             }

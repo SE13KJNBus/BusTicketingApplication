@@ -15,12 +15,30 @@ import com.example.busticketingapp.R;
 
 public class Paying extends AppCompatActivity {
 
+    String getId;
+    String getName;
+    boolean getMember;
+    String Departure;
+    String Destination;
+    String Date;
+    String Time;
+    String Company;
+    String SeatList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_paying);
 
+        getId = getIntent().getStringExtra("Id");
+        getMember = getIntent().getBooleanExtra("Member",false);
+        getName = getIntent().getStringExtra("UserName");
+        Departure = getIntent().getStringExtra("Departure");
+        Destination = getIntent().getStringExtra("Destination");
+        Date = getIntent().getStringExtra("DepartureDate");
+        Time = getIntent().getStringExtra("DepartureTime");
+        SeatList = getIntent().getStringExtra("SeatNum");
+        Company = getIntent().getStringExtra("BusCompany");
         changeView(0);
 
         // Spinner
