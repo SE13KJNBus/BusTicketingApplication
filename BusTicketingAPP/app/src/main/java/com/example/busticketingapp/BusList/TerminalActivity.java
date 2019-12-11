@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.busticketingapp.R;
@@ -19,7 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -32,6 +35,7 @@ public class TerminalActivity extends AppCompatActivity {
     String departureTerminal;
     String destinationTerminal;
     String departureDateString;
+    boolean standardArrive;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference().child("Bus");
@@ -40,6 +44,7 @@ public class TerminalActivity extends AppCompatActivity {
     TextView departureTerminalName;
     TextView destinationTerminalName;
     TextView departureDate;
+    Button sortingStandard;
 
     private CustomAdapter_forBusList mAdapter;
     RecyclerView mRecyclerView;
@@ -53,6 +58,27 @@ public class TerminalActivity extends AppCompatActivity {
         departureTerminalName = findViewById(R.id.DepartureTermianal);
         destinationTerminalName = findViewById(R.id.DestinationTermianal);
         departureDate = findViewById(R.id.Date);
+        sortingStandard = findViewById(R.id.Sorting);
+        sortingStandard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(standardArrive){ // 현재 도착순 정렬 서비스 이용중 -> 출발순
+                    ((Button)v).setText("도착순 정렬");
+                    for(int i=0;i<busArrayList.size();i++){
+                        busArrayList.get(i).standardArrive=false;
+                    }
+                    standardArrive =false;
+                }else{ // 현재 출발순정렬 서비스 이용중 -> 도착순
+                    ((Button)v).setText("출발순 정렬");
+                    for(int i=0;i<busArrayList.size();i++){
+                        busArrayList.get(i).standardArrive=true;
+                    }
+                    standardArrive = true;
+                }
+                Collections.sort(busArrayList);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
         departureTerminal = getIntent().getStringExtra("Departure");
         destinationTerminal = getIntent().getStringExtra("Destination");
@@ -112,9 +138,9 @@ public class TerminalActivity extends AppCompatActivity {
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 Log.v("Subin", snapshot.getKey());
 
-                String busCompany = snapshot.getKey();
+                String time = snapshot.getKey();
                 for (DataSnapshot snapshotchild : snapshot.getChildren()) {
-                    String time = snapshotchild.getKey();
+                    String busCompany = snapshotchild.getKey();
                     int seatNum = 0;
                     for (DataSnapshot snapshotSeatNum : snapshotchild.getChildren()) {
                         if (snapshotSeatNum.getValue().equals(false)) seatNum++;
@@ -126,13 +152,14 @@ public class TerminalActivity extends AppCompatActivity {
                     bus.setBusCompany(busCompany);
                     bus.setDepartureTime(time);
                     bus.setRemainSeat(seatNum);
+                    bus.standardArrive = standardArrive;
 
                     busArrayList.add(bus);
                     Log.v("Subin", "busArrayList Size : " + busArrayList.size());
                 }
             }
             Log.v("Subin", "busArrayList Size : " + busArrayList.size());
-
+            Collections.sort(busArrayList);
             mAdapter.notifyDataSetChanged();
             Log.v("Subin", "mAdapter Item Count : " + mAdapter.getItemCount());
         }

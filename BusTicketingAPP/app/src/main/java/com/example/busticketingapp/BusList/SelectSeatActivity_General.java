@@ -204,22 +204,17 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         Log.v("SubinTest", "시간 : "+ time);
 
 
-        myRef.child("Bus").child(departure).child(destination).child(date).child(company).child(time).addValueEventListener(valueEventListener);
+        myRef.child("Bus").child(departure).child(destination).child(date).child(time).child(company).addValueEventListener(valueEventListener);
     }
 
     View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            /*
-            if(userSeatNum==0 || userSeatNum <= selectedSeat.size()) {
-                Toast.makeText(SelectSeatActivity_General.this, "인원 수를 확인하세요.", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-             */
             Log.v("Subin",userSeatNum+"  "+selectedSeat.size());
             String seatString = (String) ((Button)v).getText();
             Button seatButton = (seatList.get(Integer.parseInt(seatString)-1));
+            if(!availableList.contains(Integer.parseInt(seatString)-1)) return;
 
             if(!selectedSeat.contains((String)seatString)) {
                 if(userSeatNum==0 || userSeatNum <= selectedSeat.size()) {
@@ -272,9 +267,12 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     View.OnClickListener btnReserv = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            /*
             for (int i =0;i<selectedSeat.size();i++){
                 myRef.child("Member").child(getId).child("Cart").child(departure).child(destination).child(date).child(company).child(time).child(selectedSeat.get(i)+"").setValue("true");
             }
+             */
+            myRef.child("Member").child(getId).child("Cart").child(departure).child(destination).child(date).child(company).child(time).child("SeatNum").setValue(selectedSeat.size()+"");
             Log.v("SubinTest2", "Success Reservation");
             Intent gotoHome = new Intent(SelectSeatActivity_General.this, Home_Page.class);
 
@@ -328,10 +326,11 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             Log.v("SubinTest","snapshot " + dataSnapshot.getKey());
 
+            availableList.clear();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                 Log.v("SubinTest","Seat Value : "+snapshot.getValue());
 
-                if(snapshot.getValue().toString().equals("false")){
+                if(snapshot.getValue().toString().equals("true")){
                     availableList.add(snapshot.getKey());
                     Button seat = (Button) seatList.get(Integer.parseInt(snapshot.getKey())-1);
                     //seat.setForeground(Drawable.createFromPath("@drawable/bus_seat_no"));
