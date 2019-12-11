@@ -65,6 +65,8 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     int userSeatNum=0;
     TextView remainNum;
 
+    int checkNum=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -267,12 +269,40 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
     View.OnClickListener btnReserv = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            /*
-            for (int i =0;i<selectedSeat.size();i++){
-                myRef.child("Member").child(getId).child("Cart").child(departure).child(destination).child(date).child(company).child(time).child(selectedSeat.get(i)+"").setValue("true");
-            }
-             */
-            myRef.child("Member").child(getId).child("Cart").child(departure).child(destination).child(date).child(company).child(time).child("SeatNum").setValue(selectedSeat.size()+"");
+            Toast.makeText(SelectSeatActivity_General.this,"예약시 선택한 좌석번호는 무효처리됩니다.",Toast.LENGTH_LONG).show();
+            checkNum = userSeatNum;
+            String cartName = departure+"@"+destination+"@"+date+"@"+time+"@"+company;
+            final DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart").child(cartName).child("인원수");// 변경값을 확인할 child 이름
+            mReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if(checkNum!=0){
+                        if(dataSnapshot.exists()){
+                            String stnum = dataSnapshot.getValue().toString();
+
+                            int num = Integer.parseInt(stnum);
+                            if(num+checkNum < 45){
+                                //미결제좌석수랑 비교하는 걸로 바꿔도 됨
+                                mReference.setValue(num+checkNum);
+                            }else{
+                                mReference.setValue(checkNum);
+                            }
+
+                        }else{
+                            mReference.setValue(checkNum);
+                        }
+                        checkNum = 0;
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            
+
             Log.v("SubinTest2", "Success Reservation");
             Intent gotoHome = new Intent(SelectSeatActivity_General.this, Home_Page.class);
 
