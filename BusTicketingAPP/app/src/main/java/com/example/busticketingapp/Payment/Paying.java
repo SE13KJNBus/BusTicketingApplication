@@ -68,6 +68,8 @@ public class Paying extends AppCompatActivity {
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member",false);
         getName = getIntent().getStringExtra("UserName");
+        Log.v("Name", "In Paying_success : "+getName);
+
         getList = getIntent().getStringArrayListExtra("TicketList");
         //myRef.addValueEventListener(valueEventListener);
         myRef.addChildEventListener(childEventListener);

@@ -244,7 +244,7 @@ public class modifySeatActivity extends AppCompatActivity  {
                 getSeatList += selectedSeat.get(i)+":";
             }
             Intent gotoPayment = new Intent(modifySeatActivity.this, PaymentWaiting_Cart.class);
-            gotoPayment.putExtra("Seat",getSeatList);
+            gotoPayment.putExtra("Seat",selectedSeat.get(0));
             setResult(RESULT_OK, gotoPayment);
             finish();
         }

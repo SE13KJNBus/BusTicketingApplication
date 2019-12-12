@@ -275,7 +275,7 @@ public class Cart extends AppCompatActivity {
             intent.putExtra("CartList", cartArrayList);
             intent.putExtra("Id", getId);
             intent.putExtra("Member", true);
-            intent.putExtra("Name", getName);
+            intent.putExtra("UserName", getName);
             startActivity(intent);
         }
     }
