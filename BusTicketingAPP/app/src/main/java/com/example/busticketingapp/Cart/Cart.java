@@ -190,9 +190,6 @@ public class Cart extends AppCompatActivity {
         totalMoney.setText(total_M + "원");
     }
 
-    public void total(int total_M){
-        totalMoney.setText(total_M + "원");
-    }
     public void cartRemove(View view) {
         this.cart_itemArrayList = adapter.getCart_itemArrayList();
         boolean exist = false;
