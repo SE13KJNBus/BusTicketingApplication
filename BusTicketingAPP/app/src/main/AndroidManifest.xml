@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Friend.TransmissionTicketList"></activity>
         <activity android:name=".Home.TicketData"></activity>
         <activity android:name=".Home.TicketListAdapter" />
         <activity android:name=".Home.TicketList" />

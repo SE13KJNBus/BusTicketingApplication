@@ -78,16 +78,14 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
         View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
         TextView oTextTitle = (TextView) oParentView.findViewById(R.id.friendName);
         String position = (String) oParentView.getTag();
+        FriendData friendData = oData.get(Integer.parseInt(position));
 
-        AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                android.R.style.Theme_DeviceDefault_Light_Dialog);
-
-        String strMsg = oTextTitle.getText() + " 님에게 \n표를 양도하시겠습니까?";
-        oDialog.setMessage(strMsg)
-                .setPositiveButton("확인", null)
-                .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
-                .show();
-
+        Intent intent = new Intent(getApplicationContext(), TransmissionTicketList.class);
+        intent.putExtra("Id",getId);
+        intent.putExtra("UserName",getName);
+        intent.putExtra("friendId",friendData.friendEmail);
+        intent.putExtra("friendUserName",friendData.friendName);
+        startActivity(intent);
     }
 
     public void search(View view) {

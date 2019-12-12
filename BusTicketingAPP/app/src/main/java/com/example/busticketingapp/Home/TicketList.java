@@ -65,7 +65,9 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
 //                    // child 내에 있는 데이터만큼 반복합니다.
                         String getKey = messageData.getKey().toString();
-                        String[] splitData = getKey.split("@");
+                        for(DataSnapshot snapshot : messageData.getChildren()){
+
+                            String[] splitData = getKey.split("@");
                         TicketData oItem = new TicketData();
                         oItem.startPlace = splitData[0];
                         oItem.arrivePlace = splitData[1];
@@ -82,41 +84,11 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
                         oItem.time = movingTime;
                         oItem.date = splitData[2];
-                        for(DataSnapshot snapshot : messageData.getChildren()){
-                            oItem.seatNum = snapshot.getKey();
-                        }
+                             oItem.seatNum = snapshot.getKey();
 
                         oItem.onClickListener = (View.OnClickListener) TicketList.this;
                         oData.add(oItem);
-                        /*
-                        for (DataSnapshot startT : messageData.getChildren()) {//출발시간
-                            for (DataSnapshot endT : startT.getChildren()) {//도착시간
-                                for (DataSnapshot startPl : endT.getChildren()) {//출발지역
-                                    for (DataSnapshot endPl : startPl.getChildren()) {//도착지역
-                                        for (DataSnapshot com : endPl.getChildren()) {//회사
-                                            for (DataSnapshot seat : com.getChildren()) {//좌석
-
-                                                TicketData oItem = new TicketData();
-                                                oItem.startPlace = startPl.getKey().toString();
-                                                oItem.arrivePlace = endPl.getKey().toString();
-
-                                                oItem.startTime = startT.getKey().toString();
-                                                oItem.endTime = endT.getKey().toString();
-
-                                                oItem.company = com.getKey().toString();
-                                                oItem.time = "Re";
-                                                oItem.date = messageData.getKey().toString();
-                                                oItem.seatNum = seat.getKey().toString();
-
-                                                oItem.onClickListener = (View.OnClickListener) TicketList.this;
-                                                oData.add(oItem);
-
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }*/
+                        }
                     }
 
                     m_oListView = (ListView) findViewById(R.id.ticket_list);
