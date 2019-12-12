@@ -37,6 +37,7 @@ public class Cart extends AppCompatActivity {
 
     TextView totalMoney;
     ArrayList<String> cartArrayList;
+    HashMap<String, Integer> getNopayNum;
     HashMap<String, ArrayList> getSeatNum;
 
     int totalNum = 0;
@@ -57,10 +58,11 @@ public class Cart extends AppCompatActivity {
         getName = getIntent().getStringExtra("UserName");
         cartArrayList = new ArrayList<>();
         getSeatNum = new HashMap<>();
+        getNopayNum = new HashMap<>();
 
         cartData = null;
 
-        adapter = new CartAdapter(cart_itemArrayList);
+        adapter = new CartAdapter(cart_itemArrayList,this);
         listView.setAdapter(adapter);
 
         mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart");// 변경값을 확인할 child 이름
@@ -73,7 +75,8 @@ public class Cart extends AppCompatActivity {
                 Log.v("Cart", "refresh is " + refresh);
                 if (refresh) {
                     cart_itemArrayList.clear();
-                    totalNum = 0;
+//                    totalNum = 0;
+                    getNopayNum.clear();
                     for (DataSnapshot messageData : dataSnapshot.getChildren()) {
                         Log.v("Cart", "messageData.getKey : " + messageData.getKey());
                         Log.v("Cart", "messageData : " + messageData.toString());
@@ -92,17 +95,18 @@ public class Cart extends AppCompatActivity {
                         String company = arrRev[4].split(",")[0];
 
                         int revNum = Integer.parseInt(messageData.child("인원수").getValue().toString());
-                        totalNum = totalNum + (revNum * 6900);
+//                        totalNum = totalNum + (revNum * 6900);
 
                         referenceGetBus.child("temp").setValue("temp");
                         referenceGetBus.child("temp").removeValue();
-
+                        getNopayNum.put(messageData.getKey(),revNum);
+                        Log.i("a.stRev", stRev);
                         for (int i = 0; i < revNum; i++) {
                             //임시로 10000으로 측정
                             cartData = new CartData(departure, destination, date, startTime, endTime, company, false);
                             cart_itemArrayList.add(cartData);
                         }
-                        totalMoney.setText(totalNum + "원");
+
                         adapter.notifyDataSetChanged();
                         //adapter = new CartAdapter(cart_itemArrayList);
                         //listView.setAdapter(adapter);
@@ -134,21 +138,38 @@ public class Cart extends AppCompatActivity {
                     String company = cart_itemArrayList.get(i).busCompany;
                     String key = startPlace+"@"+arrivePlace+"@"+date+"@"+time+"@"+company;
                     ArrayList availSeat = new ArrayList();
+                    int itcount =0;
 
                     for(DataSnapshot snapshot : dataSnapshot.child(startPlace).child(arrivePlace).child(date).child(time).child(company).getChildren()){
-                        if(snapshot.getValue().toString().equals("true") && !selectedSeat.contains(key+"@"+Integer.parseInt(snapshot.getKey().toString()))){
-                            Log.v("Cart", "available seat! "+key+"@"+Integer.parseInt(snapshot.getKey().toString()));
-                            availSeat.add(Integer.parseInt(snapshot.getKey().toString()));
+                        if(snapshot.getValue().toString().equals("true") ){
+                            if( !selectedSeat.contains(key+"@"+Integer.parseInt(snapshot.getKey().toString()))){
+                                Log.v("Cart", "available seat! "+key+"@"+Integer.parseInt(snapshot.getKey().toString()));
+                                availSeat.add(Integer.parseInt(snapshot.getKey().toString()));
+                            }
+                            itcount++;
                         }
                     }
                     Log.v("Name", "Key : "+key);
                     Log.v("Name", "Snapshot : "+dataSnapshot.getKey()+" // "+dataSnapshot.getValue());
                     Random rnd = new Random();
                     Log.v("Cart", "available size : "+availSeat.size());
-                    int randSeatNum =  (int)availSeat.get(rnd.nextInt(availSeat.size()));
-                    cart_itemArrayList.get(i).seatNum = randSeatNum;
-                    selectedSeat.add(key+"@"+randSeatNum);
-                    getSeatNum.put(key,availSeat);
+                    Log.i("a.key", getNopayNum.get(key)+"");
+
+
+                    if(itcount < getNopayNum.get(key)){
+//                        int randSeatNum =  (int)availSeat.get(rnd.nextInt(availSeat.size()));
+                        cart_itemArrayList.get(i).seatNum = 0;
+                        selectedSeat.add(key+"@"+0);
+                        getSeatNum.put(key,availSeat);
+
+//                        totalNum = totalNum-(6900);
+                    }else{
+                        int randSeatNum =  (int)availSeat.get(rnd.nextInt(availSeat.size()));
+                        cart_itemArrayList.get(i).seatNum = randSeatNum;
+                        selectedSeat.add(key+"@"+randSeatNum);
+                        getSeatNum.put(key,availSeat);
+                    }
+
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -161,6 +182,9 @@ public class Cart extends AppCompatActivity {
 
     }
 
+    public void total(int total_M){
+        totalMoney.setText(total_M + "원");
+    }
     public void cartRemove(View view) {
         this.cart_itemArrayList = adapter.getCart_itemArrayList();
         boolean exist = false;
@@ -169,6 +193,7 @@ public class Cart extends AppCompatActivity {
         String enPl;
         String date;
         String stime;
+        int num=0;
 
         count = 0;
         if (cart_itemArrayList.isEmpty()) {
@@ -191,6 +216,7 @@ public class Cart extends AppCompatActivity {
                     stime = reData.startTime;
                     cart_itemArrayList.remove(i);
                     exist = true;
+                    num++;
                 } else {
                     stPl = cart_itemArrayList.get(i).startPlace;
                     enPl = cart_itemArrayList.get(i).arrivePlace;
@@ -214,19 +240,20 @@ public class Cart extends AppCompatActivity {
                 }
 
 
-                totalMoney.setText(totalNum + "원");
+//                totalMoney.setText(totalNum + "원");
 
             }
 
-            if (exist) {
+            if(num==0){
+                Toast.makeText(this, "삭제할 항목을 선택하세요.", Toast.LENGTH_SHORT).show();
+            }else if (exist) {
                 Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                adapter.total=0;
                 update = true;
                 adapter.setCart_itemArrayList(cart_itemArrayList);
                 listView.setAdapter(adapter);
 
-            } else {
-                Toast.makeText(this, "삭제할 항목을 선택하세요.", Toast.LENGTH_SHORT).show();
-            }
+             }
 
         }
     }

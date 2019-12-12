@@ -27,6 +27,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
     ArrayList<String> ticketList;
     TextView modifySeatView;
     TextView totalValue;
+    String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -56,6 +57,22 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         }
         totalValue.setText((cartList.size()*6900)+" 원");
 
+        for (int i=0; i<cartList.size(); ++i)
+        {
+            String[] info = cartList.get(i).split("@");
+
+            String departure = info[0];
+            String destination =info[1];
+            String date = info[2];
+            String time = info[3]+"-"+info[5];
+            String company = info[6];
+            String seatnum = info[7];
+
+            String temp = departure + "@" + destination + "@" + date + "@" + time + "@" + company + "@" + seatnum;
+            ticketList.add(temp);
+        }
+
+
 // ListView, Adapter 생성 및 연결 ------------------------
         m_oListView = (ListView)findViewById(R.id.ticket_list);
         WaitingTicketCartListAdapter oAdapter = new WaitingTicketCartListAdapter(oData);
@@ -78,6 +95,8 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         String date = oTextDate.getText().toString().split(" ")[0];
         String time = oTextDate.getText().toString().split(" ")[1];
         String company = oTextCompany.getText().toString();
+
+        key = departure+"@"+destination+"@"+date+"@"+time+"@"+company;
         Intent modifySeat = new Intent(PaymentWaiting_Cart.this, modifySeatActivity.class);
         modifySeat.putExtra("Departure", departure);
         modifySeat.putExtra("Destination", destination);
@@ -89,29 +108,10 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
 
     public void payment(View view){
 
-        for (int i=0; i<cartList.size(); ++i)
-        {
-            View oParentView = (View)view.getParent(); // parents의 View를 가져온다.
-            TextView oTextArea = (TextView) oParentView.findViewById(R.id.area);
-            TextView oTextDate = (TextView) oParentView.findViewById(R.id.date);
-            TextView oTextSeat = (TextView) oParentView.findViewById(R.id.seatNum);
-            TextView oTextCompany = (TextView) oParentView.findViewById(R.id.company);
-
-            String departure = oTextArea.getText().toString().split(" -> ")[0];
-            String destination =oTextArea.getText().toString().split(" -> ")[1];
-            String date = oTextDate.getText().toString().split(" ")[0];
-            String time = oTextDate.getText().toString().split(" ")[1];
-            String company = oTextCompany.getText().toString();
-            String seatnum = oTextSeat.getText().toString().split(":")[2];
-
-            String temp = departure + "@" + destination + "@" + date + "@" + time + "@" + company + "@" + seatnum;
-            ticketList.add(temp);
-        }
-
         Intent gotoPayment = new Intent(getApplicationContext(), Paying.class);
         gotoPayment.putExtra("TicketList", ticketList);
         gotoPayment.putExtra("Id", getId);
-        gotoPayment.putExtra("Member", getMember);
+        gotoPayment.putExtra("Member", true);
         gotoPayment.putExtra("UserName", getName);
         gotoPayment.putExtra("Cart",true);
         startActivity(gotoPayment);
@@ -125,6 +125,16 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
                 String seat = data.getStringExtra("Seat");
                 String movingTime = modifySeatView.getText().toString().split(", ")[0];
                 modifySeatView.setText(movingTime+", "+"좌석번호:"+seat.split(":")[0]);
+
+
+                for(int i=0;i<ticketList.size();i++){
+                    String[] forCompare = ticketList.get(i).split("@");
+                    String tempKey = forCompare[0]+"@"+forCompare[1]+"@"+forCompare[2]+"@"+forCompare[3]+"@"+forCompare[4];
+                    if(tempKey.equals(key)){
+                        Log.v("TEST", tempKey+"@"+seat+"+***");
+                        ticketList.set(i,tempKey+"@"+seat);
+                    }
+                }
             }
         }
     }

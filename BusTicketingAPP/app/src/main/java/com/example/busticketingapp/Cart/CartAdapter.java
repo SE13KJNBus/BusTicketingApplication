@@ -16,17 +16,23 @@ public class CartAdapter extends BaseAdapter {
 
     LayoutInflater inflater = null;
     ArrayList<CartData> cart_itemArrayList;
+    int total = 0;
+    Cart c;
 
-    public void setCart_itemArrayList(ArrayList<CartData> givenCart_itemArrayList){
+
+    public void setCart_itemArrayList(ArrayList<CartData> givenCart_itemArrayList) {
         this.cart_itemArrayList = givenCart_itemArrayList;
     }
-    public ArrayList<CartData> getCart_itemArrayList(){
+
+    public ArrayList<CartData> getCart_itemArrayList() {
         return this.cart_itemArrayList;
     }
 
-    CartAdapter(ArrayList<CartData> cart_itemArrayList){
+    CartAdapter(ArrayList<CartData> cart_itemArrayList, Cart c) {
         this.cart_itemArrayList = cart_itemArrayList;
+        this.c = c;
     }
+
     @Override
     public int getCount() {
         return cart_itemArrayList.size();
@@ -45,11 +51,9 @@ public class CartAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null)
-        {
+        if (convertView == null) {
             final Context context = parent.getContext();
-            if (inflater == null)
-            {
+            if (inflater == null) {
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
             convertView = inflater.inflate(R.layout.cart_cart_item, parent, false);
@@ -58,7 +62,7 @@ public class CartAdapter extends BaseAdapter {
         int seatNum;
         TextView startPlaceVal = (TextView) convertView.findViewById(R.id.startPlaceValue);
         TextView arrivePlaceVal = (TextView) convertView.findViewById(R.id.arrivePlaceValue);
-        TextView date = (TextView)convertView.findViewById(R.id.date);
+        TextView date = (TextView) convertView.findViewById(R.id.date);
         TextView startTimeVal = (TextView) convertView.findViewById(R.id.startTimeValue);
         TextView arriveTimeVal = (TextView) convertView.findViewById(R.id.arriveTimeValue);
         TextView movingTimeVal = (TextView) convertView.findViewById(R.id.movingTimeValue);
@@ -73,21 +77,30 @@ public class CartAdapter extends BaseAdapter {
         arriveTimeVal.setText(cart_itemArrayList.get(position).arriveTime);
         movingTimeVal.setText(cart_itemArrayList.get(position).movingTime);
         busCompanyVal.setText(cart_itemArrayList.get(position).busCompany);
-        seatNumberVal.setText(cart_itemArrayList.get(position).seatNum==0?"":new Integer((cart_itemArrayList.get(position).seatNum)).toString());
+        seatNumberVal.setText(cart_itemArrayList.get(position).seatNum == 0 ? "" : new Integer((cart_itemArrayList.get(position).seatNum)).toString());
         checkBox.setChecked(cart_itemArrayList.get(position).checkBoxVal);
-        checkBox.setOnClickListener(new CheckBox.OnClickListener(){
+        checkBox.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBox.isChecked()){
+                if (checkBox.isChecked()) {
                     checkBox.setChecked(true);
                     cart_itemArrayList.get(position).checkBoxVal = true;
-                }
-                else{
+                    total = total + 6900;
+                } else {
                     checkBox.setChecked(false);
                     cart_itemArrayList.get(position).checkBoxVal = false;
+                    total = total - 6900;
                 }
+                c.total(total);
             }
         });
+
+        if (cart_itemArrayList.get(position).seatNum == 0) {
+            checkBox.setVisibility(View.INVISIBLE);
+        } else {
+            checkBox.setVisibility(View.VISIBLE);
+        }
+        c.total(total);
         return convertView;
     }
 }

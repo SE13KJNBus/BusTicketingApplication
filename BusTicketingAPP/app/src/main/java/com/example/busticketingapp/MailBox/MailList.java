@@ -2,12 +2,14 @@ package com.example.busticketingapp.MailBox;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.busticketingapp.Home.Home_Page;
 import com.example.busticketingapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -205,6 +207,12 @@ public class MailList extends AppCompatActivity implements View.OnClickListener 
             MailAdapter oAdapter = new MailAdapter(oData);
             m_oListView.setAdapter(oAdapter);
         }
+        Intent intent = new Intent(getApplicationContext(), Home_Page.class);
+        intent.putExtra("Id", getId);
+        intent.putExtra("Member",true);
+        intent.putExtra("UserName",getName);
+        startActivity(intent);
+        finish();
     }
 
 }

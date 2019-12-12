@@ -200,6 +200,7 @@ public class Paying extends AppCompatActivity {
         gotoSuccess.putExtra("UserName",getName);
         gotoSuccess.putExtra("Key",key);
         gotoSuccess.putExtra("Card",idx==1?true:false);
+        gotoSuccess.putExtra("Cart",getCart);
         startActivity(gotoSuccess);
     }
     ChildEventListener childEventListener = new ChildEventListener() {
