@@ -50,6 +50,16 @@
                 android:textStyle="bold"
                 android:textColor="#33aabb"
                 />
+            <TextView
+                android:id="@+id/ing"
+                android:layout_toRightOf="@+id/arrivePlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textColor="#ffff0000"
+                />
         </RelativeLayout>
 
         <RelativeLayout

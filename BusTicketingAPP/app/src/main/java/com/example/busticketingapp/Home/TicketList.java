@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TicketList extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,6 +39,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
     TicketListAdapter oAdapter;
     boolean update = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,7 +69,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
                 if (update) {
                     oData.clear();
-                    int nDatCnt = 0;
+
                     Log.v("CC",dataSnapshot.getKey()+"///"+dataSnapshot.getValue());
 
                     for (DataSnapshot messageData : dataSnapshot.getChildren()) {//Date
@@ -76,38 +80,111 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                         String getKey = messageData.getKey().toString();
                         String[] splitData = getKey.split("@");
 
+                        for (DataSnapshot snapshot : messageData.getChildren()) {
 
-
-
-                        for(DataSnapshot snapshot : messageData.getChildren()){
                             Log.v("CC", snapshot.getKey());
-                            TicketData oItem = new TicketData();
-                            oItem.startPlace = splitData[0];
-                            oItem.arrivePlace = splitData[1];
 
-                            oItem.startTime = splitData[3].split("-")[0];
-                            oItem.endTime = splitData[3].split("-")[1];
+                            long now = System.currentTimeMillis();
+                            Date date = new Date(now);
+                            SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd@HH:mm");
+                            String formatDate = sdfNow.format(date);
+                            int day = Integer.parseInt(formatDate.split("-|@")[2]);
+                            int h = Integer.parseInt(formatDate.split("-|@|:")[3]);
+                            int m = Integer.parseInt(formatDate.split("-|@|:")[4]);
 
-                            oItem.company = splitData[4];
+                            if (Integer.parseInt(splitData[2].substring(6)) < day) {
+                                if (getMember) {
+                                    mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(getKey);// 변경값을 확인할 child 이름
+                                } else {
+                                    mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(getKey);// 변경값을 확인할 child 이름
+                                }
+                                mReference.removeValue();
 
-                            int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
-                            int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+                            } else {
+                                TicketData oItem = new TicketData();
+                                oItem.ing = "";
+                                if (Integer.parseInt(splitData[2].substring(6)) == day) {
+                                    int sH = Integer.parseInt(splitData[3].split("-|:")[0]);
+                                    int sM = Integer.parseInt(splitData[3].split("-|:")[1]);
+                                    int eH = Integer.parseInt(splitData[3].split("-|:")[2]);
+                                    int eM = Integer.parseInt(splitData[3].split("-|:")[3]);
 
-                            String movingTime = String.format("%02d:%02d",((int)(end-start)/60),(end-start)%60);
+                                    if(eH < h || ((eH==h)&& eM < m)){
 
-                            oItem.time = movingTime;
-                            oItem.date = splitData[2];
-                            oItem.seatNum = snapshot.getKey();
-                            oItem.onClickListener = (View.OnClickListener) TicketList.this;
-                            oData.add(oItem);
+                                        if (getMember) {
+                                            mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(getKey);// 변경값을 확인할 child 이름
+                                        } else {
+                                            mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(getKey);// 변경값을 확인할 child 이름
+                                        }
+                                        mReference.removeValue();
+                                    }else{
+
+                                        if(sH < h && h < eH){
+                                            oItem.ing = "운행중";
+                                        } else if(sH == h){
+                                            if((sH==eH)&& m <= eM){
+                                                oItem.ing = "운행중";
+                                            }else if(sH!=eH){
+                                                oItem.ing = "운행중";
+                                            }
+                                        }else if(h == eH){
+                                            if(m <= eM){
+                                                oItem.ing = "운행중";
+                                            }
+                                        }
+
+                                        oItem.startPlace = splitData[0];
+                                        oItem.arrivePlace = splitData[1];
+
+                                        oItem.startTime = splitData[3].split("-")[0];
+                                        oItem.endTime = splitData[3].split("-")[1];
+
+                                        oItem.company = splitData[4];
+
+                                        int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
+                                        int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+
+                                        String movingTime = String.format("%02d:%02d", ((int) (end - start) / 60), (end - start) % 60);
+
+                                        oItem.time = movingTime;
+                                        oItem.date = splitData[2];
+                                        oItem.seatNum = snapshot.getKey();
 
 
+                                        oItem.onClickListener = (View.OnClickListener) TicketList.this;
+                                        oData.add(oItem);
+                                    }
+
+                                }else{
+                                    oItem.startPlace = splitData[0];
+                                    oItem.arrivePlace = splitData[1];
+                                    oItem.ing = "";
+
+                                    oItem.startTime = splitData[3].split("-")[0];
+                                    oItem.endTime = splitData[3].split("-")[1];
+
+                                    oItem.company = splitData[4];
+
+                                    int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
+                                    int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+
+                                    String movingTime = String.format("%02d:%02d", ((int) (end - start) / 60), (end - start) % 60);
+
+                                    oItem.time = movingTime;
+                                    oItem.date = splitData[2];
+                                    oItem.seatNum = snapshot.getKey();
+
+
+                                    oItem.onClickListener = (View.OnClickListener) TicketList.this;
+                                    oData.add(oItem);
+                                }
+                            }
                         }
-
-
                     }
-                    oAdapter = new TicketListAdapter(oData);
+
+                    TicketListAdapter oAdapter = new TicketListAdapter(oData);
                     m_oListView.setAdapter(oAdapter);
+
                     update = false;
                 }
 
@@ -123,57 +200,59 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.btn_change) {
-            View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
-            String position = (String) oParentView.getTag();
+        View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
+        final String position = (String) oParentView.getTag();
+        final TicketData reData = oData.get(Integer.parseInt(position));
 
-            AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                    android.R.style.Theme_DeviceDefault_Light_Dialog);
-
-            String strMsg = "예매변경으로 선택한 아이템의 position 은 " + position + " 입니다.\nTitle 텍스트 :";
-            oDialog.setMessage(strMsg)
-                    .setPositiveButton("확인", null)
-                    .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
-                    .show();
-        } else if (v.getId() == R.id.btn_cancel) {
-            View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
+        if(reData.ing.equals("운행중")){
+            Toast.makeText(this,"운행중인 티켓은 변경과 취소가 불가능합니다.",Toast.LENGTH_SHORT).show();
+        }else{
+            if (v.getId() == R.id.btn_change) {
 
 
-            final String position = (String) oParentView.getTag();
-            AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                    android.R.style.Theme_DeviceDefault_Light_Dialog);
+                AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
+                        android.R.style.Theme_DeviceDefault_Light_Dialog);
 
-            oDialog.setMessage("예매취소하시겠습니까?")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                String strMsg = "예매변경으로 선택한 아이템의 position 은 " + position + " 입니다.\nTitle 텍스트 :";
+                oDialog.setMessage(strMsg)
+                        .setPositiveButton("확인", null)
+                        .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
+                        .show();
+            } else if (v.getId() == R.id.btn_cancel) {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
+                AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
+                        android.R.style.Theme_DeviceDefault_Light_Dialog);
 
+                oDialog.setMessage("예매취소하시겠습니까?")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
 
-                            TicketData reData = oData.get(Integer.parseInt(position));
-                            String Dataname = reData.startPlace + "@" + reData.arrivePlace + "@" + reData.date + "@" + reData.startTime + "-" + reData.endTime + "@" + reData.company;
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
 
-                            if (getMember) {
-                                mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(Dataname).child(reData.seatNum);// 변경값을 확인할 child 이름
-                            } else {
-                                mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(Dataname).child(reData.seatNum);// 변경값을 확인할 child 이름
+                                String Dataname = reData.startPlace + "@" + reData.arrivePlace + "@" + reData.date + "@" + reData.startTime + "-" + reData.endTime + "@" + reData.company;
+
+                                if (getMember) {
+                                    mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(Dataname).child(reData.seatNum);// 변경값을 확인할 child 이름
+                                } else {
+                                    mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(Dataname).child(reData.seatNum);// 변경값을 확인할 child 이름
+                                }
+                                mReference.removeValue();
+                                oData.remove(Integer.parseInt(position));
+                                oAdapter = new TicketListAdapter(oData);
+                                m_oListView.setAdapter(oAdapter);
+
+                                mReference = FirebaseDatabase.getInstance().getReference("Bus").child(reData.startPlace).child(reData.arrivePlace).child(reData.date).child(reData.startTime + "-" + reData.endTime).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
+                                mReference.setValue("true");
+
+                                Toast.makeText(TicketList.this, "예매가 취소되었습니다.\n7일이내 환불처리될 예정입니다.", Toast.LENGTH_SHORT).show();
                             }
-                            mReference.removeValue();
-                            oData.remove(Integer.parseInt(position));
-                            oAdapter = new TicketListAdapter(oData);
-                            m_oListView.setAdapter(oAdapter);
+                        })
+                        .setNegativeButton("취소", null)
+                        .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
+                        .show();
+            }
 
-
-                            mReference = FirebaseDatabase.getInstance().getReference("Bus").child(reData.startPlace).child(reData.arrivePlace).child(reData.date).child(reData.startTime + "-" + reData.endTime).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
-                            mReference.setValue("true");
-
-                            Toast.makeText(TicketList.this, "예매가 취소되었습니다.\n7일이내 환불처리될 예정입니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNegativeButton("취소", null)
-                    .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
-                    .show();
         }
 
     }

@@ -60,6 +60,7 @@ public class TicketListAdapter extends BaseAdapter {
         TextView oTextCompany = (TextView) convertView.findViewById(R.id.company);
         TextView oTextTime = (TextView) convertView.findViewById(R.id.time);
         TextView oTextSeat = (TextView) convertView.findViewById(R.id.seatNum);
+        TextView oTexting = (TextView) convertView.findViewById(R.id.ing);
 
         Button oBtnChange = (Button) convertView.findViewById(R.id.btn_change);
         Button oBtnCancel = (Button) convertView.findViewById(R.id.btn_cancel);
@@ -72,6 +73,7 @@ public class TicketListAdapter extends BaseAdapter {
         oTextTime.setText(m_oData.get(position).time);
         oTextDate.setText(m_oData.get(position).date);
         oTextSeat.setText(m_oData.get(position).seatNum);
+        oTexting.setText(m_oData.get(position).ing);
 
         oBtnChange.setOnClickListener(m_oData.get(position).onClickListener);
         oBtnCancel.setOnClickListener(m_oData.get(position).onClickListener);

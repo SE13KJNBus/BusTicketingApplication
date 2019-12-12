@@ -36,6 +36,7 @@ public class Paying_success extends AppCompatActivity {
     boolean getMember;
     ArrayList<String> getList;
     HashMap<String, Integer> moneyMap;
+    HashMap<String,Integer> cartMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
