@@ -209,7 +209,7 @@ public class Paying_success extends AppCompatActivity {
                             myRef.child("Member").child(getId).child("Cart").child(keyTicket).child("인원수").setValue((num-1)+"");
                             cartMap.put(keyTicket,num-1);
                         }
-                        else myRef.child("Member").child(getId).child("Cart").setValue("");
+                        else myRef.child("Member").child(getId).child("Cart").child(keyTicket).removeValue();
                     }
 
                 } else{
