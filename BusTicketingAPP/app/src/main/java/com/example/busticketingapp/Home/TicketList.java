@@ -78,7 +78,9 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                         int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
                         int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
 
-                        oItem.time = ((int)(end-start)/60)+":"+(end-start)%60;
+                        String movingTime = String.format("%02d:%02d",((int)(end-start)/60),(end-start)%60);
+
+                        oItem.time = movingTime;
                         oItem.date = splitData[2];
                         for(DataSnapshot snapshot : messageData.getChildren()){
                             oItem.seatNum = snapshot.getKey();
