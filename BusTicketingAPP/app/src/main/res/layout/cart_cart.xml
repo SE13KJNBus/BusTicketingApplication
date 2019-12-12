@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:context=".Cart.Cart">
+
+    <Button
+        android:id="@+id/cart_remove"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/button_background"
+        android:onClick="cartRemove"
+        android:text="장바구니 삭제"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cart_pay"
+        />
+
+    <Button
+        android:id="@+id/cart_pay"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background"
+        android:onClick="cartPay"
+        android:text="장바구니 결제"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cart_remove"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="장바구니"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@id/listview1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_background"
+        android:onClick="btn_refresh"
+        android:text="RE"
+        android:layout_marginLeft="70dp"
+        app:layout_constraintStart_toEndOf="@id/txt"
+        app:layout_constraintBottom_toTopOf="@id/listview1"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/cart_pay"
+        app:layout_constraintEnd_toStartOf="@+id/totalmoney"
+        android:text="총액 : "
+        android:textSize="25sp"
+        />
+
+    <TextView
+        android:id="@+id/totalmoney"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/cart_remove"
+        app:layout_constraintStart_toEndOf="@+id/total"
+        android:textSize="25sp"
+        />
+
+    <ListView
+        android:id="@+id/listview1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt">
+
+    </ListView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
