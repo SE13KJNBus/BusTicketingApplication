@@ -131,10 +131,30 @@ public class TerminalActivity extends AppCompatActivity {
 
                 Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min+":");
 
-                if(nowYear > year && nowMonth > month && nowDay > day && nowHour > hour && nowMin > min ){
+                if(nowYear > year){
                     Toast.makeText(TerminalActivity.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
                     return;
+                }else if(nowYear==year){
+                    if(nowMonth > month){
+                        Toast.makeText(TerminalActivity.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                        return;
+                    }else if(nowMonth==month){
+                        if(nowDay > day){
+                            Toast.makeText(TerminalActivity.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                            return;
+                        }else if(nowDay==day){
+
+                            int totalTimeBus = hour*60+min;
+                            int totalTimeNow = nowHour*nowMin;
+                            if(totalTimeBus < totalTimeNow){
+                                Toast.makeText(TerminalActivity.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                        }
+                    }
                 }
+
                 gotoSelectSeat = new Intent(TerminalActivity.this, SelectSeatActivity_General.class);
                 gotoSelectSeat.putExtra("Departure", returnBus.getDepartureTerminal());
                 gotoSelectSeat.putExtra("Destination", returnBus.getDestinationTerminal());
