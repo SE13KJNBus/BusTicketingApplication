@@ -233,7 +233,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
             Log.v("Test", "현재 : "+ nowYear+"-"+nowMonth+"-"+nowDay+"//"+nowHour+":"+nowMin+":");
             Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min+":");
 
-            if(nowYear > year || nowMonth > month || nowDay > day || nowHour > hour || nowMin > min ){
+            if(nowYear > year && nowMonth > month && nowDay > day && nowHour > hour && nowMin > min ){
                 Toast.makeText(SelectSeatActivity_General.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
                 return;
             }
