@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.busticketingapp.R;
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +22,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -108,7 +111,30 @@ public class TerminalActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int pos) {
                 Bus returnBus = busArrayList.get(pos);
+/*
+                int year = Integer.parseInt(returnBus.getDepartureDate().substring(0,4));
+                int month = Integer.parseInt(returnBus.getDepartureDate().substring(4,6));
+                int day = Integer.parseInt(returnBus.getDepartureDate().substring(6,8));
+                int hour = Integer.parseInt(returnBus.getDepartureTime().split("-")[0].split(":")[0]);
+                int min = Integer.parseInt(returnBus.getDepartureTime().split("-")[0].split(":")[1]);
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd@kk:mm");
+                String formatDate = sdfNow.format(date);
+                int nowYear = Integer.parseInt(formatDate.split("-|@")[0]);
+                int nowMonth =Integer.parseInt(formatDate.split("-|@")[1]);
+                int nowDay = Integer.parseInt(formatDate.split("-|@")[2]);
+                int nowHour = Integer.parseInt(formatDate.split("-|@|:")[3]);
+                int nowMin = Integer.parseInt(formatDate.split("-|@|:")[4]);
 
+                Log.v("Test", "현재 : "+ nowYear+"-"+nowMonth+"-"+nowDay+"//"+nowHour+":"+nowMin+":");
+
+                Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min+":");
+
+                if(nowYear > year || nowMonth > month || nowDay > day || nowHour > hour || nowMin > min ){
+                    Toast.makeText(TerminalActivity.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                    return;
+                }*/
                 gotoSelectSeat = new Intent(TerminalActivity.this, SelectSeatActivity_General.class);
                 gotoSelectSeat.putExtra("Departure", returnBus.getDepartureTerminal());
                 gotoSelectSeat.putExtra("Destination", returnBus.getDestinationTerminal());
