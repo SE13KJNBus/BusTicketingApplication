@@ -1,5 +1,6 @@
 package com.example.busticketingapp.Home;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,8 +13,14 @@ import android.widget.Toast;
 import com.example.busticketingapp.BusList.MainActivity;
 import com.example.busticketingapp.Cart.Cart;
 import com.example.busticketingapp.Friend.FriendList;
+import com.example.busticketingapp.LoginAndSignup.LoginMemberActivity;
 import com.example.busticketingapp.MailBox.MailList;
 import com.example.busticketingapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home_Page extends AppCompatActivity {
 
@@ -40,6 +47,7 @@ public class Home_Page extends AppCompatActivity {
         getMember = getIntent().getBooleanExtra("Member", false);
         getName = getIntent().getStringExtra("UserName");
 
+
         btn_cart = (Button)findViewById(R.id.cart);
         btn_mailBox = (Button)findViewById(R.id.mailBox);
         btn_friend = (Button)findViewById(R.id.btn_friend);
@@ -48,6 +56,18 @@ public class Home_Page extends AppCompatActivity {
 //        Log.i("Id",getId);
 
         userName = (TextView) findViewById(R.id.userName);
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getMember){
+                    Intent gotoInformation = new Intent(Home_Page.this, ModifyInfo.class);
+                    gotoInformation.putExtra("Id", getId);
+                    gotoInformation.putExtra("UserName",getName);
+                    startActivity(gotoInformation);
+                }
+
+            }
+        });
 
         if (getMember) {
             btn_cart.setVisibility(View.VISIBLE);
@@ -127,4 +147,5 @@ public class Home_Page extends AppCompatActivity {
             finishAffinity();
         }
     }
+
 }

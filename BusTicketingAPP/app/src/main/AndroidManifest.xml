@@ -22,6 +22,8 @@
         <activity android:name=".Payment.PaymentWaiting" />
         <activity android:name=".Payment.PaymentWaiting_Cart" />
         <activity android:name=".Home.Home_Page" />
+        <activity android:name=".Home.Modifying" />
+        <activity android:name=".Home.ModifyInfo" />
         <activity android:name=".Friend.FriendList" />
         <activity android:name=".Friend.Search_member" />
         <activity android:name=".MailBox.MailList"/>
