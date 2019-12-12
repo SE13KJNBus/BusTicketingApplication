@@ -32,6 +32,7 @@ public class Paying extends AppCompatActivity {
 
     String getId;
     String getName;
+    boolean getCart;
     boolean getMember;
     ArrayList<String> getList;
 
@@ -67,6 +68,8 @@ public class Paying extends AppCompatActivity {
 
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member",false);
+        getCart = getIntent().getBooleanExtra("Cart",false);
+
         getName = getIntent().getStringExtra("UserName");
         Log.v("Name", "In Paying_success : "+getName);
 

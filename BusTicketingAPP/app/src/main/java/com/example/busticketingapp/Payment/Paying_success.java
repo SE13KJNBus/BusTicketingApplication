@@ -32,6 +32,7 @@ public class Paying_success extends AppCompatActivity {
     String getId;
     String getName;
     String getKey;
+    boolean getCart;
     boolean getCard;
     boolean getMember;
     ArrayList<String> getList;
@@ -49,6 +50,8 @@ public class Paying_success extends AppCompatActivity {
         getList = getIntent().getStringArrayListExtra("TicketList");
         getKey = getIntent().getStringExtra("Key");
         getCard = getIntent().getBooleanExtra("Card",false);
+        getCart = getIntent().getBooleanExtra("Cart",false);
+
         moneyMap = new HashMap<>();
         myRef.child("Payment").addValueEventListener(valueEventListener);
 
@@ -175,14 +178,26 @@ public class Paying_success extends AppCompatActivity {
 
                 String[] info = getList.get(0).split("@");
 
-                String keyTicket = info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"-"+info[5]+"@"+info[6];
-                Log.v("CC","cart : "+keyTicket);
-                Log.v("CC",cartMap.get(keyTicket)+"");
+                String keyTicket;
 
-                myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]+"-"+info[5]).child(info[6]).child(info[7]).setValue("false");
-                myRef.child("Member").child(getId).child("Ticket").child(keyTicket).child(info[7]).setValue(true);
-                if(cartMap.get(keyTicket)!=1)myRef.child("Member").child(getId).child("Cart").child(keyTicket).child("인원수").setValue((cartMap.get(keyTicket)-1)+"");
-                else myRef.child("Member").child(getId).child("Cart").setValue("");
+                if(getMember){
+                    keyTicket=info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"-"+info[5]+"@"+info[6];
+                    Log.v("CC","cart : "+keyTicket);
+                    Log.v("CC",cartMap.get(keyTicket)+"");
+
+                    myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]+"-"+info[5]).child(info[6]).child(info[7]).setValue("false");
+                    myRef.child("Member").child(getId).child("Ticket").child(keyTicket).child(info[7]).setValue(true);
+                    if(getCart){
+                        if(cartMap.get(keyTicket)!=1)myRef.child("Member").child(getId).child("Cart").child(keyTicket).child("인원수").setValue((cartMap.get(keyTicket)-1)+"");
+                        else myRef.child("Member").child(getId).child("Cart").setValue("");
+                    }
+
+                } else{
+                    keyTicket=info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"@"+info[4];
+                    myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]).child(info[4]).child(info[5]).setValue("false");
+                    myRef.child("User").child(getId).child("Ticket").child(keyTicket).child(info[5]).setValue(true);
+
+                }
 
                 getList.remove(0);
             }
