@@ -141,6 +141,7 @@ public class TerminalActivity extends AppCompatActivity {
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 Log.v("Subin", snapshot.getKey());
 
+
                 String time = snapshot.getKey();
                 for (DataSnapshot snapshotchild : snapshot.getChildren()) {
                     String busCompany = snapshotchild.getKey();

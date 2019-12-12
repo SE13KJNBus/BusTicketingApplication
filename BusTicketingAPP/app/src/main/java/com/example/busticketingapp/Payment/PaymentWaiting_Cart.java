@@ -3,6 +3,7 @@ package com.example.busticketingapp.Payment;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         getId =getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member",false);
         getName= getIntent().getStringExtra("UserName");
+        Log.v("Name", "In Paying_success : "+getName);
+
         cartList = getIntent().getStringArrayListExtra("CartList");
         totalValue = findViewById(R.id.totalValue);
         ArrayList<WaitingTicketData> oData = new ArrayList<>();
