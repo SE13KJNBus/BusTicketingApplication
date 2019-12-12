@@ -207,6 +207,7 @@ public class MailList extends AppCompatActivity implements View.OnClickListener 
             MailAdapter oAdapter = new MailAdapter(oData);
             m_oListView.setAdapter(oAdapter);
         }
+
         Intent intent = new Intent(getApplicationContext(), Home_Page.class);
         intent.putExtra("Id", getId);
         intent.putExtra("Member",true);

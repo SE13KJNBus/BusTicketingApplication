@@ -92,8 +92,10 @@ public class CartAdapter extends BaseAdapter {
                     total = total - 6900;
                 }
                 c.total(total);
+
             }
         });
+
 
         if (cart_itemArrayList.get(position).seatNum == 0) {
             checkBox.setVisibility(View.INVISIBLE);

@@ -152,6 +152,9 @@ public class Cart extends AppCompatActivity {
                     Log.v("Name", "Key : "+key);
                     Log.v("Name", "Snapshot : "+dataSnapshot.getKey()+" // "+dataSnapshot.getValue());
                     Random rnd = new Random();
+
+
+
                     Log.v("Cart", "available size : "+availSeat.size());
                     Log.i("a.key", getNopayNum.get(key)+"");
 
@@ -171,6 +174,8 @@ public class Cart extends AppCompatActivity {
                     }
 
                 }
+
+//                totalMoney.setText(adapter.total + "원");
                 adapter.notifyDataSetChanged();
             }
 
@@ -180,6 +185,9 @@ public class Cart extends AppCompatActivity {
             }
         });
 
+    }
+    public void total(int total_M){
+        totalMoney.setText(total_M + "원");
     }
 
     public void total(int total_M){
@@ -193,6 +201,7 @@ public class Cart extends AppCompatActivity {
         String enPl;
         String date;
         String stime;
+
         int num=0;
 
         count = 0;
@@ -240,8 +249,6 @@ public class Cart extends AppCompatActivity {
                 }
 
 
-//                totalMoney.setText(totalNum + "원");
-
             }
 
             if(num==0){
@@ -253,7 +260,9 @@ public class Cart extends AppCompatActivity {
                 adapter.setCart_itemArrayList(cart_itemArrayList);
                 listView.setAdapter(adapter);
 
-             }
+
+            }
+
 
         }
     }

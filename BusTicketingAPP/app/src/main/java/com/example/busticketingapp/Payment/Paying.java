@@ -40,7 +40,7 @@ public class Paying extends AppCompatActivity {
     DatabaseReference myRef = database.getReference().child("Payment");
 
     ArrayList<String> creditCardInfo;
-    HashMap<String,String> phoneInfo;
+    HashMap<String, String> phoneInfo;
 
     int idx;
     Spinner PhoneCompanySpinner;
@@ -67,15 +67,15 @@ public class Paying extends AppCompatActivity {
         phoneInfo = new HashMap<>();
 
         getId = getIntent().getStringExtra("Id");
-        getMember = getIntent().getBooleanExtra("Member",false);
-        getCart = getIntent().getBooleanExtra("Cart",false);
+        getMember = getIntent().getBooleanExtra("Member", false);
+        getCart = getIntent().getBooleanExtra("Cart", false);
 
         getName = getIntent().getStringExtra("UserName");
-        Log.v("Name", "In Paying_success : "+getName);
+        Log.v("Name", "In Paying_success : " + getName);
 
         getList = getIntent().getStringArrayListExtra("TicketList");
 
-        for(int i=0;i<getList.size();i++){
+        for (int i = 0; i < getList.size(); i++) {
             Log.v("Test", getList.get(i));
         }
         //myRef.addValueEventListener(valueEventListener);
@@ -88,23 +88,31 @@ public class Paying extends AppCompatActivity {
         btnConfirmPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key = PhoneCompanySpinner.getSelectedItem().toString()+"/"+inputPhoneNum.getText().toString();
-                if(phoneInfo.get(key)!=null){
-                    Toast.makeText(Paying.this, "인증번호 : "+phoneInfo.get(key),Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(Paying.this, "확인되지 않은 사용자",Toast.LENGTH_SHORT).show();
+                String key = PhoneCompanySpinner.getSelectedItem().toString() + "/" + inputPhoneNum.getText().toString();
+                if (phoneInfo.get(key) != null) {
+                    Toast.makeText(Paying.this, "인증번호 : " + phoneInfo.get(key), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Paying.this, "확인되지 않은 사용자", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        btnConfirm= findViewById(R.id.confirm);
+        btnConfirm = findViewById(R.id.confirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key = phoneInfo.get(PhoneCompanySpinner.getSelectedItem().toString()+"/"+inputPhoneNum.getText().toString());
-                Log.v("Payment","key : "+key+", input: "+CertificationNum.getText().toString());
-                if(key.equals(CertificationNum.getText().toString())){
-                    Toast.makeText(Paying.this, "인증성공",Toast.LENGTH_SHORT).show();
-                    confirm =true;
+                String key = phoneInfo.get(PhoneCompanySpinner.getSelectedItem().toString() + "/" + inputPhoneNum.getText().toString());
+                Log.v("Payment", "key : " + key + ", input: " + CertificationNum.getText().toString());
+                if (key.equals(CertificationNum.getText().toString())) {
+                    Toast.makeText(Paying.this, "인증성공", Toast.LENGTH_SHORT).show();
+                    confirm = true;
+                } else {
+                    Toast.makeText(Paying.this, "결제오류: 인증번호틀림", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), Home_Page.class);
+                    intent.putExtra("Id", getId);
+                    intent.putExtra("Member", true);
+                    intent.putExtra("UserName", getName);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -131,19 +139,19 @@ public class Paying extends AppCompatActivity {
             CardCompanySpinner.setAdapter(CardCompanyAdapter);
         }
 
-        Button card = (Button)findViewById(R.id.btn_creditCardPayment);
-        card.setOnClickListener(new Button.OnClickListener(){
+        Button card = (Button) findViewById(R.id.btn_creditCardPayment);
+        card.setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View v){
-                idx =1;
+            public void onClick(View v) {
+                idx = 1;
                 changeView();
             }
         });
 
-        Button phone = (Button)findViewById(R.id.btn_phonePayment);
-        phone.setOnClickListener(new Button.OnClickListener(){
+        Button phone = (Button) findViewById(R.id.btn_phonePayment);
+        phone.setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 idx = 0;
                 changeView();
             }
@@ -151,12 +159,12 @@ public class Paying extends AppCompatActivity {
 
     }
 
-    private void changeView(){
+    private void changeView() {
 
-        RelativeLayout phone = (RelativeLayout)findViewById(R.id.paying_phone);
-        RelativeLayout card = (RelativeLayout)findViewById(R.id.paying_creditCard);
+        RelativeLayout phone = (RelativeLayout) findViewById(R.id.paying_phone);
+        RelativeLayout card = (RelativeLayout) findViewById(R.id.paying_creditCard);
 
-        switch (idx){
+        switch (idx) {
             case 0:
                 phone.setVisibility(View.VISIBLE);
                 card.setVisibility(View.INVISIBLE);
@@ -168,45 +176,61 @@ public class Paying extends AppCompatActivity {
         }
     }
 
-    public void cancel(View view){
-        Intent intent = new Intent(getApplicationContext(),Home_Page.class);
+    public void cancel(View view) {
+        Intent intent = new Intent(getApplicationContext(), Home_Page.class);
         intent.putExtra("Id", getId);
         intent.putExtra("Member", getMember);
-        intent.putExtra("UserName",getName);
+        intent.putExtra("UserName", getName);
         startActivity(intent);
     }
 
 
-    public void payment(View view){
+    public void payment(View view) {
         String key;
-        if(idx == 1){
-            key = CardCompanySpinner.getSelectedItem().toString()+"/"+cardNum.getText().toString()+"/"+cardValidity.getText().toString().replace("/",":")+"/"+cardPassword.getText().toString();
-            if(!creditCardInfo.contains(key)){
-                Toast.makeText(Paying.this, "결제실패 "+key+"   "+creditCardInfo.size(),Toast.LENGTH_SHORT).show();
-                //cancel(view);
+        if (idx == 1) {
+            if (cardValidity.getText().toString().equals("") || cardPassword.getText().toString().equals("") || cardNum.getText().toString().equals("")) {
+                Toast.makeText(Paying.this, "필수정보를 모두 입력하세요.", Toast.LENGTH_SHORT).show();
                 return;
             }
-        }else{
-            key = PhoneCompanySpinner.getSelectedItem().toString()+"/"+inputPhoneNum.getText().toString();
-            if(!confirm){
-                Toast.makeText(Paying.this, "인증이 필요합니다.",Toast.LENGTH_SHORT).show();
+            key = CardCompanySpinner.getSelectedItem().toString() + "/" + cardNum.getText().toString() + "/" + cardValidity.getText().toString().replace("/", ":") + "/" + cardPassword.getText().toString();
+            if (!creditCardInfo.contains(key)) {
+                Toast.makeText(Paying.this, "결제실패 " + key + "   " + creditCardInfo.size(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(), Home_Page.class);
+                intent.putExtra("Id", getId);
+                intent.putExtra("Member", true);
+                intent.putExtra("UserName", getName);
+                startActivity(intent);
+                finish();
+
+            }
+        } else {
+            key = PhoneCompanySpinner.getSelectedItem().toString() + "/" + inputPhoneNum.getText().toString();
+            if (inputPhoneNum.getText().toString().equals("")) {
+                Toast.makeText(Paying.this, "필수정보를 모두 입력하세요.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!confirm) {
+                Toast.makeText(Paying.this, "인증이 필요합니다.", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
-        Intent gotoSuccess = new Intent(getApplicationContext(),Paying_success.class);
-        gotoSuccess.putExtra("TicketList",getList);
+        Intent gotoSuccess = new Intent(getApplicationContext(), Paying_success.class);
+        gotoSuccess.putExtra("TicketList", getList);
         gotoSuccess.putExtra("Id", getId);
         gotoSuccess.putExtra("Member", getMember);
         gotoSuccess.putExtra("UserName",getName);
         gotoSuccess.putExtra("Key",key);
         gotoSuccess.putExtra("Card",idx==1?true:false);
         gotoSuccess.putExtra("Cart",getCart);
+
         startActivity(gotoSuccess);
     }
+
     ChildEventListener childEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            Log.v("Payment","Key : "+dataSnapshot.getKey().toString());
+            Log.v("Payment", "Key : " + dataSnapshot.getKey().toString());
             //
             //
             String creditCardCompany;
@@ -216,40 +240,40 @@ public class Paying extends AppCompatActivity {
             String Company;
             String phoneNum;
             String pw;
-            if(dataSnapshot.getKey().toString().equals("CreditCard")){
+            if (dataSnapshot.getKey().toString().equals("CreditCard")) {
                 creditCardInfo.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     creditCardCompany = snapshot.getKey().toString();
-                    Log.v("Payment","company : "+snapshot.getKey().toString());
-                    for(DataSnapshot shot : snapshot.getChildren()){
+                    Log.v("Payment", "company : " + snapshot.getKey().toString());
+                    for (DataSnapshot shot : snapshot.getChildren()) {
                         creditCardNum = shot.getKey().toString();
-                        Log.v("Payment","cardNum : "+shot.getKey().toString());
+                        Log.v("Payment", "cardNum : " + shot.getKey().toString());
 
-                        for (DataSnapshot sss : shot.getChildren()){
+                        for (DataSnapshot sss : shot.getChildren()) {
                             availableTime = sss.getKey().toString();
                             pw = "";
-                            Log.v("Payment","avaliable : "+sss.getKey().toString());
+                            Log.v("Payment", "avaliable : " + sss.getKey().toString());
 
-                            for (DataSnapshot ss : sss.getChildren()){
-                                Log.v("Payment","pw : "+ss.getKey().toString());
+                            for (DataSnapshot ss : sss.getChildren()) {
+                                Log.v("Payment", "pw : " + ss.getKey().toString());
                                 pw = ss.getKey().toString();
                             }
 
-                            Log.v("Payment",creditCardCompany+"/"+creditCardNum+"/"+availableTime+"/"+pw );
-                            creditCardInfo.add(creditCardCompany+"/"+creditCardNum+"/"+availableTime+"/"+pw);
+                            Log.v("Payment", creditCardCompany + "/" + creditCardNum + "/" + availableTime + "/" + pw);
+                            creditCardInfo.add(creditCardCompany + "/" + creditCardNum + "/" + availableTime + "/" + pw);
                         }
                     }
                 }
-            }else{
+            } else {
                 phoneInfo.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Company = snapshot.getKey().toString();
-                    for(DataSnapshot shot : snapshot.getChildren()){
+                    for (DataSnapshot shot : snapshot.getChildren()) {
                         phoneNum = shot.getKey().toString();
                         Random random = new Random();
                         int tempR = random.nextInt(10000);
-                        Log.v("Payment",Company+"/"+phoneNum );
-                        phoneInfo.put(Company+"/"+phoneNum, tempR+"");
+                        Log.v("Payment", Company + "/" + phoneNum);
+                        phoneInfo.put(Company + "/" + phoneNum, tempR + "");
 
                     }
                 }

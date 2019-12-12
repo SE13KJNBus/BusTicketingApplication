@@ -1,9 +1,10 @@
 package com.example.busticketingapp.Friend;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import androidx.appcompat.app.AlertDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -76,7 +77,8 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
+        View oParentView = (View) v.getParent();
+        // parents의 View를 가져온다.
         TextView oTextTitle = (TextView) oParentView.findViewById(R.id.friendName);
         String position = (String) oParentView.getTag();
 
