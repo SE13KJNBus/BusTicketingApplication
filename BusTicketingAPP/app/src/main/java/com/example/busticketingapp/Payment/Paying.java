@@ -74,6 +74,10 @@ public class Paying extends AppCompatActivity {
         Log.v("Name", "In Paying_success : "+getName);
 
         getList = getIntent().getStringArrayListExtra("TicketList");
+
+        for(int i=0;i<getList.size();i++){
+            Log.v("Test", getList.get(i));
+        }
         //myRef.addValueEventListener(valueEventListener);
         myRef.addChildEventListener(childEventListener);
 

@@ -111,7 +111,7 @@ public class TerminalActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int pos) {
                 Bus returnBus = busArrayList.get(pos);
-/*
+
                 int year = Integer.parseInt(returnBus.getDepartureDate().substring(0,4));
                 int month = Integer.parseInt(returnBus.getDepartureDate().substring(4,6));
                 int day = Integer.parseInt(returnBus.getDepartureDate().substring(6,8));
@@ -131,10 +131,10 @@ public class TerminalActivity extends AppCompatActivity {
 
                 Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min+":");
 
-                if(nowYear > year || nowMonth > month || nowDay > day || nowHour > hour || nowMin > min ){
+                if(nowYear > year && nowMonth > month && nowDay > day && nowHour > hour && nowMin > min ){
                     Toast.makeText(TerminalActivity.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
                     return;
-                }*/
+                }
                 gotoSelectSeat = new Intent(TerminalActivity.this, SelectSeatActivity_General.class);
                 gotoSelectSeat.putExtra("Departure", returnBus.getDepartureTerminal());
                 gotoSelectSeat.putExtra("Destination", returnBus.getDestinationTerminal());
