@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FriendList extends AppCompatActivity implements View.OnClickListener{
+public class FriendList extends AppCompatActivity implements View.OnClickListener {
 
     private ListView m_oListView = null;
     String getId;
@@ -47,12 +47,14 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
 
                 oData = new ArrayList<>();
                 int nDatCnt = 0;
+
                 for (DataSnapshot messageData : dataSnapshot.getChildren()) {//Date
 //
                     FriendData oItem = new FriendData();
 
                     oItem.friendEmail = messageData.getKey().toString();
                     oItem.friendName = messageData.getValue().toString();
+
                     oItem.onClickListener = (View.OnClickListener) FriendList.this;
                     oData.add(oItem);
                 }
@@ -72,21 +74,22 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View v){
-        View oParentView = (View)v.getParent(); // parents의 View를 가져온다.
+    public void onClick(View v) {
+        View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
         TextView oTextTitle = (TextView) oParentView.findViewById(R.id.friendName);
         String position = (String) oParentView.getTag();
 
         AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
                 android.R.style.Theme_DeviceDefault_Light_Dialog);
 
-        String strMsg = oTextTitle.getText()+" 님에게 \n표를 양도하시겠습니까?";
+        String strMsg = oTextTitle.getText() + " 님에게 \n표를 양도하시겠습니까?";
         oDialog.setMessage(strMsg)
                 .setPositiveButton("확인", null)
                 .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
                 .show();
 
     }
+
     public void search(View view) {
         Intent intent = new Intent(getApplicationContext(), Search_member.class);
         intent.putExtra("Id", getId);

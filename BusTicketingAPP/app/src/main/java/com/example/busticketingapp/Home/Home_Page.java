@@ -88,6 +88,7 @@ public class Home_Page extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void friendList(View view){
         Intent intent = new Intent(getApplicationContext(), FriendList.class);
         intent.putExtra("Id",getId);

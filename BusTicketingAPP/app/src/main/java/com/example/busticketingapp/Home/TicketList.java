@@ -47,28 +47,16 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
 //        myRef.child(getId).child("Ticket").child("20191210").setValue("12:00-16:00");
 
-
-//        ArrayList<TicketData> oData = new ArrayList<>();
-
-//        for (int i = 0; i < 4; ++i) {
-//            TicketData oItem = new TicketData();
-//            oItem.Area = strArea[nDatCnt];
-//            oItem.Date = strDate[nDatCnt];
-//            oItem.SeatNum = strSeat[nDatCnt++];
-//            oItem.onClickListener = this;
-//            oData.add(oItem);
-//
-//            if (nDatCnt >= strDate.length) nDatCnt = 0;
-//        }
-
-//        initDatabase();
-
 // ListView, Adapter 생성 및 연결 ------------------------
         if (getMember)
             mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket");// 변경값을 확인할 child 이름
         else
             mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket");// 변경값을 확인할 child 이름
 
+        if (getMember)
+            mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket");// 변경값을 확인할 child 이름
+        else
+            mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket");// 변경값을 확인할 child 이름
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,7 +66,8 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                     oData = new ArrayList<>();
                     int nDatCnt = 0;
 
-                    for (DataSnapshot messageData : dataSnapshot.getChildren()) {
+                    for (DataSnapshot messageData : dataSnapshot.getChildren()) {//Date
+
 //                    // child 내에 있는 데이터만큼 반복합니다.
                         String getKey = messageData.getKey().toString();
                         String[] splitData = getKey.split("@");
@@ -167,6 +156,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
         } else if (v.getId() == R.id.btn_cancel) {
             View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
 
+
             final String position = (String) oParentView.getTag();
             AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
                     android.R.style.Theme_DeviceDefault_Light_Dialog);
@@ -200,7 +190,6 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                     .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
                     .show();
         }
-
 
     }
 
@@ -242,7 +231,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-      //  mReference.removeEventListener(mChild);
+
     }
 
 }

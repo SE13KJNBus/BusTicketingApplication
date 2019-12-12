@@ -28,6 +28,7 @@
             android:layout_height="0dp"
             android:text="친구이메일"
             android:layout_weight="40"
+            android:layout_marginRight="10dp"
             android:gravity="right"
             android:paddingLeft="10dp"
             />

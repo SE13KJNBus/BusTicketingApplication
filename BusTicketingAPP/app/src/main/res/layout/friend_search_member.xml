@@ -16,11 +16,11 @@
         android:textSize="30dp"
         android:textStyle="italic" />
     <EditText
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
-    android:id="@+id/memberEmail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/memberEmail"
         android:layout_centerVertical="true"
-    android:hint="이메일을 입력하세요" />
+        android:hint="이메일을 입력하세요" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

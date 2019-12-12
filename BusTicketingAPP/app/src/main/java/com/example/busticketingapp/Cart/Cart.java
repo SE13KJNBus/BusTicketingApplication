@@ -34,7 +34,6 @@ public class Cart extends AppCompatActivity {
     String getName;
     DatabaseReference mReference;
 
-
     TextView totalMoney;
     ArrayList<String> cartArrayList;
 
@@ -54,6 +53,7 @@ public class Cart extends AppCompatActivity {
         getId = getIntent().getStringExtra("Id");
         getName = getIntent().getStringExtra("UserName");
         cartArrayList = new ArrayList<>();
+
         cartData = null;
 
         adapter = new CartAdapter(cart_itemArrayList);
@@ -156,7 +156,9 @@ public class Cart extends AppCompatActivity {
                 Log.v("Cart", "Dataname is " + Dataname);
                 if (i == cart_itemArrayList.size()) {
                     mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart").child(Dataname);// 변경값을 확인할 child 이름
+
                     mReference.addValueEventListener(valueEventListener);
+
                 } else if (!stPl.equals(cart_itemArrayList.get(i).startPlace) || !enPl.equals(cart_itemArrayList.get(i).arrivePlace)
                         || !date.equals(cart_itemArrayList.get(i).date) || !stime.equals(cart_itemArrayList.get(i).startTime)) {
 
@@ -166,6 +168,7 @@ public class Cart extends AppCompatActivity {
 
 
                 totalMoney.setText(totalNum + "원");
+
             }
 
             if (exist) {
@@ -208,6 +211,7 @@ public class Cart extends AppCompatActivity {
         } else {
 
             for (int i = 0; i < cart_itemArrayList.size(); i++) {
+
                 String departure = cart_itemArrayList.get(i).startPlace;
                 String destination = cart_itemArrayList.get(i).arrivePlace;
                 String date = cart_itemArrayList.get(i).date;
