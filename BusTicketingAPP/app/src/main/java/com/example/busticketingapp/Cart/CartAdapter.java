@@ -19,6 +19,7 @@ public class CartAdapter extends BaseAdapter {
     int total = 0;
     Cart c;
 
+
     public void setCart_itemArrayList(ArrayList<CartData> givenCart_itemArrayList) {
         this.cart_itemArrayList = givenCart_itemArrayList;
     }

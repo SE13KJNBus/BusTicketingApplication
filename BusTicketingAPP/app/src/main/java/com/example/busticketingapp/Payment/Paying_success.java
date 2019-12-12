@@ -53,7 +53,7 @@ public class Paying_success extends AppCompatActivity {
         getCart = getIntent().getBooleanExtra("Cart",false);
 
         moneyMap = new HashMap<>();
-        myRef.child("Payment").addValueEventListener(valueEventListener);
+        myRef.addValueEventListener(valueEventListener);
 
 
 
@@ -86,14 +86,19 @@ public class Paying_success extends AppCompatActivity {
             String Company;
             String phoneNum;
             String pw;
-            moneyMap.clear();
-
+            moneyMap = new HashMap<>();
+            cartMap = new HashMap<>();
             for (DataSnapshot snapshot : dataSnapshot.child("Member").child(getId).child("Cart").getChildren()){
                 Log.v("CC","MEMBER : "+snapshot.getKey()+"  //  "+snapshot.getValue());
                 for(int i=0;i<getList.size();i++){
-                    String[] info = getList.get(0).split("@");
-                    String keyTicket = info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"-"+info[5]+"@"+info[6];
-                    if(keyTicket.toString().equals(snapshot.getKey().toString())) cartMap.put(snapshot.getKey().toString(),Integer.parseInt(snapshot.child("인원수").getValue().toString()));
+                    String[] info = getList.get(i).split("@");
+                    String keyTicket = info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"@"+info[4];
+                    Log.v("Test",getList.get(i).toString()+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+                    Log.v("Test",snapshot.getKey().toString()+"))))))))))))))))))))))");
+                    if(keyTicket.toString().equals(snapshot.getKey().toString())){
+                        cartMap.put(snapshot.getKey().toString(),Integer.parseInt(snapshot.child("인원수").getValue().toString()));
+                    }
                 }
             }
             for (DataSnapshot snapshot : dataSnapshot.child("Payment").child("CreditCard").getChildren()){
@@ -116,18 +121,19 @@ public class Paying_success extends AppCompatActivity {
                             m = ss.getValue().toString();
                         }
 
-                        Log.v("Payment",creditCardCompany+"/"+creditCardNum+"/"+availableTime+"/"+pw );
+                        Log.v("Payment",creditCardCompany+"/"+creditCardNum+"/"+availableTime+"/"+pw +"   "+moneyMap.size());
                         moneyMap.put(creditCardCompany+"/"+creditCardNum+"/"+availableTime+"/"+pw,Integer.parseInt(m));
                     }
                 }
             }
-            for (DataSnapshot snapshot : dataSnapshot.child("PhonePay").getChildren()){
+            for (DataSnapshot snapshot : dataSnapshot.child("Payment").child("PhonePay").getChildren()){
                 Company = snapshot.getKey().toString();
                 for(DataSnapshot shot : snapshot.getChildren()){
                     phoneNum = shot.getKey().toString();
                     Random random = new Random();
                     int tempR = random.nextInt(10000);
                     String m = shot.getValue().toString();
+                    Log.v("Payment",Company+"/"+phoneNum+"   "+moneyMap.size());
                     moneyMap.put(Company+"/"+phoneNum, Integer.parseInt(m));
 
                 }
@@ -145,22 +151,12 @@ public class Paying_success extends AppCompatActivity {
         if(getList.size()!=0){
             String[] paymentInfo = getKey.split("/");
             String keyPayment;
+            int remain=0;
             if(getCard) {
                 keyPayment = paymentInfo[0]+"/"+paymentInfo[1]+"/"+paymentInfo[2]+"/"+paymentInfo[3];
-                Log.v("Payment","momeymap ------------------"+moneyMap.get(keyPayment));
-                int remain = moneyMap.get(keyPayment)-(getList.size()*6900);
-                if(remain < 0){
-                    Intent intent = new Intent(getApplicationContext(),Home_Page.class);
-                    Toast.makeText(getApplicationContext(),"잔액부족",Toast.LENGTH_SHORT).show();
-                    intent.putExtra("Id", getId);
-                    intent.putExtra("Member",getMember);
-                    intent.putExtra("UserName",getName);
-                    startActivity(intent);
-                }
-                else myRef.child("Payment").child("CreditCard").child(paymentInfo[0]).child(paymentInfo[1]).child(paymentInfo[2]).child(paymentInfo[3]).setValue(remain);
-            }else{
-                keyPayment = paymentInfo[0]+"/"+paymentInfo[1];
-                int remain = moneyMap.get(keyPayment)-(getList.size()*6900);
+
+                Log.v("Payment","momeymap ---------"+moneyMap.size()+"---------"+moneyMap.get(keyPayment.toString()));
+                remain = moneyMap.get(keyPayment)-(getList.size()*6900);
                 if(remain < 0){
                     Intent intent = new Intent(getApplicationContext(),Home_Page.class);
                     Toast.makeText(getApplicationContext(),"잔액부족",Toast.LENGTH_SHORT).show();
@@ -170,37 +166,60 @@ public class Paying_success extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-                else myRef.child("Payment").child("PhonePay").child(paymentInfo[0]).child(paymentInfo[1]).setValue(remain);
+                else {
+                    myRef.child("Payment").child("CreditCard").child(paymentInfo[0]).child(paymentInfo[1]).child(paymentInfo[2]).child(paymentInfo[3]).setValue(remain);
+                }
+            }else{
+                keyPayment = paymentInfo[0]+"/"+paymentInfo[1];
+                remain = moneyMap.get(keyPayment)-(getList.size()*6900);
+                if(remain < 0){
+                    Intent intent = new Intent(getApplicationContext(),Home_Page.class);
+                    Toast.makeText(getApplicationContext(),"잔액부족",Toast.LENGTH_SHORT).show();
+                    intent.putExtra("Id", getId);
+                    intent.putExtra("Member",getMember);
+                    intent.putExtra("UserName",getName);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    myRef.child("Payment").child("PhonePay").child(paymentInfo[0]).child(paymentInfo[1]).setValue(remain);
+                }
             }
 
+            if(remain<0) return;
+            Log.v("Test",getList.size()+"");
 
             for(int i=0;i<getList.size();i++){
 
-                String[] info = getList.get(0).split("@");
+                String[] info = getList.get(i).split("@");
 
-                String keyTicket;
+                String keyTicket=info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"@"+info[4];
 
                 if(getMember){
-                    keyTicket=info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"-"+info[5]+"@"+info[6];
+                    Log.v("CC", getList.get(i).toString());
                     Log.v("CC","cart : "+keyTicket);
-                    Log.v("CC",cartMap.get(keyTicket)+"");
+                    Log.v("CC",info[5]+"");
 
-                    myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]+"-"+info[5]).child(info[6]).child(info[7]).setValue("false");
-                    myRef.child("Member").child(getId).child("Ticket").child(keyTicket).child(info[7]).setValue(true);
+                    myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]).child(info[4]).child(info[5]).setValue("false");
+                    myRef.child("Member").child(getId).child("Ticket").child(keyTicket).child(info[5]).setValue(true);
                     if(getCart){
-                        if(cartMap.get(keyTicket)!=1)myRef.child("Member").child(getId).child("Cart").child(keyTicket).child("인원수").setValue((cartMap.get(keyTicket)-1)+"");
+                        Log.v("Test", keyTicket);
+                        if(cartMap.get(keyTicket)!=1){
+                            int num = cartMap.get(keyTicket);
+                            myRef.child("Member").child(getId).child("Cart").child(keyTicket).child("인원수").setValue((num-1)+"");
+                            cartMap.put(keyTicket,num-1);
+                        }
                         else myRef.child("Member").child(getId).child("Cart").setValue("");
                     }
 
                 } else{
-                    keyTicket=info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"@"+info[4];
                     myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]).child(info[4]).child(info[5]).setValue("false");
                     myRef.child("User").child(getId).child("Ticket").child(keyTicket).child(info[5]).setValue(true);
 
                 }
 
-                getList.remove(0);
             }
+            getList.clear();
         }
     }
 }

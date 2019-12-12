@@ -121,7 +121,7 @@ public class TerminalActivity extends AppCompatActivity {
                 Date date = new Date(now);
                 SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd@kk:mm");
                 String formatDate = sdfNow.format(date);
-                int nowYear = Integer.parseInt(formatDate.split("-|@")[0]);
+                int nowYear = Integer.parseInt(formatDate.split("-|@")[0])%24;
                 int nowMonth =Integer.parseInt(formatDate.split("-|@")[1]);
                 int nowDay = Integer.parseInt(formatDate.split("-|@")[2]);
                 int nowHour = Integer.parseInt(formatDate.split("-|@|:")[3]);
@@ -145,7 +145,7 @@ public class TerminalActivity extends AppCompatActivity {
                         }else if(nowDay==day){
 
                             int totalTimeBus = hour*60+min;
-                            int totalTimeNow = nowHour*nowMin;
+                            int totalTimeNow = nowHour*60 +nowMin;
                             if(totalTimeBus < totalTimeNow){
                                 Toast.makeText(TerminalActivity.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
                                 return;

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -80,6 +81,7 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
         // parents의 View를 가져온다.
         TextView oTextTitle = (TextView) oParentView.findViewById(R.id.friendName);
         String position = (String) oParentView.getTag();
+
         final FriendData friendData = oData.get(Integer.parseInt(position));
 
         androidx.appcompat.app.AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
@@ -103,6 +105,7 @@ public class FriendList extends AppCompatActivity implements View.OnClickListene
                 })
                 .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
                 .show();
+
 
     }
 

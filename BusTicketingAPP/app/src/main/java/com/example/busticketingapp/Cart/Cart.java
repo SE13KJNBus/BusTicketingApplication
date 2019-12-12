@@ -190,6 +190,9 @@ public class Cart extends AppCompatActivity {
         totalMoney.setText(total_M + "원");
     }
 
+    public void total(int total_M){
+        totalMoney.setText(total_M + "원");
+    }
     public void cartRemove(View view) {
         this.cart_itemArrayList = adapter.getCart_itemArrayList();
         boolean exist = false;
@@ -198,7 +201,9 @@ public class Cart extends AppCompatActivity {
         String enPl;
         String date;
         String stime;
-int num=0;
+
+        int num=0;
+
         count = 0;
         if (cart_itemArrayList.isEmpty()) {
             Toast.makeText(this, "삭제할 항목이 없습니다.", Toast.LENGTH_SHORT).show();
@@ -244,9 +249,8 @@ int num=0;
                 }
 
 
-//                totalMoney.setText(adapter.total + "원");
-
             }
+
             if(num==0){
                 Toast.makeText(this, "삭제할 항목을 선택하세요.", Toast.LENGTH_SHORT).show();
             }else if (exist) {
@@ -256,7 +260,9 @@ int num=0;
                 adapter.setCart_itemArrayList(cart_itemArrayList);
                 listView.setAdapter(adapter);
 
+
             }
+
 
         }
     }
