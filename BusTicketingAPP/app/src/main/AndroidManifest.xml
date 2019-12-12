@@ -23,6 +23,7 @@
         <activity android:name=".Home.Home_Page" />
         <activity android:name=".Friend.FriendList" />
         <activity android:name=".Friend.Search_member" />
+        <activity android:name=".MailBox.MailList"/>
         <activity
             android:name=".LoginAndSignup.LoginMemberActivity"
             android:exported="true">

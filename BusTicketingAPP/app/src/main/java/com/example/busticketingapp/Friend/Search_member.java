@@ -29,7 +29,7 @@ public class Search_member extends AppCompatActivity {
     DatabaseReference mReference;
     String searchEmail = "";
     boolean found = false;
-    boolean already = false;
+    boolean update = true;
     Button addFriend;
 
     @Override
@@ -51,7 +51,7 @@ public class Search_member extends AppCompatActivity {
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd@HH:mm:ss");
+        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd@HH:mm:ss");
         String formatDate = sdfNow.format(date);
 
 
