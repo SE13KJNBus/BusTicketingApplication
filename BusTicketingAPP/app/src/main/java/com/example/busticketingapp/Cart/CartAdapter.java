@@ -73,7 +73,7 @@ public class CartAdapter extends BaseAdapter {
         arriveTimeVal.setText(cart_itemArrayList.get(position).arriveTime);
         movingTimeVal.setText(cart_itemArrayList.get(position).movingTime);
         busCompanyVal.setText(cart_itemArrayList.get(position).busCompany);
-        seatNumberVal.setText(new Integer((cart_itemArrayList.get(position).seatNum)).toString());
+        seatNumberVal.setText(cart_itemArrayList.get(position).seatNum==0?"":new Integer((cart_itemArrayList.get(position).seatNum)).toString());
         checkBox.setChecked(cart_itemArrayList.get(position).checkBoxVal);
         checkBox.setOnClickListener(new CheckBox.OnClickListener(){
             @Override
