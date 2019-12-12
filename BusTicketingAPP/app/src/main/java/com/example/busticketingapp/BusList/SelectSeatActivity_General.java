@@ -233,9 +233,27 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
             Log.v("Test", "현재 : "+ nowYear+"-"+nowMonth+"-"+nowDay+"//"+nowHour+":"+nowMin+":");
             Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min+":");
 
-            if(nowYear > year && nowMonth > month && nowDay > day && nowHour > hour && nowMin > min ){
+            if(nowYear > year){
                 Toast.makeText(SelectSeatActivity_General.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
                 return;
+            }else if(nowYear==year){
+                if(nowMonth > month){
+                    Toast.makeText(SelectSeatActivity_General.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                    return;
+                }else if(nowMonth==month){
+                    if(nowDay > day){
+                        Toast.makeText(SelectSeatActivity_General.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                        return;
+                    }else if(nowDay==day){
+                        int totalTimeBus = hour*60+min;
+                        int totalTimeNow = nowHour*nowMin;
+                        if(totalTimeBus < totalTimeNow){
+                            Toast.makeText(SelectSeatActivity_General.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                    }
+                }
             }
 
             Log.v("Subin",userSeatNum+"  "+selectedSeat.size());
@@ -256,7 +274,6 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
                 selectedSeat.remove(seatString);
                 seatButton.setBackground(ContextCompat.getDrawable(SelectSeatActivity_General.this, R.drawable.bus_seat_ok));
                 seatButton.invalidate();
-
             }
 
 
@@ -402,6 +419,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
                     availableList.add(snapshot.getKey());
                     Log.v("SubinTest","Value : "+snapshot.getValue().toString().equals("false"));
                 }
+
             }
         }
         @Override
