@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.busticketingapp.BusList.MainActivity;
 import com.example.busticketingapp.Cart.Cart;
 import com.example.busticketingapp.Friend.FriendList;
+import com.example.busticketingapp.MailBox.MailList;
 import com.example.busticketingapp.R;
 
 public class Home_Page extends AppCompatActivity {
@@ -84,6 +85,13 @@ public class Home_Page extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Cart.class);
         intent.putExtra("Id",getId);
 //        intent.putExtra("Member",(boolean)getMember);
+        intent.putExtra("UserName",getName);
+        startActivity(intent);
+    }
+
+    public void gomailBox(View view){
+        Intent intent = new Intent(getApplicationContext(), MailList.class);
+        intent.putExtra("Id",getId);
         intent.putExtra("UserName",getName);
         startActivity(intent);
     }
