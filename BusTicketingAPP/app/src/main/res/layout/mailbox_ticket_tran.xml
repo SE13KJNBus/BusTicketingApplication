@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+
+        <LinearLayout
+            android:id="@+id/lay1"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="60"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:textColor="#33aabb">
+                <TextView
+                    android:id="@+id/senderName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="김현우"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textStyle="bold"
+                    android:textColor="#33aabb"
+                    />
+
+                <TextView
+                    android:id="@+id/senderEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/senderName"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="abc@nave.com"
+                    android:textColor="#33aabb"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="60"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp">
+                <TextView
+                    android:id="@+id/startPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="출발지"
+                    android:layout_weight="60"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/sp"
+                    android:layout_toRightOf="@+id/startPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="->"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/arrivePlace"
+                    android:layout_toRightOf="@+id/sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="도착지"
+                    android:layout_weight="60"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20190101"
+                    android:layout_weight="40"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/startTime"
+                    android:layout_toRightOf="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99:99"
+                    android:layout_weight="40"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/t"
+                    android:layout_toRightOf="@+id/startTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    />
+                <TextView
+                    android:id="@+id/endTime"
+                    android:layout_toRightOf="@+id/t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99:99"
+                    android:layout_weight="40"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="버스회사"
+                    android:gravity="right"
+                    android:paddingLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_toRightOf="@+id/company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:34 소요"
+                    android:gravity="right"
+                    android:paddingLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/seatNum"
+                    android:layout_toRightOf="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="좌석번호총총총"
+                    android:gravity="right"
+                    android:paddingLeft="10dp"/>
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/sendDate"
+                android:text="2019-12-12   02:42:01"
+                android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+                android:textColor="#33aabb" />
+
+        </LinearLayout>
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_toRightOf="@+id/lay1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="표양도"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <Button
+            android:id="@+id/btn_accept"
+        android:layout_toRightOf="@+id/lay1"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="2dp"
+            android:layout_below="@+id/message"
+            android:background="@drawable/button_background"
+            android:text="수락" />
+        <Button
+            android:id="@+id/btn_reject"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="2dp"
+            android:layout_below="@+id/message"
+            android:layout_toRightOf="@+id/btn_accept"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_background"
+            android:text="거절" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            />
+
+
+    </RelativeLayout>

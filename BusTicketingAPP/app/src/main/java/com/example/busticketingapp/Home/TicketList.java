@@ -53,11 +53,6 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
         else
             mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket");// 변경값을 확인할 child 이름
 
-        if (getMember)
-            mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket");// 변경값을 확인할 child 이름
-        else
-            mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket");// 변경값을 확인할 child 이름
-
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -172,10 +167,12 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
 
                             TicketData reData = oData.get(Integer.parseInt(position));
+                            String Dataname = reData.startPlace + "@" + reData.arrivePlace + "@" + reData.date + "@" + reData.startTime + "-" + reData.endTime + "@" + reData.company;
+
                             if (getMember) {
-                                mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(reData.date).child(reData.startTime).child(reData.endTime).child(reData.startPlace).child(reData.arrivePlace).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
+                                mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(Dataname).child(reData.seatNum);// 변경값을 확인할 child 이름
                             } else {
-                                mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(reData.date).child(reData.startTime).child(reData.endTime).child(reData.startPlace).child(reData.arrivePlace).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
+                                mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(Dataname).child(reData.seatNum);// 변경값을 확인할 child 이름
                             }
                             mReference.removeValue();
                             oData.remove(Integer.parseInt(position));
@@ -193,41 +190,6 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                     .show();
         }
 
-    }
-
-    private void initDatabase() {
-
-        mReference = FirebaseDatabase.getInstance().getReference(getId).child("Ticket");
-
-//        mReference.child("log").setValue("check");
-
-        mChild = new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        mReference.addChildEventListener(mChild);
     }
 
     @Override
