@@ -11,14 +11,14 @@ public class CartData {
     int seatNum;
     boolean checkBoxVal;
 
-    public CartData(String startPlace, String arrivePlace, String date,String startTime, String arriveTime, String busCompany, int seatNum, boolean checkBoxVal) {
+    public CartData(String startPlace, String arrivePlace, String date,String startTime, String arriveTime, String busCompany, boolean checkBoxVal) {
         this.startPlace = startPlace;
         this.arrivePlace = arrivePlace;
         this.date = date;
         this.startTime = startTime;
         this.arriveTime = arriveTime;
         this.busCompany = busCompany;
-        this.seatNum = seatNum;
+        this.seatNum = 0;
         this.checkBoxVal = checkBoxVal;
         int hour = (Integer.valueOf(this.arriveTime.split(":")[0]) - Integer.valueOf(this.startTime.split(":")[0]));
         int min = (Integer.valueOf(this.arriveTime.split(":")[1]) - Integer.valueOf(this.startTime.split(":")[1]));
