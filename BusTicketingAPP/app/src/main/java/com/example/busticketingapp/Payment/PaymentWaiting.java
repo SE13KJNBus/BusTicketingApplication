@@ -99,6 +99,7 @@ public class PaymentWaiting extends AppCompatActivity {
         gotoPayment.putExtra("Id", getId);
         gotoPayment.putExtra("Member", getMember);
         gotoPayment.putExtra("UserName", getName);
+        gotoPayment.putExtra("Cart",false);
         startActivity(gotoPayment);
     }
 }

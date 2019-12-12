@@ -113,6 +113,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         gotoPayment.putExtra("Id", getId);
         gotoPayment.putExtra("Member", getMember);
         gotoPayment.putExtra("UserName", getName);
+        gotoPayment.putExtra("Cart",true);
         startActivity(gotoPayment);
     }
     @Override
