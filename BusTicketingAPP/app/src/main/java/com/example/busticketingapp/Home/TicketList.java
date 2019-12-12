@@ -34,6 +34,7 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
     DatabaseReference myRef = database.getReference().child("User");
     ArrayList<TicketData> oData;
 
+    TicketListAdapter oAdapter;
     boolean update = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,11 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member", false);
         getName = getIntent().getStringExtra("UserName");
+
+        oData = new ArrayList<>();
+        m_oListView = (ListView) findViewById(R.id.ticket_list);
+        oAdapter = new TicketListAdapter(oData);
+        m_oListView.setAdapter(oAdapter);
 
 //        myRef.child(getId).child("Ticket").child("20191210").setValue("12:00-16:00");
 
@@ -58,43 +64,50 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (update) {
-                    oData = new ArrayList<>();
+                    oData.clear();
                     int nDatCnt = 0;
+                    Log.v("CC",dataSnapshot.getKey()+"///"+dataSnapshot.getValue());
 
                     for (DataSnapshot messageData : dataSnapshot.getChildren()) {//Date
 
 //                    // child 내에 있는 데이터만큼 반복합니다.
+                        Log.v("CC",messageData.getKey()+"///"+messageData.getValue());
+
                         String getKey = messageData.getKey().toString();
+                        String[] splitData = getKey.split("@");
+
+
+
+
                         for(DataSnapshot snapshot : messageData.getChildren()){
+                            Log.v("CC", snapshot.getKey());
+                            TicketData oItem = new TicketData();
+                            oItem.startPlace = splitData[0];
+                            oItem.arrivePlace = splitData[1];
 
-                            String[] splitData = getKey.split("@");
-                        TicketData oItem = new TicketData();
-                        oItem.startPlace = splitData[0];
-                        oItem.arrivePlace = splitData[1];
+                            oItem.startTime = splitData[3].split("-")[0];
+                            oItem.endTime = splitData[3].split("-")[1];
 
-                        oItem.startTime = splitData[3].split("-")[0];
-                        oItem.endTime = splitData[3].split("-")[1];
+                            oItem.company = splitData[4];
 
-                        oItem.company = splitData[4];
+                            int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
+                            int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
 
-                        int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
-                        int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+                            String movingTime = String.format("%02d:%02d",((int)(end-start)/60),(end-start)%60);
 
-                        String movingTime = String.format("%02d:%02d",((int)(end-start)/60),(end-start)%60);
+                            oItem.time = movingTime;
+                            oItem.date = splitData[2];
+                            oItem.seatNum = snapshot.getKey();
+                            oItem.onClickListener = (View.OnClickListener) TicketList.this;
+                            oData.add(oItem);
 
-                        oItem.time = movingTime;
-                        oItem.date = splitData[2];
-                             oItem.seatNum = snapshot.getKey();
 
-                        oItem.onClickListener = (View.OnClickListener) TicketList.this;
-                        oData.add(oItem);
                         }
+
+
                     }
-
-                    m_oListView = (ListView) findViewById(R.id.ticket_list);
-                    TicketListAdapter oAdapter = new TicketListAdapter(oData);
+                    oAdapter = new TicketListAdapter(oData);
                     m_oListView.setAdapter(oAdapter);
-
                     update = false;
                 }
 
@@ -148,8 +161,9 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                             }
                             mReference.removeValue();
                             oData.remove(Integer.parseInt(position));
-                            TicketListAdapter oAdapter = new TicketListAdapter(oData);
+                            oAdapter = new TicketListAdapter(oData);
                             m_oListView.setAdapter(oAdapter);
+
 
                             mReference = FirebaseDatabase.getInstance().getReference("Bus").child(reData.startPlace).child(reData.arrivePlace).child(reData.date).child(reData.startTime + "-" + reData.endTime).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
                             mReference.setValue("true");

@@ -41,6 +41,7 @@ public class Paying_success extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_paying_success);
+        cartMap = new HashMap<>();
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member",false);
         getName = getIntent().getStringExtra("UserName");
@@ -51,7 +52,7 @@ public class Paying_success extends AppCompatActivity {
         myRef.child("Payment").addValueEventListener(valueEventListener);
 
 
-        //   myRef.addValueEventListener(valueEventListener);
+
         // pay();
 
 
@@ -82,7 +83,17 @@ public class Paying_success extends AppCompatActivity {
             String phoneNum;
             String pw;
             moneyMap.clear();
-            for (DataSnapshot snapshot : dataSnapshot.child("CreditCard").getChildren()){
+
+            for (DataSnapshot snapshot : dataSnapshot.child("Member").child(getId).child("Cart").getChildren()){
+                Log.v("CC","MEMBER : "+snapshot.getKey()+"  //  "+snapshot.getValue());
+                for(int i=0;i<getList.size();i++){
+                    String[] info = getList.get(0).split("@");
+                    String keyTicket = info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"-"+info[5]+"@"+info[6];
+                    if(keyTicket.toString().equals(snapshot.getKey().toString())) cartMap.put(snapshot.getKey().toString(),Integer.parseInt(snapshot.child("인원수").getValue().toString()));
+                }
+            }
+            for (DataSnapshot snapshot : dataSnapshot.child("Payment").child("CreditCard").getChildren()){
+
                 creditCardCompany = snapshot.getKey().toString();
                 Log.v("Payment","company : "+snapshot.getKey().toString());
                 for(DataSnapshot shot : snapshot.getChildren()){
@@ -162,10 +173,15 @@ public class Paying_success extends AppCompatActivity {
             for(int i=0;i<getList.size();i++){
 
                 String[] info = getList.get(0).split("@");
-                String keyTicket = info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"@"+info[4];
 
-                myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]).child(info[4]).child(info[5]).setValue("false");
-                myRef.child("Member").child(getId).child("Ticket").child(keyTicket).child(info[5]).setValue(true);
+                String keyTicket = info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"-"+info[5]+"@"+info[6];
+                Log.v("CC","cart : "+keyTicket);
+                Log.v("CC",cartMap.get(keyTicket)+"");
+
+                myRef.child("Bus").child(info[0]).child(info[1]).child(info[2]).child(info[3]+"-"+info[5]).child(info[6]).child(info[7]).setValue("false");
+                myRef.child("Member").child(getId).child("Ticket").child(keyTicket).child(info[7]).setValue(true);
+                if(cartMap.get(keyTicket)!=1)myRef.child("Member").child(getId).child("Cart").child(keyTicket).child("인원수").setValue((cartMap.get(keyTicket)-1)+"");
+                else myRef.child("Member").child(getId).child("Cart").setValue("");
 
                 getList.remove(0);
             }
