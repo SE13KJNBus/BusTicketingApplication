@@ -33,14 +33,17 @@ public class Cart extends AppCompatActivity {
     String getId;
     String getName;
     DatabaseReference mReference;
+    DatabaseReference referenceGetBus;
 
     TextView totalMoney;
     ArrayList<String> cartArrayList;
+    HashMap<String, ArrayList> getSeatNum;
 
     int totalNum = 0;
     boolean update = true;
     boolean refresh = true;
     int count;
+    int flag =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class Cart extends AppCompatActivity {
         getId = getIntent().getStringExtra("Id");
         getName = getIntent().getStringExtra("UserName");
         cartArrayList = new ArrayList<>();
+        getSeatNum = new HashMap<>();
 
         cartData = null;
 
@@ -60,6 +64,9 @@ public class Cart extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Cart");// 변경값을 확인할 child 이름
+        referenceGetBus =FirebaseDatabase.getInstance().getReference().child("Bus");
+
+
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,12 +94,12 @@ public class Cart extends AppCompatActivity {
                         int revNum = Integer.parseInt(messageData.child("인원수").getValue().toString());
                         totalNum = totalNum + (revNum * 6900);
 
-                        Random rnd = new Random();
+                        referenceGetBus.child("temp").setValue("temp");
+                        referenceGetBus.child("temp").removeValue();
 
                         for (int i = 0; i < revNum; i++) {
                             //임시로 10000으로 측정
-                            int num = rnd.nextInt(100);
-                            cartData = new CartData(departure, destination, date, startTime, endTime, company, num, false);
+                            cartData = new CartData(departure, destination, date, startTime, endTime, company, false);
                             cart_itemArrayList.add(cartData);
                         }
                         totalMoney.setText(totalNum + "원");
@@ -108,6 +115,44 @@ public class Cart extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        referenceGetBus.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.v("Cart", "Loading Bus ....");
+                getSeatNum.clear();
+
+                ArrayList<String> selectedSeat = new ArrayList<>();
+                for (int i=0;i<cart_itemArrayList.size();i++){
+                    String startPlace = cart_itemArrayList.get(i).startPlace;
+                    String arrivePlace = cart_itemArrayList.get(i).arrivePlace;
+                    String date = cart_itemArrayList.get(i).date;
+                    String time = cart_itemArrayList.get(i).startTime+"-"+cart_itemArrayList.get(i).arriveTime;
+                    String company = cart_itemArrayList.get(i).busCompany;
+                    String key = startPlace+"@"+arrivePlace+"@"+date+"@"+time+"@"+company;
+                    ArrayList availSeat = new ArrayList();
+
+                    for(DataSnapshot snapshot : dataSnapshot.child(startPlace).child(arrivePlace).child(date).child(time).child(company).getChildren()){
+                        if(snapshot.getValue().toString().equals("true") && !selectedSeat.contains(key+"@"+Integer.parseInt(snapshot.getKey().toString()))){
+                            Log.v("Cart", "available seat! "+key+"@"+Integer.parseInt(snapshot.getKey().toString()));
+                            availSeat.add(Integer.parseInt(snapshot.getKey().toString()));
+                        }
+                    }
+                    Random rnd = new Random();
+                    Log.v("Cart", "available size : "+availSeat.size());
+                    int randSeatNum =  (int)availSeat.get(rnd.nextInt(availSeat.size()));
+                    cart_itemArrayList.get(i).seatNum = randSeatNum;
+                    selectedSeat.add(key+"@"+randSeatNum);
+                    getSeatNum.put(key,availSeat);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
