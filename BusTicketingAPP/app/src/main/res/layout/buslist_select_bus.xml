@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:layout_weight="1"
-            android:textSize="24dp" />
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/Sorting"
