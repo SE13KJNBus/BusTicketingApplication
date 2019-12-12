@@ -15,7 +15,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MailList extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,7 +61,7 @@ public class MailList extends AppCompatActivity implements View.OnClickListener 
 
 
                                             oItem.startPlace = splitData[0];
-                                            oItem.arrivePlace= splitData[1];
+                                            oItem.arrivePlace = splitData[1];
                                             oItem.date = splitData[2];
 
                                             oItem.startTime = splitData[3].split("-")[0];
@@ -67,17 +69,17 @@ public class MailList extends AppCompatActivity implements View.OnClickListener 
 
 
                                             oItem.company = splitData[4];
-                                            oItem.seatNum=seat.getKey().toString();
+                                            oItem.seatNum = seat.getKey().toString();
 
-                                            int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
-                                            int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0])*60+Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+                                            int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
+                                            int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
 
-                                            oItem.time = ((int)(end-start)/60)+":"+(end-start)%60;
+                                            oItem.time = ((int) (end - start) / 60) + ":" + (end - start) % 60;
 
                                         }
                                     }
-                                } else {
-                                    oItem.senderEmail = sender.getKey().toString().replace(":",".");
+                                } else{
+                                    oItem.senderEmail = sender.getKey().toString().replace(":", ".");
                                     oItem.senderName = sender.getValue().toString();
                                     oItem.senddate = DateData.getKey().toString().replace("@", "  ");
                                     oItem.message = messageData.getKey().toString();
@@ -86,10 +88,21 @@ public class MailList extends AppCompatActivity implements View.OnClickListener 
                                     oData.add(oItem);
                                 }
                             }
+                        } else if(messageData.getKey().toString().equals("표양도거절")){
+                            for (DataSnapshot sender : messageData.getChildren()) {//보낸이 정보
+                                MailData oItem = new MailData();
+                                oItem.senderEmail = sender.getKey().toString().replace(":", ".");
+                                oItem.senderName = sender.getValue().toString();
+                                oItem.senddate = DateData.getKey().toString().replace("@", "  ");
+                                oItem.message = messageData.getKey().toString();
+                                oItem.onClickListener = (View.OnClickListener) MailList.this;
+
+                                oData.add(oItem);
+                            }
                         } else { //친구요청
                             for (DataSnapshot sender : messageData.getChildren()) {//보낸이 정보
                                 MailData oItem = new MailData();
-                                oItem.senderEmail = sender.getKey().toString().replace(":",".");
+                                oItem.senderEmail = sender.getKey().toString().replace(":", ".");
                                 oItem.senderName = sender.getValue().toString();
                                 oItem.senddate = DateData.getKey().toString().replace("@", "  ");
                                 oItem.message = messageData.getKey().toString();
@@ -119,51 +132,79 @@ public class MailList extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
 
+        View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
+        String position = (String) oParentView.getTag();
+        MailData maData = oData.get(Integer.parseInt(position));
+
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Notification").child(maData.senddate.replace("  ","@")).child(maData.message);
+
         if (v.getId() == R.id.btn_accept) {
-            View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
-            String position = (String) oParentView.getTag();
 
-            String strMsg = "예매변경으로 선택한 아이템의 position 은 " + position + " 입니다.\nTitle 텍스트 :";
+            if (maData.message.equals("친구요청")) {
 
-            Toast.makeText(this,strMsg,Toast.LENGTH_SHORT).show();
+                DatabaseReference meRe = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Friend");
+                DatabaseReference youRe = FirebaseDatabase.getInstance().getReference("Member").child(maData.senderEmail.replace(".", ":")).child("Friend");
+
+                meRe.child(maData.senderEmail.replace(".", ":")).setValue(maData.senderName);
+                youRe.child(getId).setValue(getName);
+
+                mReference.removeValue();
+
+                oData.remove(Integer.parseInt(position));
+                MailAdapter oAdapter = new MailAdapter(oData);
+                m_oListView.setAdapter(oAdapter);
+
+            }else {
+                String Dataname = maData.startPlace + "@" + maData.arrivePlace + "@" + maData.date + "@" + maData.startTime + "-" + maData.endTime + "@" + maData.company;
+
+                DatabaseReference meRe = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(Dataname).child(maData.seatNum);
+                DatabaseReference youRe = FirebaseDatabase.getInstance().getReference("Member").child(maData.senderEmail.replace(".", ":")).child("Ticket").child(Dataname).child(maData.seatNum);
+
+                meRe.setValue("true");
+                youRe.removeValue();
+
+                mReference.removeValue();
+                oData.remove(Integer.parseInt(position));
+                MailAdapter oAdapter = new MailAdapter(oData);
+                m_oListView.setAdapter(oAdapter);
+            }
 
         } else if (v.getId() == R.id.btn_reject) {
-//            View oParentView = (View) v.getParent(); // parents의 View를 가져온다.
-////            TextView oTextTitle = (TextView) oParentView.findViewById(R.id.area);
-//            final String position = (String) oParentView.getTag();
-//
-//            AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-//                    android.R.style.Theme_DeviceDefault_Light_Dialog);
-//
-//            oDialog.setMessage("예매취소하시겠습니까?")
-//                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            // TODO Auto-generated method stub
-//
-//
-//                            TicketData reData = oData.get(Integer.parseInt(position));
-//                            if (getMember) {
-//                                mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket").child(reData.date).child(reData.startTime).child(reData.endTime).child(reData.startPlace).child(reData.arrivePlace).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
-//                            } else {
-//                                mReference = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(reData.date).child(reData.startTime).child(reData.endTime).child(reData.startPlace).child(reData.arrivePlace).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
-//                            }
-//                            mReference.removeValue();
-//                            oData.remove(Integer.parseInt(position));
-//                            TicketListAdapter oAdapter = new TicketListAdapter(oData);
-//                            m_oListView.setAdapter(oAdapter);
-//
-//                            mReference = FirebaseDatabase.getInstance().getReference("Bus").child(reData.startPlace).child(reData.arrivePlace).child(reData.date).child(reData.startTime + "-" + reData.endTime).child(reData.company).child(reData.seatNum);// 변경값을 확인할 child 이름
-//                            mReference.setValue("true");
-//
-//                            Toast.makeText(TicketList.this, "예매가 취소되었습니다.\n7일이내 환불처리될 예정입니다.", Toast.LENGTH_SHORT).show();
-//                        }
-//                    })
-//                    .setNegativeButton("취소", null)
-//                    .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
-//                    .show();
-        }
 
+            if (maData.message.equals("친구요청")) {
+
+                mReference.removeValue();
+
+                oData.remove(Integer.parseInt(position));
+                MailAdapter oAdapter = new MailAdapter(oData);
+                m_oListView.setAdapter(oAdapter);
+
+            } else {
+                String Dataname = maData.startPlace + "@" + maData.arrivePlace + "@" + maData.date + "@" + maData.startTime + "-" + maData.endTime + "@" + maData.company;
+
+                DatabaseReference youRe = FirebaseDatabase.getInstance().getReference("Member").child(maData.senderEmail.replace(".", ":")).child("Ticket").child(Dataname).child(maData.seatNum);
+
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd@HH:mm:ss");
+                String formatDate = sdfNow.format(date);
+
+                DatabaseReference youReNo = FirebaseDatabase.getInstance().getReference("Member").child(maData.senderEmail.replace(".", ":")).child("Notification").child(formatDate).child("표양도거절").child(getId);
+                youReNo.setValue(getName);
+                youRe.setValue("true");
+                mReference.removeValue();
+
+                oData.remove(Integer.parseInt(position));
+                MailAdapter oAdapter = new MailAdapter(oData);
+                m_oListView.setAdapter(oAdapter);
+            }
+        }else{
+            mReference.removeValue();
+
+            oData.remove(Integer.parseInt(position));
+            MailAdapter oAdapter = new MailAdapter(oData);
+            m_oListView.setAdapter(oAdapter);
+        }
     }
+
 }

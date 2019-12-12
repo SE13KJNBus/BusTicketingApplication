@@ -69,13 +69,33 @@ public class MailAdapter extends BaseAdapter{
 
 //            convertView.setTag(""+position);
 //            return convertView;
+        }else if(m_oData.get(position).message.toString().equals("표양도거절")){
+            final Context context = parent.getContext();
+            if (inflater == null)
+            {
+                inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            }
+            convertView = inflater.inflate(R.layout.mailbox_ticket_reject, parent, false);
+
+            TextView oTextfName = (TextView) convertView.findViewById(R.id.senderName);
+            TextView oTextfEmail = (TextView) convertView.findViewById(R.id.senderEmail);
+            TextView oTextfDate = (TextView) convertView.findViewById(R.id.sendDate);
+            TextView oTextMessage = (TextView) convertView.findViewById(R.id.message);
+            Button oBtnac = (Button)convertView.findViewById(R.id.btn_check);
+
+            oTextfName.setText(m_oData.get(position).senderName);
+            oTextfEmail.setText(m_oData.get(position).senderEmail);
+            oTextfDate.setText(m_oData.get(position).senddate);
+            oTextMessage.setText(m_oData.get(position).message);
+            oBtnac.setOnClickListener(m_oData.get(position).onClickListener);
+
         }else if (m_oData.get(position).message.toString().equals("표양도")){
             final Context context = parent.getContext();
             if (inflater == null)
             {
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
-            convertView = inflater.inflate(R.layout.mailbox_mail_data, parent, false);
+            convertView = inflater.inflate(R.layout.mailbox_ticket_tran, parent, false);
 
             TextView oTextfName = (TextView) convertView.findViewById(R.id.senderName);
             TextView oTextfEmail = (TextView) convertView.findViewById(R.id.senderEmail);

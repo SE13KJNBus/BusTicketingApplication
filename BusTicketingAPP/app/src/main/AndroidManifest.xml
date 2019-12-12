@@ -41,8 +41,6 @@
         <activity android:name=".BusList.SelectSeatActivity_General" />
         <activity android:name=".BusList.modifySeatActivity" />
         <activity android:name=".BusList.TerminalActivity" />
-        <activity android:name=".Friend.FriendList" />
-        <activity android:name=".Friend.Search_member" />
     </application>
 
 </manifest>
