@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="75"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="60"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="#33aabb">
+            <TextView
+                android:id="@+id/startPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="출발지"
+                android:layout_weight="60"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:textColor="#33aabb"
+                />
+            <TextView
+                android:id="@+id/sp"
+                android:layout_toRightOf="@+id/startPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="->"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/arrivePlace"
+                android:layout_toRightOf="@+id/sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="도착지"
+                android:layout_weight="60"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:textColor="#33aabb"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20190101"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/startTime"
+                android:layout_toRightOf="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="99:99"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/t"
+                android:layout_toRightOf="@+id/startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/endTime"
+                android:layout_toRightOf="@+id/t"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="99:99"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="버스회사"
+                android:gravity="right"
+                android:paddingLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_toRightOf="@+id/company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:34 소요"
+                android:gravity="right"
+                android:paddingLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/seatNum"
+                android:layout_toRightOf="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="좌석번호총총총"
+                android:gravity="right"
+                android:paddingLeft="10dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_transmission"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="18"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/button_background"
+        android:text="표양도" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        />
+
+
+</LinearLayout>
