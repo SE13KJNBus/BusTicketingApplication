@@ -141,6 +141,8 @@ public class Cart extends AppCompatActivity {
                             availSeat.add(Integer.parseInt(snapshot.getKey().toString()));
                         }
                     }
+                    Log.v("Name", "Key : "+key);
+                    Log.v("Name", "Snapshot : "+dataSnapshot.getKey()+" // "+dataSnapshot.getValue());
                     Random rnd = new Random();
                     Log.v("Cart", "available size : "+availSeat.size());
                     int randSeatNum =  (int)availSeat.get(rnd.nextInt(availSeat.size()));
