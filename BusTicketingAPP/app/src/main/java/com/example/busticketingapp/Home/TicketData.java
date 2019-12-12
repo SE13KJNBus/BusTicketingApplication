@@ -16,6 +16,8 @@ public class TicketData {
     public String company;
     public String time;
     public String seatNum;
+    public String ing;
+
     public View.OnClickListener onClickListener;
 
 }
