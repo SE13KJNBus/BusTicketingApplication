@@ -36,7 +36,6 @@ public class Paying_success extends AppCompatActivity {
     boolean getMember;
     ArrayList<String> getList;
     HashMap<String, Integer> moneyMap;
-    HashMap<String, Integer> cartMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +45,14 @@ public class Paying_success extends AppCompatActivity {
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member",false);
         getName = getIntent().getStringExtra("UserName");
-        Log.v("Name", "In Paying_success : "+getName);
         getList = getIntent().getStringArrayListExtra("TicketList");
         getKey = getIntent().getStringExtra("Key");
         getCard = getIntent().getBooleanExtra("Card",false);
         moneyMap = new HashMap<>();
-        myRef.addValueEventListener(valueEventListener);
+        myRef.child("Payment").addValueEventListener(valueEventListener);
 
 
-     //   myRef.addValueEventListener(valueEventListener);
-        for(int i=0;i<getList.size();i++){
-            Log.v("CC",getList.get(i));
-        }
+
         // pay();
 
 
@@ -88,6 +83,7 @@ public class Paying_success extends AppCompatActivity {
             String phoneNum;
             String pw;
             moneyMap.clear();
+
             for (DataSnapshot snapshot : dataSnapshot.child("Member").child(getId).child("Cart").getChildren()){
                 Log.v("CC","MEMBER : "+snapshot.getKey()+"  //  "+snapshot.getValue());
                 for(int i=0;i<getList.size();i++){
@@ -97,6 +93,7 @@ public class Paying_success extends AppCompatActivity {
                 }
             }
             for (DataSnapshot snapshot : dataSnapshot.child("Payment").child("CreditCard").getChildren()){
+
                 creditCardCompany = snapshot.getKey().toString();
                 Log.v("Payment","company : "+snapshot.getKey().toString());
                 for(DataSnapshot shot : snapshot.getChildren()){
@@ -120,7 +117,7 @@ public class Paying_success extends AppCompatActivity {
                     }
                 }
             }
-            for (DataSnapshot snapshot : dataSnapshot.child("Payment").child("PhonePay").getChildren()){
+            for (DataSnapshot snapshot : dataSnapshot.child("PhonePay").getChildren()){
                 Company = snapshot.getKey().toString();
                 for(DataSnapshot shot : snapshot.getChildren()){
                     phoneNum = shot.getKey().toString();
@@ -156,9 +153,7 @@ public class Paying_success extends AppCompatActivity {
                     intent.putExtra("UserName",getName);
                     startActivity(intent);
                 }
-                else{
-                    myRef.child("Payment").child("CreditCard").child(paymentInfo[0]).child(paymentInfo[1]).child(paymentInfo[2]).child(paymentInfo[3]).setValue(remain);
-                }
+                else myRef.child("Payment").child("CreditCard").child(paymentInfo[0]).child(paymentInfo[1]).child(paymentInfo[2]).child(paymentInfo[3]).setValue(remain);
             }else{
                 keyPayment = paymentInfo[0]+"/"+paymentInfo[1];
                 int remain = moneyMap.get(keyPayment)-(getList.size()*6900);
@@ -171,14 +166,14 @@ public class Paying_success extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-                else {
-                    myRef.child("Payment").child("PhonePay").child(paymentInfo[0]).child(paymentInfo[1]).setValue(remain);
-                }
+                else myRef.child("Payment").child("PhonePay").child(paymentInfo[0]).child(paymentInfo[1]).setValue(remain);
             }
+
 
             for(int i=0;i<getList.size();i++){
 
                 String[] info = getList.get(0).split("@");
+
                 String keyTicket = info[0]+"@"+info[1]+"@"+info[2]+"@"+info[3]+"-"+info[5]+"@"+info[6];
                 Log.v("CC","cart : "+keyTicket);
                 Log.v("CC",cartMap.get(keyTicket)+"");
@@ -187,6 +182,7 @@ public class Paying_success extends AppCompatActivity {
                 myRef.child("Member").child(getId).child("Ticket").child(keyTicket).child(info[7]).setValue(true);
                 if(cartMap.get(keyTicket)!=1)myRef.child("Member").child(getId).child("Cart").child(keyTicket).child("인원수").setValue((cartMap.get(keyTicket)-1)+"");
                 else myRef.child("Member").child(getId).child("Cart").setValue("");
+
                 getList.remove(0);
             }
         }

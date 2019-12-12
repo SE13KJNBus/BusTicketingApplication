@@ -24,6 +24,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
     String getName;
     boolean getMember;
     ArrayList<String> cartList;
+    ArrayList<String> ticketList;
     TextView modifySeatView;
     TextView totalValue;
     @Override
@@ -39,6 +40,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         cartList = getIntent().getStringArrayListExtra("CartList");
         totalValue = findViewById(R.id.totalValue);
         ArrayList<WaitingTicketData> oData = new ArrayList<>();
+        ticketList = new ArrayList<>();
 
         for (int i=0; i<cartList.size(); ++i)
         {
@@ -70,23 +72,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         TextView oTextCompany = (TextView) oParentView.findViewById(R.id.company);
 
         modifySeatView = oTextSeat;
-        /*
-        String position = (String) oParentView.getTag();
 
-        AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                android.R.style.Theme_DeviceDefault_Light_Dialog);
-
-        String strMsg = "선택한 아이템의 position 은 "+position+" 입니다.\nTitle 텍스트 :" + oTextTitle.getText();
-        oDialog.setMessage(strMsg)
-                .setPositiveButton("확인", null)
-                .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
-                .show();
-                departure = getIntent().getStringExtra("Departure");
-        destination = getIntent().getStringExtra("Destination");
-        date = getIntent().getStringExtra("Date");
-        time = getIntent().getStringExtra("Time");
-        company = getIntent().getStringExtra("Company");
-        */
         String departure = oTextArea.getText().toString().split(" -> ")[0];
         String destination =oTextArea.getText().toString().split(" -> ")[1];
         String date = oTextDate.getText().toString().split(" ")[0];
@@ -103,8 +89,27 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
 
     public void payment(View view){
 
+        for (int i=0; i<cartList.size(); ++i)
+        {
+            View oParentView = (View)view.getParent(); // parents의 View를 가져온다.
+            TextView oTextArea = (TextView) oParentView.findViewById(R.id.area);
+            TextView oTextDate = (TextView) oParentView.findViewById(R.id.date);
+            TextView oTextSeat = (TextView) oParentView.findViewById(R.id.seatNum);
+            TextView oTextCompany = (TextView) oParentView.findViewById(R.id.company);
+
+            String departure = oTextArea.getText().toString().split(" -> ")[0];
+            String destination =oTextArea.getText().toString().split(" -> ")[1];
+            String date = oTextDate.getText().toString().split(" ")[0];
+            String time = oTextDate.getText().toString().split(" ")[1];
+            String company = oTextCompany.getText().toString();
+            String seatnum = oTextSeat.getText().toString().split(":")[2];
+
+            String temp = departure + "@" + destination + "@" + date + "@" + time + "@" + company + "@" + seatnum;
+            ticketList.add(temp);
+        }
+
         Intent gotoPayment = new Intent(getApplicationContext(), Paying.class);
-        gotoPayment.putExtra("TicketList", cartList);
+        gotoPayment.putExtra("TicketList", ticketList);
         gotoPayment.putExtra("Id", getId);
         gotoPayment.putExtra("Member", getMember);
         gotoPayment.putExtra("UserName", getName);
@@ -118,7 +123,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
             if(resultCode==RESULT_OK){
                 String seat = data.getStringExtra("Seat");
                 String movingTime = modifySeatView.getText().toString().split(", ")[0];
-                modifySeatView.setText(movingTime+", "+"좌석번호:"+seat);
+                modifySeatView.setText(movingTime+", "+"좌석번호:"+seat.split(":")[0]);
             }
         }
     }

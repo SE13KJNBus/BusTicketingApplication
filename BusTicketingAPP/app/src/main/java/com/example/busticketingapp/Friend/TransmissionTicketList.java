@@ -49,6 +49,7 @@ public class TransmissionTicketList extends AppCompatActivity implements View.On
 //        myRef.child(getId).child("Ticket").child("20191210").setValue("12:00-16:00");
 
 // ListView, Adapter 생성 및 연결 ------------------------
+
         mReference = FirebaseDatabase.getInstance().getReference("Member").child(getId).child("Ticket");// 변경값을 확인할 child 이름
 
         mReference.addValueEventListener(new ValueEventListener() {
@@ -64,27 +65,30 @@ public class TransmissionTicketList extends AppCompatActivity implements View.On
 //                    // child 내에 있는 데이터만큼 반복합니다.
                         String getKey = messageData.getKey().toString();
                         for (DataSnapshot snapshot : messageData.getChildren()) {
-                            String[] splitData = getKey.split("@");
-                            TicketData oItem = new TicketData();
-                            oItem.startPlace = splitData[0];
-                            oItem.arrivePlace = splitData[1];
 
-                            oItem.startTime = splitData[3].split("-")[0];
-                            oItem.endTime = splitData[3].split("-")[1];
+                        String[] splitData = getKey.split("@");
+                        TicketData oItem = new TicketData();
+                        oItem.startPlace = splitData[0];
+                        oItem.arrivePlace = splitData[1];
 
-                            oItem.company = splitData[4];
+                        oItem.startTime = splitData[3].split("-")[0];
+                        oItem.endTime = splitData[3].split("-")[1];
 
-                            int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
-                            int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+                        oItem.company = splitData[4];
 
-                            oItem.time = ((int) (end - start) / 60) + ":" + (end - start) % 60;
-                            oItem.date = splitData[2];
+                        int start = Integer.parseInt(splitData[3].split("-")[0].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[0].split(":")[1]);
+                        int end = Integer.parseInt(splitData[3].split("-")[1].split(":")[0]) * 60 + Integer.parseInt(splitData[3].split("-")[1].split(":")[1]);
+
+                        oItem.time = ((int) (end - start) / 60) + ":" + (end - start) % 60;
+                        oItem.date = splitData[2];
+
 
                             oItem.seatNum = snapshot.getKey();
 
 
-                            oItem.onClickListener = (View.OnClickListener) TransmissionTicketList.this;
-                            oData.add(oItem);
+                        oItem.onClickListener = (View.OnClickListener) TransmissionTicketList.this;
+                        oData.add(oItem);
+
                         }
 
                     }
