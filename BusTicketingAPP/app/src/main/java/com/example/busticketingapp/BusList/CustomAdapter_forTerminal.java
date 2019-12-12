@@ -64,8 +64,8 @@ public class CustomAdapter_forTerminal extends RecyclerView.Adapter<CustomAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
-        viewholder.id.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        viewholder.id.setGravity(Gravity.CENTER);
+        viewholder.id.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        viewholder.id.setGravity(Gravity.CENTER_VERTICAL);
         String[] splitString = mList.get(position).split(":");
         viewholder.id.setText(splitString[1]);
     }

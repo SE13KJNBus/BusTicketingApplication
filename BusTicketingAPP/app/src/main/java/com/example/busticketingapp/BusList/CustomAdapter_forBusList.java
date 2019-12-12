@@ -71,17 +71,22 @@ public class CustomAdapter_forBusList extends RecyclerView.Adapter<CustomAdapter
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
-        viewholder.departureTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        viewholder.departureTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         viewholder.departureTime.setGravity(Gravity.CENTER);
-        viewholder.departureTime.setText(mList.get(position).getDepartureTime());
+        String start = mList.get(position).getDepartureTime().split("-")[0];
+        String end = mList.get(position).getDepartureTime().split("-")[1];
 
-        viewholder.busCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        int start2Int = Integer.parseInt(start.split(":")[0])*60+Integer.parseInt(start.split(":")[1]);
+        int end2Int = Integer.parseInt(end.split(":")[0])*60+Integer.parseInt(end.split(":")[1]);
+        String movingTime = String.format("%02d:%02d",((int)(end2Int-start2Int)/60),(end2Int-start2Int)%60);
+        viewholder.departureTime.setText(start+" ~ "+end+" ( "+movingTime+" 소요 )");
+        viewholder.busCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         viewholder.busCompany.setGravity(Gravity.CENTER);
         viewholder.busCompany.setText(mList.get(position).getBusCompany());
 
-        viewholder.remainSeat.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        viewholder.remainSeat.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         viewholder.remainSeat.setGravity(Gravity.CENTER);
-        viewholder.remainSeat.setText(mList.get(position).getRemainSeat()+"");
+        viewholder.remainSeat.setText(mList.get(position).getRemainSeat()+" 석 ");
     }
 
     @Override

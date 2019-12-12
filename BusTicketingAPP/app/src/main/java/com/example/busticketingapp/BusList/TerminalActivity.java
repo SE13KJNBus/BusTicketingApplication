@@ -82,6 +82,7 @@ public class TerminalActivity extends AppCompatActivity {
 
         departureTerminal = getIntent().getStringExtra("Departure");
         destinationTerminal = getIntent().getStringExtra("Destination");
+
         departureDateString = getIntent().getStringExtra("Date").replaceAll("/", "");
         getId = getIntent().getStringExtra("Id");
         getMember = getIntent().getBooleanExtra("Member", false);
@@ -90,7 +91,9 @@ public class TerminalActivity extends AppCompatActivity {
 
         departureTerminalName.setText(departureTerminal.split(":")[1]);
         destinationTerminalName.setText(destinationTerminal.split(":")[1]);
-        departureDate.setText(departureDateString);
+        String tempDate = getIntent().getStringExtra("Date");
+        tempDate= (tempDate.split("/")[0])+"년 "+ tempDate.split("/")[1]+"월 "+tempDate.split("/")[2]+"일";
+        departureDate.setText(tempDate);
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_bus_list);
@@ -143,7 +146,7 @@ public class TerminalActivity extends AppCompatActivity {
                     String busCompany = snapshotchild.getKey();
                     int seatNum = 0;
                     for (DataSnapshot snapshotSeatNum : snapshotchild.getChildren()) {
-                        if (snapshotSeatNum.getValue().equals(false)) seatNum++;
+                        if (snapshotSeatNum.getValue().toString().equals("true")) seatNum++;
                     }
                     Bus bus = new Bus();
                     bus.setDepartureTerminal(departureTerminal);
