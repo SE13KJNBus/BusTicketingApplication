@@ -109,7 +109,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         }
 
         Intent gotoPayment = new Intent(getApplicationContext(), Paying.class);
-        gotoPayment.putExtra("TicketList", cartList);
+        gotoPayment.putExtra("TicketList", ticketList);
         gotoPayment.putExtra("Id", getId);
         gotoPayment.putExtra("Member", getMember);
         gotoPayment.putExtra("UserName", getName);
