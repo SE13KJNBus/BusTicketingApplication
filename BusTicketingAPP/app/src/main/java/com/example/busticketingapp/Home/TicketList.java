@@ -220,15 +220,15 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
                         .show();
             } else if (v.getId() == R.id.btn_cancel) {
 
-                AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog);
-
-                oDialog.setMessage("예매취소하시겠습니까?")
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
+//                AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
+//                        android.R.style.Theme_DeviceDefault_Light_Dialog);
+//
+//                oDialog.setMessage("예매취소하시겠습니까?")
+//                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // TODO Auto-generated method stub
 
                                 String Dataname = reData.startPlace + "@" + reData.arrivePlace + "@" + reData.date + "@" + reData.startTime + "-" + reData.endTime + "@" + reData.company;
 
@@ -247,11 +247,11 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
 
                                 Toast.makeText(TicketList.this, "예매가 취소되었습니다.\n7일이내 환불처리될 예정입니다.", Toast.LENGTH_SHORT).show();
                             }
-                        })
-                        .setNegativeButton("취소", null)
-                        .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
-                        .show();
-            }
+//                        })
+//                        .setNegativeButton("취소", null)
+//                        .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
+//                        .show();
+//            }
 
         }
 

@@ -7,7 +7,6 @@ public class Bus implements Comparable{
     String departureDate;
     String departureTime;
     String busCompany;
-    //String busGrade;
     int remainSeat;
 
     public String getDepartureTerminal() {

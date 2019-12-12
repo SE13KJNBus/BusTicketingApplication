@@ -61,21 +61,18 @@ public class SignUpActivity extends AppCompatActivity {
         phoneNumValue = (EditText) findViewById(R.id.phoneNumValue);
         String passwordVal = passwordValue.getText().toString();
 
-        if (!passwordValue.getText().toString().equals(passwordValueSave.getText().toString())){
-            Toast.makeText(this, "비밀번호가 일치하지 않습니다. 다시 입력하세요", Toast.LENGTH_LONG).show();
-            /*
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    passwordValue.setText(null);
-                    passwordValueSave.setText(null);
-                }
-            });
-            */
+        if(nameValue.getText().toString().equals("") || passwordValue.getText().toString().equals("") || passwordValueSave.getText().toString().equals("") ||
+                emailValue.getText().toString().equals("") || personNumValue.getText().toString().equals("")  || phoneNumValue.getText().toString().equals("") ){
 
+            Toast.makeText(this, "필수정보를 모두 입력하세요", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        else{
+        if (!passwordValue.getText().toString().equals(passwordValueSave.getText().toString())){
+            Toast.makeText(this, "비밀번호가 일치하지 않습니다.\n다시 입력하세요", Toast.LENGTH_LONG).show();
+        }else if( !(emailValue.getText().toString().split("@").length == 2 && emailValue.getText().toString().split("@")[1].split(".").length == 2)){
+            Toast.makeText(this, "올바른 이메일형식이 아닙니다.\n다시 입력하세요", Toast.LENGTH_LONG).show();
+        } else{
 
             Log.v("Subin","Register Accept");
             String emailString = emailValue.getText().toString().replace('.',':');
