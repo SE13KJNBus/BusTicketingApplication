@@ -121,10 +121,10 @@ public class TerminalActivity extends AppCompatActivity {
                 Date date = new Date(now);
                 SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd@kk:mm");
                 String formatDate = sdfNow.format(date);
-                int nowYear = Integer.parseInt(formatDate.split("-|@")[0])%24;
+                int nowYear = Integer.parseInt(formatDate.split("-|@")[0]);
                 int nowMonth =Integer.parseInt(formatDate.split("-|@")[1]);
                 int nowDay = Integer.parseInt(formatDate.split("-|@")[2]);
-                int nowHour = Integer.parseInt(formatDate.split("-|@|:")[3]);
+                int nowHour = Integer.parseInt(formatDate.split("-|@|:")[3])%24;
                 int nowMin = Integer.parseInt(formatDate.split("-|@|:")[4]);
 
                 Log.v("Test", "현재 : "+ nowYear+"-"+nowMonth+"-"+nowDay+"//"+nowHour+":"+nowMin+":");
