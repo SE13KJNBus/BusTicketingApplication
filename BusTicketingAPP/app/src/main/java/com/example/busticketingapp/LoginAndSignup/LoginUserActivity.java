@@ -35,11 +35,11 @@ public class LoginUserActivity extends AppCompatActivity {
     public void sign(View view) {
 
         if (phoneNumber.getText().toString().equals("") || password.getText().toString().equals("")) {
-            Toast.makeText(this.getApplicationContext(), "필수정보를 입력하세요", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this.getApplicationContext(), "필수정보를 입력하세요", Toast.LENGTH_SHORT).show();
         } else {
-            if (password.getText().length() < 4) {
-                Toast.makeText(this.getApplicationContext(), "비밀번호는 네자리이상 입력해야합니다.", Toast.LENGTH_SHORT).show();
-            } else {
+//            if (password.getText().length() < 4) {
+//                Toast.makeText(this.getApplicationContext(), "비밀번호는 네자리이상 입력해야합니다.", Toast.LENGTH_SHORT).show();
+//            } else {
                 String phone = phoneNumber.getText().toString();
                 String pwd = password.getText().toString();
 
@@ -65,7 +65,7 @@ public class LoginUserActivity extends AppCompatActivity {
                 intent.putExtra("Member",(boolean)false);
                 intent.putExtra("UserName","비회원");
                 startActivity(intent);
-            }
+//            }
 
         }
     }
