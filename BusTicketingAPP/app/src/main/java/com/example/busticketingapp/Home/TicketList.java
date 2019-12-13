@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.busticketingapp.BusList.modifyBusListOne;
 import com.example.busticketingapp.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -210,14 +211,39 @@ public class TicketList extends AppCompatActivity implements View.OnClickListene
             if (v.getId() == R.id.btn_change) {
 
 
-                AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog);
+//                AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
+//                        android.R.style.Theme_DeviceDefault_Light_Dialog);
+//
+//                String strMsg = "예매변경으로 선택한 아이템의 position 은 " + position + " 입니다.\nTitle 텍스트 :";
+//                oDialog.setMessage(strMsg)
+//                        .setPositiveButton("확인", null)
+//                        .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
+//                        .show();
 
-                String strMsg = "예매변경으로 선택한 아이템의 position 은 " + position + " 입니다.\nTitle 텍스트 :";
-                oDialog.setMessage(strMsg)
-                        .setPositiveButton("확인", null)
-                        .setCancelable(false) // 백버튼으로 팝업창이 닫히지 않도록 한다.
-                        .show();
+                View parentView = (View) v.getParent();
+                TextView company = (TextView) parentView.findViewById(R.id.company);
+                TextView endTime = (TextView) parentView.findViewById(R.id.endTime);
+                TextView startTime = (TextView) parentView.findViewById(R.id.startTime);
+                TextView startPlace = (TextView) parentView.findViewById(R.id.startPlace);
+                TextView arrivePlace = (TextView) parentView.findViewById(R.id.arrivePlace);
+                TextView date = (TextView) parentView.findViewById(R.id.date);
+                TextView seatNum = (TextView) parentView.findViewById(R.id.seatNum);
+
+                Intent modifyBusList = new Intent(this, modifyBusListOne.class);
+                modifyBusList.putExtra("getId", getId);
+                modifyBusList.putExtra("getName", getName);
+                modifyBusList.putExtra("getMember", getMember);
+                modifyBusList.putExtra("busCompany", company.getText().toString());
+                modifyBusList.putExtra("arriveTime", endTime.getText().toString());
+                modifyBusList.putExtra("startTime", startTime.getText().toString());
+                modifyBusList.putExtra("arrivePlace", arrivePlace.getText().toString());
+                modifyBusList.putExtra("startPlace", startPlace.getText().toString());
+                modifyBusList.putExtra("seatNum", new Integer(seatNum.getText().toString()));
+                modifyBusList.putExtra("date", date.getText().toString());
+
+                startActivity(modifyBusList);
+                finish();
+
             } else if (v.getId() == R.id.btn_cancel) {
 
 //                AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
