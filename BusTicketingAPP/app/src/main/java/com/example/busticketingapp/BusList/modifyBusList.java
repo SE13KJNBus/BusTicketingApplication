@@ -87,6 +87,7 @@ public class modifyBusList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modify_bus_list);
+
         sorting = (Button) findViewById(R.id.Sorting);
         arriveTime = getIntent().getStringExtra("arriveTime");
         prevarriveTime = arriveTime;
@@ -104,7 +105,7 @@ public class modifyBusList extends AppCompatActivity {
         newDate = getIntent().getStringExtra("newDate");
 
         date = date.replace("/", "");
-        newDate = newDate.replace("/","");
+        newDate = newDate.replace("/", "");
         prevdate = date;
         Log.d("!!!!!!!!!1", date);
         TextView startPlaceText = (TextView) findViewById(R.id.DepartureTermianal);
@@ -114,7 +115,7 @@ public class modifyBusList extends AppCompatActivity {
         departureDate = findViewById(R.id.Date);
         departureDate.setText(newDate);
 
-        Log.v("번경==",prevstartPlace+" @ "+prevarrivePlace+" @ "+prevdate+" @ "+prevstartTime+" - "+prevarriveTime+" @ "+seatNum1);
+        Log.v("번경==", prevstartPlace + " @ " + prevarrivePlace + " @ " + prevdate + " @ " + prevstartTime + " - " + prevarriveTime + " @ " + seatNum1);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Bus").child(startPlace).child(arrivePlace).child(date);
         int i = 0;
@@ -123,24 +124,39 @@ public class modifyBusList extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 //                Toast.makeText(getApplicationContext(), "bye: " + dataSnapshot.getKey().toString(), Toast.LENGTH_SHORT).show();
 //                if (!dataSnapshot.getKey().toString().equals(startTime.concat("-").concat(arriveTime))){
+                int seatNum = 0;
                 Log.d("!!!!!!!!!1", dataSnapshot.getKey().toString());
-                boolean standardArrive;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Log.v("snapshot의 키",snapshot.getKey());
-                    if(!snapshot.getKey().toString().equals(busCompany)) {
-                        Log.v("이거 안들어감",snapshot.getKey());
+                Bus bus;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.v("snapshot의 키", snapshot.getKey());
+                    if (!snapshot.getKey().toString().equals(busCompany)) {
+                        Log.v("이거 안들어감", snapshot.getKey());
                         return;
-                    }else{
-                        Log.v("이거 들어감",snapshot.getKey());
+                    } else {
+                        seatNum = 0;
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            Log.v("뭐징..", snap.getValue().toString());
+                            if (!snap.getValue().equals("false")) {
+                                seatNum++;
+                            }
+                            Log.d("SeatNum ", new Integer(seatNum).toString());
+                        }
+
+                        Log.v("이거 들어감", snapshot.getKey());
                     }
+
+                    bus = new Bus();
+                    bus.departureTime = dataSnapshot.getKey();
+                    bus.busCompany = busCompany;
+                    bus.departureDate = newDate;
+                    bus.destinationTerminal = arrivePlace.split(":")[1];
+                    bus.departureTerminal = startPlace.split(":")[1];
+                    bus.remainSeat = seatNum;
+                    bus.standardArrive = standardArrive;
+                    newBusList.add(bus);
                 }
-                Bus bus = new Bus();
-                bus.departureTime = dataSnapshot.getKey();
-                bus.busCompany = busCompany;
-                bus.departureDate = newDate;
-                bus.destinationTerminal = arrivePlace.split(":")[1];
-                bus.departureTerminal = startPlace.split(":")[1];
-                newBusList.add(bus);
+
+
                 mAdapter.mList = newBusList;
                 mAdapter.notifyDataSetChanged();
             }
@@ -202,8 +218,6 @@ public class modifyBusList extends AppCompatActivity {
 
         departureTerminalName.setText(startPlace.split(":")[1]);
         destinationTerminalName.setText(arrivePlace.split(":")[1]);
-//        departureDate.setText(departureDateString);
-//        departureDate.setText(date);
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_bus_list);
@@ -225,7 +239,6 @@ public class modifyBusList extends AppCompatActivity {
                 databaseReference2 = FirebaseDatabase.getInstance().getReference("User").child(getId).child("Ticket").child(s);
                 Log.v("~~~~~~~~~~~~~~~", "################ " + databaseReference1.getKey().toString());
 //                databaseReference1.removeValue();
-
                 TextView clickedBusTime = (TextView) v.findViewById(R.id.BusTime);
                 String time = startTime + "-" + arriveTime;
                 gotoSelectSeat = new Intent(modifyBusList.this, modifySeatActivityForModify.class);
@@ -242,23 +255,14 @@ public class modifyBusList extends AppCompatActivity {
                 gotoSelectSeat.putExtra("prevDeparture", prevstartPlace);
                 gotoSelectSeat.putExtra("prevDestination", prevarrivePlace);
                 gotoSelectSeat.putExtra("prevDate", date);
-                gotoSelectSeat.putExtra("prevTime", prevstartTime+"-"+prevarriveTime);
+                gotoSelectSeat.putExtra("prevTime", prevstartTime + "-" + prevarriveTime);
                 gotoSelectSeat.putExtra("prevCompany", prevbusCompany);
 
-//                gotoSelectSeat.putExtra("Departure", returnBus.getDepartureTerminal());
-//                gotoSelectSeat.putExtra("Destination", returnBus.getDestinationTerminal());
-//                gotoSelectSeat.putExtra("Date", returnBus.getDepartureDate());
-//                gotoSelectSeat.putExtra("Time", returnBus.getDepartureTime());
-//                gotoSelectSeat.putExtra("Company", returnBus.getBusCompany());
-//                gotoSelectSeat.putExtra("SeatNum", returnBus.getRemainSeat());
-//
                 gotoSelectSeat.putExtra("Id", getId);
                 gotoSelectSeat.putExtra("getMember", getMember);
                 gotoSelectSeat.putExtra("UserName", getName);
                 startActivityForResult(gotoSelectSeat, 1111);
                 finish();
-//                startActivity(gotoSelectSeat);
-
             }
         });
 
@@ -266,7 +270,6 @@ public class modifyBusList extends AppCompatActivity {
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         databaseReference.child(startPlace).child(arrivePlace).child(date).addValueEventListener(valueEventListener);
-//        myRef.child(departureTerminal).child(destinationTerminal).child(departureDateString).addValueEventListener(valueEventListener);
 
     }
 
@@ -291,56 +294,8 @@ public class modifyBusList extends AppCompatActivity {
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//            newBusList.clear();
-//            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                Log.v("Subin", snapshot.getKey());
-//
-//                String time = snapshot.getKey();
-//
-//                for (DataSnapshot snapshotchild : snapshot.getChildren()) {
-//                    String busCompany = snapshotchild.getKey();
-//                    int seatNum = 0;
-//                    for (DataSnapshot snapshotSeatNum : snapshotchild.getChildren()) {
-//                        if (snapshotSeatNum.getValue().equals(false)) seatNum++;
-//                    }
-//                    Bus bus = new Bus();
-//                    bus.setDepartureTerminal(startPlace.split(":")[1]);
-//                    bus.setDestinationTerminal(arrivePlace.split(":")[1]);
-//                    bus.setDepartureDate(date);
-//                    bus.setBusCompany(busCompany);
-//                    bus.setDepartureTime(time);
-//                    bus.setRemainSeat(seatNum);
-//                    bus.standardArrive = standardArrive;
-//
-//                    newBusList.add(bus);
-//                    Log.v("Subin", "newBusList Size : " + newBusList.size());
-//                }
-//            }
-//            Toast.makeText(getApplicationContext(), "bye: " + dataSnapshot.getKey().toString(), Toast.LENGTH_SHORT).show();
-//            if (!dataSnapshot.getKey().toString().equals(startTime.concat("-").concat(arriveTime))) {
-//                Log.d("mmmmmmmmmmmmmmmmmm", dataSnapshot.getKey().toString());
-//                boolean standardArrive;
-//                String departureTerminal;
-//                String destinationTerminal;
-//                String departureDate;
-//                String departureTime;
-//
-//                int remainSeat;
-//
-//                Bus bus = new Bus();
-//                bus.departureTime = startTime + "-" + arriveTime;
-//                bus.busCompany = busCompany;
-//                bus.departureDate = date;
-//                bus.destinationTerminal = arrivePlace.split(":")[1];
-//                bus.departureTerminal = startPlace.split(":")[1];
-////                newBusList.add(bus);
-//                Log.v("~~~~~~~~~~~~~~~", "################ " + newBusList.get(0).departureTime);
-//                Log.v("~~~~~~~~~~~~~~~", "################ " + newBusList.get(1).departureTime);
-//            }
-//            Log.v("Subin", "newBusList Size : " + newBusList.size());
+
             Collections.sort(newBusList);
-//            Log.v("~~~~~~~~~~~~~~~", "################ " + newBusList.get(0).departureTime);
-//            Log.v("~~~~~~~~~~~~~~~", "################ " + newBusList.get(1).departureTime);
             mAdapter.notifyDataSetChanged();
             Log.v("Subin", "mAdapter Item Count : " + mAdapter.getItemCount());
         }
