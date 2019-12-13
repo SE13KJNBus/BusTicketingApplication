@@ -49,8 +49,9 @@ public class Modifying extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent gotoLogin = new Intent(Modifying.this, LoginMemberActivity.class);
-                startActivity(gotoLogin);
+                Intent gotoModify = new Intent(Modifying.this, ModifyInfo.class);
+//                Intent gotoLogin = new Intent(Modifying.this, LoginMemberActivity.class);
+                startActivity(gotoModify);
             }
         });
         btnModify = findViewById(R.id.btnModifyInfo);
@@ -69,6 +70,7 @@ public class Modifying extends AppCompatActivity {
                 myRef.child("Password").setValue(newPW);
 
                 Intent gotoLogin = new Intent(Modifying.this, LoginMemberActivity.class);
+                Toast.makeText(Modifying.this, "회원정보가 변경되었습니다.",Toast.LENGTH_LONG).show();
                 startActivity(gotoLogin);
             }
         });

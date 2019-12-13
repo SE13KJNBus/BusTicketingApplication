@@ -106,7 +106,7 @@ public class TransmissionTicketList extends AppCompatActivity implements View.On
                                         } else if (sH == h) {
                                             if ((sH == eH) && m <= eM) {
                                                 oItem.ing = "운행중";
-                                            } else if (sH != eH) {
+                                            } else if (sM<=m) {
                                                 oItem.ing = "운행중";
                                             }
                                         } else if (h == eH) {
