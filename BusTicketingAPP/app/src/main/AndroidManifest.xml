@@ -11,8 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Friend.TransmissionTicketList"></activity>
-        <activity android:name=".Home.TicketData"></activity>
+        <activity android:name=".BusList.modifyBusListOne"></activity>
+        <activity android:name=".BusList.modifyBusList" />
+        <activity android:name=".BusList.modifySeatActivityForModify" />
+        <activity android:name=".Friend.TransmissionTicketList" />
+        <activity android:name=".Home.TicketData" />
         <activity android:name=".Home.TicketListAdapter" />
         <activity android:name=".Home.TicketList" />
         <activity android:name=".Cart.Cart" />
@@ -26,7 +29,7 @@
         <activity android:name=".Home.ModifyInfo" />
         <activity android:name=".Friend.FriendList" />
         <activity android:name=".Friend.Search_member" />
-        <activity android:name=".MailBox.MailList"/>
+        <activity android:name=".MailBox.MailList" />
         <activity
             android:name=".LoginAndSignup.LoginMemberActivity"
             android:exported="true">
