@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.busticketingapp.BusList.TerminalActivity;
 import com.example.busticketingapp.Home.Home_Page;
 import com.example.busticketingapp.R;
 import com.google.firebase.database.ChildEventListener;
@@ -24,7 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -75,9 +78,66 @@ public class Paying extends AppCompatActivity {
 
         getList = getIntent().getStringArrayListExtra("TicketList");
 
+        boolean gotoHomeFlag =false;
         for (int i = 0; i < getList.size(); i++) {
             Log.v("Test", getList.get(i));
+            String[] splitList = getList.get(i).split("@");
+            int year = Integer.parseInt(splitList[2].substring(0,4));
+            int month = Integer.parseInt(splitList[2].substring(4,6));
+            int day = Integer.parseInt(splitList[2].substring(6,8));
+            int hour = Integer.parseInt(splitList[3].split("-")[0].split(":")[0]);
+            int min = Integer.parseInt(splitList[3].split("-")[0].split(":")[1]);
+            long now = System.currentTimeMillis();
+            Date date = new Date(now);
+            SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd@kk:mm");
+            String formatDate = sdfNow.format(date);
+            int nowYear = Integer.parseInt(formatDate.split("-|@")[0]);
+            int nowMonth =Integer.parseInt(formatDate.split("-|@")[1]);
+            int nowDay = Integer.parseInt(formatDate.split("-|@")[2]);
+            int nowHour = Integer.parseInt(formatDate.split("-|@|:")[3])%24;
+            int nowMin = Integer.parseInt(formatDate.split("-|@|:")[4]);
+
+            Log.v("Test", "현재 : "+ nowYear+"-"+nowMonth+"-"+nowDay+"//"+nowHour+":"+nowMin+":");
+
+            Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min+":");
+
+
+            if(nowYear > year){
+                Toast.makeText(Paying.this, "결제 오류 : 출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                gotoHomeFlag=true;
+            }else if(nowYear==year){
+                if(nowMonth > month){
+                    Toast.makeText(Paying.this, "결제 오류 : 출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                    gotoHomeFlag=true;
+                }else if(nowMonth==month){
+                    if(nowDay > day){
+                        Toast.makeText(Paying.this, "결제 오류 : 출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                        gotoHomeFlag=true;
+                    }else if(nowDay==day){
+
+                        int totalTimeBus = hour*60+min;
+                        int totalTimeNow = nowHour*60 +nowMin;
+                        if(totalTimeBus < totalTimeNow){
+                            Toast.makeText(Paying.this, "결제 오류 : 출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
+                            gotoHomeFlag=true;
+                        }
+
+                    }
+                }
+            }
+
+
         }
+        if(gotoHomeFlag){
+            Intent intent = new Intent(getApplicationContext(), Home_Page.class);
+            intent.putExtra("Id", getId);
+            intent.putExtra("Member", true);
+            intent.putExtra("UserName", getName);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         //myRef.addValueEventListener(valueEventListener);
         myRef.addChildEventListener(childEventListener);
 
@@ -92,7 +152,7 @@ public class Paying extends AppCompatActivity {
                 if (phoneInfo.get(key) != null) {
                     Toast.makeText(Paying.this, "인증번호 : " + phoneInfo.get(key), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Paying.this, "확인되지 않은 사용자", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Paying.this, "정보가 올바른지 확인하세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -106,7 +166,7 @@ public class Paying extends AppCompatActivity {
                     Toast.makeText(Paying.this, "인증성공", Toast.LENGTH_SHORT).show();
                     confirm = true;
                 } else {
-                    Toast.makeText(Paying.this, "결제오류: 인증번호틀림", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Paying.this, "결제 오류: 인증번호 틀림", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), Home_Page.class);
                     intent.putExtra("Id", getId);
                     intent.putExtra("Member", true);
