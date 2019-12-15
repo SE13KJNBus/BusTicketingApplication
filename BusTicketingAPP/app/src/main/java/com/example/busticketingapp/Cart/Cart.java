@@ -19,7 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -81,6 +83,10 @@ public class Cart extends AppCompatActivity {
                         Log.v("Cart", "messageData.getKey : " + messageData.getKey());
                         Log.v("Cart", "messageData : " + messageData.toString());
 
+                        boolean ch = true;
+                        Log.v("Cart", "messageData.getKey : " + messageData.getKey());
+                        Log.v("Cart", "messageData : " + messageData.toString());
+
                         String stRev = messageData.toString();
                         String[] arrRev = stRev.split("@");
 
@@ -94,20 +100,59 @@ public class Cart extends AppCompatActivity {
 
                         String company = arrRev[4].split(",")[0];
 
-                        int revNum = Integer.parseInt(messageData.child("인원수").getValue().toString());
-//                        totalNum = totalNum + (revNum * 6900);
 
-                        referenceGetBus.child("temp").setValue("temp");
-                        referenceGetBus.child("temp").removeValue();
-                        getNopayNum.put(messageData.getKey(),revNum);
-                        Log.i("a.stRev", stRev);
-                        for (int i = 0; i < revNum; i++) {
-                            //임시로 10000으로 측정
-                            cartData = new CartData(departure, destination, date, startTime, endTime, company, false);
-                            cart_itemArrayList.add(cartData);
+                        long now = System.currentTimeMillis();
+                        Date datetime = new Date(now);
+                        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd@HH:mm");
+                        String formatDate = sdfNow.format(datetime);
+                        int day = Integer.parseInt(formatDate.split("@")[0]);
+                        int h = Integer.parseInt(formatDate.split("@|:")[1]);
+                        int m = Integer.parseInt(formatDate.split("@|:")[2]);
+
+                        Log.i("date: ",date +"   day: "+day);
+                        if (Integer.parseInt(date) < day) {
+
+                            Log.i("옛날: ",date +"   day: "+day);
+                            messageData.child("인원수").getRef().removeValue();
+                            ch=false;
+                        } else {
+
+                            if (Integer.parseInt(date) == day) {
+                                Log.i("같은날: ",date +"   day: "+day);
+                                int eH = Integer.parseInt(endTime.split(":")[0]);
+                                int eM = Integer.parseInt(endTime.split(":")[1]);
+
+                                if (eH < h || ((eH == h) && eM < m)) {
+                                    Log.i("지난시간: ",date +"   day: "+day);
+                                    messageData.child("인원수").getRef().removeValue();
+                                    ch=false;
+                                }
+
+
+
+
+
+
+                            }
                         }
 
-                        adapter.notifyDataSetChanged();
+                        if(ch){
+                            int revNum = Integer.parseInt(messageData.child("인원수").getValue().toString());
+//                        totalNum = totalNum + (revNum * 6900);
+
+                            referenceGetBus.child("temp").setValue("temp");
+                            referenceGetBus.child("temp").removeValue();
+                            getNopayNum.put(messageData.getKey(), revNum);
+                            Log.i("a.stRev", stRev);
+                            for (int i = 0; i < revNum; i++) {
+                                //임시로 10000으로 측정
+                                cartData = new CartData(departure, destination, date, startTime, endTime, company, false);
+                                cart_itemArrayList.add(cartData);
+                            }
+
+                            adapter.notifyDataSetChanged();
+                        }
+
                         //adapter = new CartAdapter(cart_itemArrayList);
                         //listView.setAdapter(adapter);
                         refresh = false;
@@ -115,9 +160,7 @@ public class Cart extends AppCompatActivity {
                     }
 
                 }
-            }
-
-            @Override
+            }@Override
             public void onCancelled(DatabaseError databaseError) {
 
             }

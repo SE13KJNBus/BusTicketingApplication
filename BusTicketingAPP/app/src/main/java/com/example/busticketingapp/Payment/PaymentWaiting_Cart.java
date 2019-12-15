@@ -28,6 +28,7 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
     TextView modifySeatView;
     TextView totalValue;
     String key;
+    String prevSeatNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -96,13 +97,15 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
         String time = oTextDate.getText().toString().split(" ")[1];
         String company = oTextCompany.getText().toString();
 
-        key = departure+"@"+destination+"@"+date+"@"+time+"@"+company;
+        prevSeatNum = oTextSeat.getText().toString().split(", ")[1].split(":")[1];
+        key = departure+"@"+destination+"@"+date+"@"+time+"@"+company+"@"+prevSeatNum;
         Intent modifySeat = new Intent(PaymentWaiting_Cart.this, modifySeatActivity.class);
         modifySeat.putExtra("Departure", departure);
         modifySeat.putExtra("Destination", destination);
         modifySeat.putExtra("Date", date);
         modifySeat.putExtra("Time", time);
         modifySeat.putExtra("Company", company);
+
         startActivityForResult(modifySeat, REQUEST_1);
     }
 
@@ -125,14 +128,17 @@ public class PaymentWaiting_Cart extends AppCompatActivity implements View.OnCli
                 String seat = data.getStringExtra("Seat");
                 String movingTime = modifySeatView.getText().toString().split(", ")[0];
                 modifySeatView.setText(movingTime+", "+"좌석번호:"+seat.split(":")[0]);
-
+                Log.v("EEEEE", seat);
 
                 for(int i=0;i<ticketList.size();i++){
                     String[] forCompare = ticketList.get(i).split("@");
+                    Log.v("EEEEEE", ticketList.get(i));
+                    Log.v("EEEEEE", key);
                     String tempKey = forCompare[0]+"@"+forCompare[1]+"@"+forCompare[2]+"@"+forCompare[3]+"@"+forCompare[4];
-                    if(tempKey.equals(key)){
+                    if(ticketList.get(i).equals(key)){
                         Log.v("TEST", tempKey+"@"+seat+"+***");
                         ticketList.set(i,tempKey+"@"+seat);
+
                     }
                 }
             }

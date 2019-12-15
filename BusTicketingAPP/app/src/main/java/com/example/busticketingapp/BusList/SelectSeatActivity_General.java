@@ -230,8 +230,8 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
             int nowHour = Integer.parseInt(formatDate.split("-|@|:")[3])%24;
             int nowMin = Integer.parseInt(formatDate.split("-|@|:")[4]);
 
-            Log.v("Test", "현재 : "+ nowYear+"-"+nowMonth+"-"+nowDay+"//"+nowHour+":"+nowMin+":");
-            Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min+":");
+            Log.v("Test", "현재 : "+ nowYear+"-"+nowMonth+"-"+nowDay+"//"+nowHour+":"+nowMin);
+            Log.v("Test", "버스 : "+ year+"-"+month+"-"+day+"//"+hour+":"+min);
 
             if(nowYear > year){
                 Toast.makeText(SelectSeatActivity_General.this, "출발시간이 지났습니다.",Toast.LENGTH_SHORT).show();
@@ -364,7 +364,7 @@ public class SelectSeatActivity_General extends AppCompatActivity implements Num
 
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-        Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(SelectSeatActivity_General.this, "Submit", Toast.LENGTH_SHORT).show();
     }
     public void show(){
         final Dialog dialog = new Dialog(SelectSeatActivity_General.this);
